@@ -3,7 +3,7 @@
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { bsToAd } from '@sbmdkl/nepali-date-converter';
-import { getSupabaseBrowserClient } from '@/lib/supabase';
+import { getSupabaseBrowserClient, getSupabaseBrowserConfigError } from '@/lib/supabase';
 
 type SignupLocation = {
   latitude: number;
@@ -92,7 +92,7 @@ export function SignupForm() {
 
     const supabase = getSupabaseBrowserClient();
     if (!supabase) {
-      setError('Sign-up is unavailable. Set NEXT_PUBLIC_SUPABASE_URL to your project root (for example, https://your-project.supabase.co, without /auth/v1) and configure the publishable key.');
+      setError(`Sign-up is unavailable. ${getSupabaseBrowserConfigError() || 'Check the Supabase project settings for this deployment.'} Set these values in Vercel Environment Variables, then redeploy.`);
       return;
     }
 
