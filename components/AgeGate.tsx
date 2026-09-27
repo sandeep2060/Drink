@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { ArrowRight, Beer, ShieldCheck } from 'lucide-react';
 
 export function AgeGate({ nextPath, denied: initiallyDenied }: { nextPath: string; denied: boolean }) {
@@ -36,10 +37,10 @@ export function AgeGate({ nextPath, denied: initiallyDenied }: { nextPath: strin
   return (
     <main className="age-gate">
       <section className="age-panel" aria-labelledby="age-title">
-        <a href="/" className="landing-brand age-brand" aria-label="DrinkDrop home">
+        <Link href="/" className="landing-brand age-brand" aria-label="DrinkDrop home">
           <span className="brand-mark"><Beer size={20} strokeWidth={2.2} /></span>
           <span>drinkdrop<span className="brand-period">.</span></span>
-        </a>
+        </Link>
         <span className="age-symbol"><ShieldCheck size={25} strokeWidth={1.5} /></span>
         {denied ? (
           <>
