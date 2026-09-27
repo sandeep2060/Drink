@@ -48,7 +48,7 @@ export function StorefrontLanding() {
           <div className="hero-photo-wrap">
             <Image
               className="hero-brand-photo"
-              src="/brands/barahsinghe-craft-lager.jpg"
+              src="/brands/barahsinghe-craft-lager.webp"
               alt="Barahsinghe Craft Lager, a Nepal-brewed craft beer"
               width={900}
               height={1350}
@@ -96,7 +96,7 @@ export function StorefrontLanding() {
         </div>
         <div className="nepali-image-wrap">
           <Image
-            src="/brands/barahsinghe-craft-lager.jpg"
+            src="/brands/barahsinghe-craft-lager.webp"
             alt="Barahsinghe Craft Lager, a Nepal-brewed craft beer"
             width={900}
             height={1350}
