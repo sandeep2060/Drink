@@ -97,35 +97,40 @@ export function SignupForm() {
     }
 
     setBusy(true);
-    const { data, error: signupError } = await supabase.auth.signUp({
-      email: email.trim(),
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/login?confirmed=1`,
-        data: {
-          full_name: fullName.trim(),
-          phone: nepaliPhone,
-          gender,
-          date_of_birth: dateOfBirth,
-          date_of_birth_bs: dateOfBirthBs.trim(),
-          signup_latitude: location.latitude,
-          signup_longitude: location.longitude,
-          signup_location_accuracy_m: location.accuracy,
+    try {
+      const { data, error: signupError } = await supabase.auth.signUp({
+        email: email.trim(),
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/login?confirmed=1`,
+          data: {
+            full_name: fullName.trim(),
+            phone: nepaliPhone,
+            gender,
+            date_of_birth: dateOfBirth,
+            date_of_birth_bs: dateOfBirthBs.trim(),
+            signup_latitude: location.latitude,
+            signup_longitude: location.longitude,
+            signup_location_accuracy_m: location.accuracy,
+          },
         },
-      },
-    });
-    if (signupError) {
-      setError(signupError.message);
+      });
+      if (signupError) {
+        setError(signupError.message);
+        setBusy(false);
+        return;
+      }
+      if (data.session) {
+        router.push('/customer');
+        router.refresh();
+        return;
+      }
+      setMessage('Account created. Check your email to confirm your account, then sign in.');
       setBusy(false);
-      return;
+    } catch (signupError) {
+      setError(signupError instanceof Error ? signupError.message : 'Unable to create your account. Check the Supabase project URL and try again.');
+      setBusy(false);
     }
-    if (data.session) {
-      router.push('/customer');
-      router.refresh();
-      return;
-    }
-    setMessage('Account created. Check your email to confirm your account, then sign in.');
-    setBusy(false);
   }
 
   return (
