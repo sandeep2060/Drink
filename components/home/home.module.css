@@ -274,10 +274,10 @@
   .locationButton, .navActions > .iconButton:not(.cartButton) { display: none; }
   .cartButton { border: 0; height: 42px; width: 42px; }
   .menuButton { height: 42px; width: 42px; }
-  .hero { min-height: 835px; }
+  .hero { min-height: 780px; }
   .heroBackground { object-position: 55% center; }
   .heroOverlay { background: linear-gradient(90deg,rgba(5,17,38,.87),rgba(5,20,42,.65)),linear-gradient(0deg,rgba(6,18,36,.92),transparent 74%); }
-  .heroInner { align-items: start; display: flex; flex-direction: column; gap: 10px; min-height: 835px; padding: 111px 20px 82px; }
+  .heroInner { align-items: start; display: flex; flex-direction: column; gap: 10px; min-height: 780px; padding: 101px 20px 30px; }
   .heroCopy { width: 100%; }
   .locationPill { font-size: 10px; margin-bottom: 17px; }
   .hero h1 { font-size: clamp(40px, 10.2vw, 54px); max-width: 580px; }
@@ -292,9 +292,9 @@
   .finderButton { font-size: 9px; min-height: 39px; padding: 0 10px; }
   .finderCopy b { font-size: 10px; }
   .finderNote { font-size: 8px; }
-  .drinkShowcase { flex: 1; min-height: 270px; width: 100%; }
-  .showcaseGlow { height: 290px; right: 0; top: 0; width: 100%; }
-  .drinkPhoto { bottom: 26px; right: 4%; transform: rotate(-3deg); width: 83%; }
+  .drinkShowcase { flex: 1; min-height: 220px; width: 100%; }
+  .showcaseGlow { height: 240px; right: 0; top: 0; width: 100%; }
+  .drinkPhoto { bottom: 20px; right: 4%; transform: rotate(-3deg); width: 83%; }
   .waterPhoto { bottom: 5px; height: 151px; right: 5%; width: 79px; }
   .showcaseTag { bottom: 0; font-size: 7px; left: 3%; padding: 8px 10px; }
   .cityPhotoCredit { bottom: -16px; font-size: 7px; left: 3%; }
@@ -363,16 +363,16 @@
 }
 
 @media (max-width: 390px) {
-  .hero { min-height: 820px; }
-  .heroInner { min-height: 820px; padding-left: 15px; padding-right: 15px; }
+  .hero { min-height: 760px; }
+  .heroInner { min-height: 760px; padding: 96px 15px 25px; }
   .hero h1 { font-size: 39px; }
   .benefitList { gap: 5px; }
   .benefitList li { gap: 5px; }
   .benefitList small { font-size: 6.5px; }
   .finderCopy small { font-size: 8px; }
   .finderButton { gap: 6px; padding: 0 8px; }
-  .drinkShowcase { min-height: 251px; }
-  .waterPhoto { height: 135px; width: 70px; }
+  .drinkShowcase { min-height: 195px; }
+  .waterPhoto { height: 126px; width: 66px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -139,7 +139,6 @@ export default async function HomeLanding() {
                 alt="Cold 7UP and Pepsi bottles in a chilled drink display"
                 width={717}
                 height={400}
-                priority
                 sizes="(max-width: 760px) 90vw, 46vw"
               />
             </div>
@@ -149,7 +148,6 @@ export default async function HomeLanding() {
                 alt="Chilled bottle of water covered with condensation"
                 width={750}
                 height={1000}
-                priority
                 sizes="(max-width: 760px) 27vw, 14vw"
               />
             </div>
