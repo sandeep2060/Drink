@@ -112,6 +112,7 @@ export default async function HomeLanding() {
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
             <p className={styles.locationPill}><MapPin size={15} /> {data.businessAddress}</p>
+            {data.maintenanceMode && <p className={styles.closedNotice}><Clock3 size={14} /> Currently closed while the store is being updated.</p>}
             <h1 id="hero-title">Your Favorite Drinks <span>Delivered Fast!</span></h1>
             <p className={styles.heroDescription}>Cold drinks, juices, energy drinks, water and more, all in one place. Find a nearby dealer and order for home.</p>
             <ul className={styles.benefitList} aria-label="DrinkDrop benefits">
@@ -181,7 +182,7 @@ export default async function HomeLanding() {
             {benefits.map(({ icon: Icon, title, detail }, index) => (
               <article key={title} className={styles.whyItem}>
                 <span className={styles.whyIcon}>{index === 1 ? <Wallet size={20} /> : <Icon size={20} />}</span>
-                <div><h3>{index === 1 ? 'Dealer-set prices' : title}</h3><p>{index === 1 ? (data.deliveryFee !== null ? `Delivery fee ${data.currencySymbol} ${data.deliveryFee.toLocaleString('en-NP')}` : detail) : detail}</p></div>
+                <div><h3>{index === 1 && data.deliveryFee !== null ? 'Configured delivery fee' : index === 1 ? 'Dealer-set prices' : title}</h3><p>{index === 1 && data.deliveryFee !== null ? `${data.currencySymbol} ${data.deliveryFee.toLocaleString('en-NP')} base fee` : detail}</p></div>
                 <Check className={styles.whyCheck} size={16} aria-hidden="true" />
               </article>
             ))}

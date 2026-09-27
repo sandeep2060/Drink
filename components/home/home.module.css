@@ -70,6 +70,7 @@
 .heroCopy { max-width: 665px; position: relative; z-index: 1; }
 .locationPill { align-items: center; background: rgba(10,31,56,.55); border: 1px solid rgba(186,219,255,.3); border-radius: 999px; color: #e4f1ff; display: inline-flex; font-size: 11px; font-weight: 700; gap: 8px; margin: 0 0 22px; padding: 8px 12px; }
 .locationPill svg { color: #8bd6ff; }
+.closedNotice { align-items: center; background: rgba(135,72,17,.47); border: 1px solid rgba(255,202,122,.42); border-radius: 7px; color: #ffe1ad; display: flex; font-size: 10px; gap: 7px; margin: -10px 0 16px; padding: 8px 10px; width: fit-content; }
 .hero h1 { color: white; font-size: clamp(45px, 5.35vw, 73px); font-weight: 800; letter-spacing: 0; line-height: .99; margin: 0; max-width: 700px; }
 .hero h1 span { color: var(--yellow); display: block; margin-top: 7px; }
 .heroDescription { color: rgba(238,246,255,.88); font-size: 15px; line-height: 1.7; margin: 22px 0 0; max-width: 540px; }

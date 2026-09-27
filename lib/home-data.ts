@@ -112,10 +112,9 @@ function parseTime(value: string | null) {
   return match ? Number(match[1]) * 60 + Number(match[2]) : null;
 }
 
-function formatTime(value: string | null, timezone: string) {
+function formatTime(value: string | null) {
   const minutes = parseTime(value);
   if (minutes === null) return '';
-  void timezone;
   const hour = Math.floor(minutes / 60);
   const minute = String(minutes % 60).padStart(2, '0');
   const hour12 = hour % 12 || 12;
@@ -148,7 +147,7 @@ function calculateOpenStatus(hours: BusinessHoursRow[], timezone: string) {
       .sort((a, b) => a.minute - b.minute)[0];
     return {
       openStatus: 'open' as const,
-      openLabel: closing ? `Open now · closes ${formatTime(closing.raw, timezone)}` : 'Open now',
+      openLabel: closing ? `Open now · closes ${formatTime(closing.raw)}` : 'Open now',
     };
   }
 
@@ -164,7 +163,7 @@ function calculateOpenStatus(hours: BusinessHoursRow[], timezone: string) {
     if (opening) {
       const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       const dayName = offset === 0 ? '' : offset === 1 ? 'tomorrow ' : `on ${weekdays[weekday]} `;
-      return { openStatus: 'closed' as const, openLabel: `Closed · opens ${dayName}${formatTime(opening.raw, timezone)}` };
+      return { openStatus: 'closed' as const, openLabel: `Closed · opens ${dayName}${formatTime(opening.raw)}` };
     }
   }
 
@@ -235,7 +234,10 @@ export async function getHomeData(): Promise<HomeData> {
     const productRows = [...products.values()];
     const hours = (hoursResult.data ?? []) as BusinessHoursRow[];
     const timezone = settings?.timezone || fallbackTimezone;
-    const open = calculateOpenStatus(hours, timezone);
+    const maintenanceMode = settings?.maintenance_mode ?? false;
+    const open = maintenanceMode
+      ? { openStatus: 'closed' as const, openLabel: 'Currently closed' }
+      : calculateOpenStatus(hours, timezone);
 
     return {
       ...defaultData,
@@ -250,7 +252,7 @@ export async function getHomeData(): Promise<HomeData> {
       deliveryFee: settings?.default_delivery_fee !== null && settings?.default_delivery_fee !== undefined
         ? Number(settings.default_delivery_fee)
         : defaultData.deliveryFee,
-      maintenanceMode: settings?.maintenance_mode ?? false,
+      maintenanceMode,
       categories: sourceCategories.map(category => ({
         id: category.id,
         name: category.name,
