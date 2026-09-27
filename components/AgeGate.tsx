@@ -45,7 +45,12 @@ export function AgeGate({ nextPath, denied: initiallyDenied }: { nextPath: strin
           <>
             <p className="eyebrow">AGE RESTRICTED</p>
             <h1 id="age-title">This store is for adults.</h1>
-            <p className="age-copy">You said you are under 18, so access to DrinkDrop is blocked on this device.</p>
+            <p className="age-copy">You said you are under 18, so DrinkDrop is unavailable for now.</p>
+            <div className="age-actions">
+              <button type="button" className="button-primary" onClick={() => setDenied(false)}>
+                Check again <ArrowRight size={17} />
+              </button>
+            </div>
           </>
         ) : (
           <>

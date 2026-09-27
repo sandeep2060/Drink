@@ -13,12 +13,22 @@ export async function POST(request: NextRequest) {
   }
 
   const response = NextResponse.json({ accepted: decision === 'yes' });
-  response.cookies.set('drinkdrop_age', decision, {
-    httpOnly: true,
-    maxAge: 60 * 60 * 24 * 180,
-    path: '/',
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-  });
+  if (decision === 'yes') {
+    response.cookies.set('drinkdrop_age', 'yes', {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 180,
+      path: '/',
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    });
+  } else {
+    response.cookies.set('drinkdrop_age', '', {
+      httpOnly: true,
+      maxAge: 0,
+      path: '/',
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    });
+  }
   return response;
 }
