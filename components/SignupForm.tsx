@@ -92,7 +92,7 @@ export function SignupForm() {
 
     const supabase = getSupabaseBrowserClient();
     if (!supabase) {
-      setError('Sign-up is unavailable until Supabase is configured.');
+      setError('Sign-up is unavailable. Set NEXT_PUBLIC_SUPABASE_URL to your project root (for example, https://your-project.supabase.co, without /auth/v1) and configure the publishable key.');
       return;
     }
 
@@ -101,6 +101,7 @@ export function SignupForm() {
       email: email.trim(),
       password,
       options: {
+        emailRedirectTo: `${window.location.origin}/login?confirmed=1`,
         data: {
           full_name: fullName.trim(),
           phone: nepaliPhone,

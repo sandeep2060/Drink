@@ -14,7 +14,16 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 Never use the service-role key as a `NEXT_PUBLIC_` variable.
 
 ## 3. Apply database migration
-Run `supabase/migrations/0001_initial_schema.sql` in Supabase SQL Editor, or apply it through the Supabase CLI.
+Run `supabase/migrations/0001_initial_schema.sql`, then each later numbered migration in order, in Supabase SQL Editor or through the Supabase CLI.
+
+For email confirmation, set the Supabase Auth **Site URL** to your app origin and add these **Redirect URLs**:
+
+```text
+http://localhost:3000/login
+https://your-production-domain/login
+```
+
+Set `NEXT_PUBLIC_SUPABASE_URL` to the project root only (for example, `https://your-project.supabase.co`). Do not append `/auth/v1` or another path; the Supabase client adds its API paths automatically.
 
 ## 4. Add production catalog/zones
 The seed file is intentionally empty. Add approved delivery zones and real products through a controlled admin process; no sample business records are included.
