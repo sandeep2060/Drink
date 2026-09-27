@@ -13,5 +13,9 @@
 - [ ] Signup requires full name, email, valid Nepali mobile, gender, BS birth date, password confirmation, and location permission.
 - [ ] Signup rejects users under 18 in both the form and the Supabase auth trigger.
 - [ ] Signup stores the BS and Gregorian birth dates and captured location in the customer profile.
+- [ ] First-time visitors must confirm they are 18+ before accessing any app route.
+- [ ] Visitors who select under 18 remain blocked from site routes on that device.
+- [ ] Adult confirmation can return a visitor to the originally requested internal route.
+- [ ] Signup email confirmation returns to the app's `/login` route without an invalid auth URL path.
 - [ ] `npm run typecheck` passes.
 - [ ] `npm run build` passes.

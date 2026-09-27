@@ -8,9 +8,13 @@ export async function middleware(request: NextRequest) {
 
   if (ageStatus === 'yes' && isAgeCheck) {
     const requestedPath = request.nextUrl.searchParams.get('next');
-    const destination = requestedPath?.startsWith('/') && !requestedPath.startsWith('//') && !requestedPath.startsWith('/age-check')
-      ? requestedPath
-      : '/';
+    let destination = '/';
+    if (requestedPath?.startsWith('/')) {
+      const candidate = new URL(requestedPath, request.url);
+      if (candidate.origin === request.nextUrl.origin && candidate.pathname !== '/age-check') {
+        destination = `${candidate.pathname}${candidate.search}${candidate.hash}`;
+      }
+    }
     return NextResponse.redirect(new URL(destination, request.url));
   }
 

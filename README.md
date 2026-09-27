@@ -42,10 +42,12 @@ NEXT_PUBLIC_SUPABASE_URL=YOUR_PROJECT_URL
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=YOUR_PUBLISHABLE_KEY
 ```
 
-4. Run `supabase/migrations/0001_initial_schema.sql` in the Supabase SQL Editor or via Supabase CLI migrations.
+4. Run all `supabase/migrations/*.sql` files in numeric order in the Supabase SQL Editor or via Supabase CLI migrations.
 5. Run `supabase/seed/seed.sql`.
 6. Create the first Admin through a secure server-side bootstrap process, then create Manager/Dealer/Rider users through the application.
 7. Restart the dev server.
+
+The public site asks visitors to confirm they are 18 or older before showing any app content. Configure the Supabase Auth Site URL and email confirmation Redirect URLs as described in `docs/SUPABASE_SETUP.md` before enabling account signup.
 
 ## Important production note
 
