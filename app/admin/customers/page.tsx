@@ -1,0 +1,3 @@
+import { AppShell } from '@/components/AppShell';
+import { demoUsers } from '@/lib/demo';
+export default function Customers(){const cs=demoUsers.filter(x=>x.role==='CUSTOMER');return <AppShell title="Customers" subtitle="Account status and customer care"><div className="card p-5"><h2 className="font-bold">Customer accounts</h2><div className="mt-4 space-y-2">{[...cs,{id:'c2',name:'Aarav Sharma',role:'CUSTOMER',phone:'9850000000',status:'ACTIVE'},{id:'c3',name:'Maya KC',role:'CUSTOMER',phone:'9860000000',status:'ACTIVE'}].map(c=><div key={c.id} className="flex items-center justify-between rounded-xl border p-4"><div><b>{c.name}</b><p className="text-xs text-slate-500">{c.phone}</p></div><button className="btn-secondary">Deactivate</button></div>)}</div></div></AppShell>}
