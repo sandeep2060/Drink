@@ -10,5 +10,8 @@
 - [ ] Orders table renders status badges.
 - [ ] Supabase migration runs without SQL errors.
 - [ ] RLS blocks cross-user access after real Auth users are configured.
+- [ ] Signup requires full name, email, valid Nepali mobile, gender, BS birth date, password confirmation, and location permission.
+- [ ] Signup rejects users under 18 in both the form and the Supabase auth trigger.
+- [ ] Signup stores the BS and Gregorian birth dates and captured location in the customer profile.
 - [ ] `npm run typecheck` passes.
 - [ ] `npm run build` passes.

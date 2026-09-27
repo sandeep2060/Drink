@@ -1,0 +1,4 @@
+import Link from 'next/link';
+import { SignupForm } from '@/components/SignupForm';
+
+export default function Signup(){return <main className="grid min-h-screen place-items-center bg-[#eee9d9] p-5"><div className="w-full max-w-md"><Link href="/" className="mb-8 inline-flex items-center gap-2 font-bold text-[#18352c]">DrinkDrop<span className="text-[#c65b36]">.</span></Link><div className="border border-[#18352c]/15 bg-white p-6 shadow-sm md:p-8"><h1 className="text-2xl font-bold text-[#18352c]">Create your account</h1><p className="mb-6 mt-2 text-sm text-slate-500">Sign up as a customer and start ordering your favourites.</p><SignupForm/><p className="mt-5 text-center text-sm text-slate-500">Already have an account? <Link href="/login" className="font-semibold text-[#c65b36] hover:underline">Sign in</Link></p></div></div></main>}
