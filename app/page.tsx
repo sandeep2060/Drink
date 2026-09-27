@@ -1,5 +1,5 @@
-import { StorefrontLanding } from '@/components/StorefrontLanding';
+import HomeLanding from '@/components/home/HomeLanding';
 
 export default function Home() {
-  return <StorefrontLanding />;
+  return <HomeLanding />;
 }
