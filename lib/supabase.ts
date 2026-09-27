@@ -6,5 +6,3 @@ export function getSupabaseBrowserClient() {
   if (!url || !key) return null;
   return createBrowserClient(url, key);
 }
-
-export const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE !== 'false' || !process.env.NEXT_PUBLIC_SUPABASE_URL;

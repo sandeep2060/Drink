@@ -12,11 +12,11 @@ A multi-dealer drinks delivery marketplace and operations dashboard designed for
 - Customer storefront UX
 - Orders, reports and analytics screens
 - Supabase PostgreSQL schema + RLS policies + seed SQL
-- Demo mode for testing without Supabase
 - Production Supabase Auth login path
 - Mobile-first rider/customer UI foundation
+- Scroll-driven 3D product landing page
 
-## Quick test — no Supabase required
+## Run locally
 
 1. Install Node.js 20+.
 2. Extract the ZIP.
@@ -28,10 +28,8 @@ npm install
 npm run dev
 ```
 
-5. Open http://localhost:3000/login
-6. Select Admin, Manager, Dealer, Rider or Customer.
-
-Demo mode is enabled by default.
+5. Open http://localhost:3000 for the public landing page.
+6. Configure Supabase using the setup below to sign in to operational pages. No mock business data or demo accounts are included.
 
 ## Supabase setup
 
@@ -40,7 +38,6 @@ Demo mode is enabled by default.
 3. Set:
 
 ```env
-NEXT_PUBLIC_DEMO_MODE=false
 NEXT_PUBLIC_SUPABASE_URL=YOUR_PROJECT_URL
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=YOUR_PUBLISHABLE_KEY
 ```

@@ -12,7 +12,7 @@ export function Sidebar({ role='ADMIN' }: { role?: string }) {
     <div className="sticky top-0 flex h-screen flex-col p-4">
       <div className="mb-7 flex items-center gap-3 px-2"><div className="grid h-10 w-10 place-items-center rounded-xl bg-blue-600 font-bold">DD</div><div><div className="font-bold">DrinkDrop</div><div className="text-xs text-slate-400">{role} PANEL</div></div></div>
       <nav className="space-y-1">{items.map(([label,href,Icon]) => <Link key={href} href={href} className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm ${path===href ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-900'}`}><Icon size={18}/>{label}</Link>)}</nav>
-      <div className="mt-auto rounded-xl bg-slate-900 p-3 text-xs text-slate-400">Demo mode is enabled. Connect Supabase when you are ready for production data.</div>
+      <div className="mt-auto rounded-xl bg-slate-900 p-3 text-xs text-slate-400">Operational data is provided by your connected account.</div>
     </div>
   </aside>;
 }

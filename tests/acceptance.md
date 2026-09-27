@@ -1,7 +1,7 @@
 # Manual acceptance checklist
 
 - [ ] Demo login opens all five role dashboards.
-- [ ] Admin settings can change branding/contact values in demo mode.
+- [ ] Admin settings load and save from the configured Supabase database.
 - [ ] Manager sees dispatch board and rider states.
 - [ ] Dealer sees inventory and orders.
 - [ ] Rider can toggle start/end shift in demo.

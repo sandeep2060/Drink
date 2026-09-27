@@ -7,7 +7,6 @@ Create a Supabase project and keep the project URL and publishable key.
 Copy `.env.example` to `.env.local` and set:
 
 ```env
-NEXT_PUBLIC_DEMO_MODE=false
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 ```
@@ -17,8 +16,8 @@ Never use the service-role key as a `NEXT_PUBLIC_` variable.
 ## 3. Apply database migration
 Run `supabase/migrations/0001_initial_schema.sql` in Supabase SQL Editor, or apply it through the Supabase CLI.
 
-## 4. Seed catalog/zones
-Run `supabase/seed/seed.sql`.
+## 4. Add production catalog/zones
+The seed file is intentionally empty. Add approved delivery zones and real products through a controlled admin process; no sample business records are included.
 
 ## 5. Auth
 Enable Email/Password in Supabase Auth. Create the first admin through a secure server-side bootstrap. Do not make the public signup form capable of selecting ADMIN or MANAGER.
