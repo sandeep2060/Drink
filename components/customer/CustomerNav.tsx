@@ -10,15 +10,16 @@ import {
   Package,
   Search,
   ShoppingBag,
-  Store,
   User,
   X,
 } from 'lucide-react';
 import { DeliveryAddress } from '@/lib/catalog-store';
 
+type Tab = 'shop' | 'orders' | 'addresses' | 'support' | 'profile';
+
 interface CustomerNavProps {
-  activeTab: 'shop' | 'orders' | 'addresses' | 'support';
-  setActiveTab: (tab: 'shop' | 'orders' | 'addresses' | 'support') => void;
+  activeTab: Tab;
+  setActiveTab: (tab: Tab) => void;
   selectedAddress: DeliveryAddress;
   onOpenAddressSelector: () => void;
   searchQuery: string;
@@ -93,7 +94,7 @@ export function CustomerNav({
             </button>
           </div>
 
-          {/* Search bar */}
+          {/* Search bar (desktop) */}
           <div className="relative hidden max-w-md flex-1 md:block">
             <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
@@ -114,7 +115,7 @@ export function CustomerNav({
             )}
           </div>
 
-          {/* Action buttons */}
+          {/* Action buttons (desktop) */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Orders Tab Link */}
             <button
@@ -133,6 +134,20 @@ export function CustomerNav({
                   {activeOrdersCount}
                 </span>
               )}
+            </button>
+
+            {/* Profile Button (desktop) */}
+            <button
+              onClick={() => setActiveTab('profile')}
+              type="button"
+              className={`flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-semibold transition ${
+                activeTab === 'profile'
+                  ? 'border-blue-600 bg-blue-50 text-blue-700'
+                  : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              <User size={16} />
+              <span className="hidden lg:inline">Profile</span>
             </button>
 
             {/* Cart Trigger Button */}
@@ -193,58 +208,36 @@ export function CustomerNav({
           </button>
         </div>
 
-        {/* Secondary Category / View Tabs */}
-        <div className="mt-2 flex items-center justify-between border-t border-slate-100 pt-2 text-xs font-semibold">
+        {/* Secondary Category / View Tabs — DESKTOP ONLY (hidden on mobile, replaced by bottom nav) */}
+        <div className="mt-2 hidden items-center justify-between border-t border-slate-100 pt-2 text-xs font-semibold md:flex">
           <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5">
-            <button
-              onClick={() => setActiveTab('shop')}
-              type="button"
-              className={`rounded-lg px-3 py-1.5 transition ${
-                activeTab === 'shop'
-                  ? 'bg-slate-900 text-white'
-                  : 'text-slate-600 hover:bg-slate-100'
-              }`}
-            >
-              Shop Catalog
-            </button>
-            <button
-              onClick={() => setActiveTab('orders')}
-              type="button"
-              className={`flex items-center gap-1 rounded-lg px-3 py-1.5 transition ${
-                activeTab === 'orders'
-                  ? 'bg-slate-900 text-white'
-                  : 'text-slate-600 hover:bg-slate-100'
-              }`}
-            >
-              Orders & Tracking
-              {activeOrdersCount > 0 && (
-                <span className="rounded-full bg-emerald-500 px-1.5 text-[10px] text-white">
-                  {activeOrdersCount}
-                </span>
-              )}
-            </button>
-            <button
-              onClick={() => setActiveTab('addresses')}
-              type="button"
-              className={`rounded-lg px-3 py-1.5 transition ${
-                activeTab === 'addresses'
-                  ? 'bg-slate-900 text-white'
-                  : 'text-slate-600 hover:bg-slate-100'
-              }`}
-            >
-              Saved Locations
-            </button>
-            <button
-              onClick={() => setActiveTab('support')}
-              type="button"
-              className={`flex items-center gap-1 rounded-lg px-3 py-1.5 transition ${
-                activeTab === 'support'
-                  ? 'bg-slate-900 text-white'
-                  : 'text-slate-600 hover:bg-slate-100'
-              }`}
-            >
-              <LifeBuoy size={14} /> Butwal Support
-            </button>
+            {(
+              [
+                { key: 'shop' as Tab, label: 'Shop Catalog' },
+                { key: 'orders' as Tab, label: 'Orders & Tracking', badge: activeOrdersCount },
+                { key: 'addresses' as Tab, label: 'Saved Locations' },
+                { key: 'support' as Tab, label: 'Butwal Support' },
+                { key: 'profile' as Tab, label: 'My Profile' },
+              ] as { key: Tab; label: string; badge?: number }[]
+            ).map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                type="button"
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 transition whitespace-nowrap ${
+                  activeTab === tab.key
+                    ? 'bg-slate-900 text-white'
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                {tab.label}
+                {typeof tab.badge === 'number' && tab.badge > 0 && (
+                  <span className={`rounded-full px-1.5 text-[10px] ${activeTab === tab.key ? 'bg-white/20 text-white' : 'bg-emerald-500 text-white'}`}>
+                    {tab.badge}
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
 
           <div className="hidden items-center gap-2 text-[11px] text-slate-500 lg:flex">

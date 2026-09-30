@@ -1,26 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import {
   Beer,
   CheckCircle2,
   ChevronRight,
-  Clock3,
   CupSoda,
   Droplets,
   Flame,
-  LifeBuoy,
-  MapPin,
-  Package,
   Search,
   ShieldCheck,
-  ShoppingBag,
-  SlidersHorizontal,
   Sparkles,
   Truck,
   Wine,
-  X,
   Zap,
 } from 'lucide-react';
 import {
@@ -51,6 +43,10 @@ import { OrderTrackerModal } from '@/components/customer/OrderTrackerModal';
 import { OrdersView } from '@/components/customer/OrdersView';
 import { AddressesView } from '@/components/customer/AddressesView';
 import { CustomerSupportView } from '@/components/customer/CustomerSupportView';
+import { CustomerProfileView } from '@/components/customer/CustomerProfileView';
+import { MobileBottomNav } from '@/components/customer/MobileBottomNav';
+
+type Tab = 'shop' | 'orders' | 'addresses' | 'support' | 'profile';
 
 const CATEGORIES: { label: ProductCategory; icon: React.ElementType }[] = [
   { label: 'All', icon: Sparkles },
@@ -63,7 +59,7 @@ const CATEGORIES: { label: ProductCategory; icon: React.ElementType }[] = [
 ];
 
 export default function CustomerDashboard() {
-  const [activeTab, setActiveTab] = useState<'shop' | 'orders' | 'addresses' | 'support'>('shop');
+  const [activeTab, setActiveTab] = useState<Tab>('shop');
   const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [addresses, setAddresses] = useState<DeliveryAddress[]>([]);
@@ -97,8 +93,7 @@ export default function CustomerDashboard() {
     function loadData() {
       setProducts(getCatalogProducts());
       setCart(getCustomerCart());
-      const loadedAddresses = getCustomerAddresses();
-      setAddresses(loadedAddresses);
+      setAddresses(getCustomerAddresses());
       setSelectedAddr(getSelectedDeliveryAddress());
       setOrders(getCustomerOrders());
     }
@@ -163,16 +158,14 @@ export default function CustomerDashboard() {
   function handleReorder(items: OrderItem[]) {
     items.forEach(item => {
       const match = products.find(p => p.id === item.productId);
-      if (match) {
-        addToCustomerCart(match, item.quantity);
-      }
+      if (match) addToCustomerCart(match, item.quantity);
     });
     setCart(getCustomerCart());
     setIsCartOpen(true);
     triggerToast('Items added back to your cart');
   }
 
-  // Order Placement Callback
+  // Order placement callback
   function handleOrderSuccess(newOrder: Order) {
     setIsCheckoutOpen(false);
     setIsCartOpen(false);
@@ -182,7 +175,7 @@ export default function CustomerDashboard() {
     triggerToast(`Order #${newOrder.orderNumber} placed successfully!`);
   }
 
-  // Filtered & Sorted products
+  // Filtered & sorted products
   const filteredProducts = products.filter(p => {
     if (!p.active) return false;
     if (selectedCategory !== 'All' && p.category !== selectedCategory) return false;
@@ -190,11 +183,12 @@ export default function CustomerDashboard() {
     if (nonAlcoholicOnly && p.alcoholic) return false;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
-      const matchName = p.name.toLowerCase().includes(q);
-      const matchBrand = p.brand.toLowerCase().includes(q);
-      const matchCat = p.category.toLowerCase().includes(q);
-      const matchDesc = p.description.toLowerCase().includes(q);
-      if (!matchName && !matchBrand && !matchCat && !matchDesc) return false;
+      if (
+        !p.name.toLowerCase().includes(q) &&
+        !p.brand.toLowerCase().includes(q) &&
+        !p.category.toLowerCase().includes(q) &&
+        !p.description.toLowerCase().includes(q)
+      ) return false;
     }
     return true;
   });
@@ -202,7 +196,6 @@ export default function CustomerDashboard() {
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortBy === 'price-asc') return a.price - b.price;
     if (sortBy === 'price-desc') return b.price - a.price;
-    // Default featured: popular first
     return (b.popular ? 1 : 0) - (a.popular ? 1 : 0);
   });
 
@@ -212,9 +205,9 @@ export default function CustomerDashboard() {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-900 flex flex-col font-sans">
-      {/* Toast Notification */}
+      {/* Toast Notification — raised above bottom nav on mobile */}
       {toastMessage && (
-        <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 rounded-2xl bg-slate-900/90 px-4 py-2.5 text-xs font-bold text-white shadow-xl backdrop-blur-md transition-all sm:bottom-6">
+        <div className="fixed bottom-24 left-1/2 z-50 -translate-x-1/2 rounded-2xl bg-slate-900/90 px-4 py-2.5 text-xs font-bold text-white shadow-xl backdrop-blur-md transition-all md:bottom-6">
           <div className="flex items-center gap-2">
             <CheckCircle2 size={16} className="text-emerald-400" />
             <span>{toastMessage}</span>
@@ -236,8 +229,8 @@ export default function CustomerDashboard() {
         activeOrdersCount={activeOrdersCount}
       />
 
-      {/* Main Body */}
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6">
+      {/* Main Body — bottom padding ensures content clears the mobile bottom nav */}
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 pb-24 sm:px-6 md:pb-8">
         {/* SHOP TAB */}
         {activeTab === 'shop' && (
           <div className="space-y-6">
@@ -246,7 +239,7 @@ export default function CustomerDashboard() {
               <div className="relative z-10 max-w-2xl">
                 <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-bold text-[#f6e8c3] backdrop-blur-md mb-3">
                   <Flame size={13} className="text-[#dda94e]" />
-                  <span>Butwal’s Fast Drinks Delivery</span>
+                  <span>Butwal&apos;s Fast Drinks Delivery</span>
                 </div>
                 <h1 className="text-2xl font-black tracking-tight sm:text-4xl text-[#eee9d9]">
                   Chilled Drinks, <span className="text-[#dda94e]">Fast to Your Door.</span>
@@ -268,7 +261,6 @@ export default function CustomerDashboard() {
                 </div>
               </div>
 
-              {/* Decorative background shape */}
               <div className="absolute -right-10 -bottom-10 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
               <div className="absolute right-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center justify-center rounded-2xl bg-white/10 p-5 backdrop-blur-md border border-white/10 text-center">
                 <span className="text-xs uppercase font-extrabold text-[#dda94e] tracking-widest">Base Delivery</span>
@@ -299,7 +291,7 @@ export default function CustomerDashboard() {
                     <Icon size={15} />
                     <span>{label}</span>
                     <span
-                      className={`rounded-full px-1.5 py-0.2 text-[10px] ${
+                      className={`rounded-full px-1.5 text-[10px] ${
                         isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
                       }`}
                     >
@@ -317,9 +309,7 @@ export default function CustomerDashboard() {
                   type="button"
                   onClick={() => setChilledOnly(!chilledOnly)}
                   className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-bold transition ${
-                    chilledOnly
-                      ? 'bg-cyan-600 text-white'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    chilledOnly ? 'bg-cyan-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
                   <Droplets size={13} /> Chilled Drinks
@@ -328,21 +318,18 @@ export default function CustomerDashboard() {
                   type="button"
                   onClick={() => setNonAlcoholicOnly(!nonAlcoholicOnly)}
                   className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-bold transition ${
-                    nonAlcoholicOnly
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    nonAlcoholicOnly ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
                   <CupSoda size={13} /> Non-Alcoholic Only
                 </button>
               </div>
 
-              {/* Sort by dropdown */}
               <div className="flex items-center gap-2 ml-auto">
                 <span className="text-slate-400 font-medium hidden sm:inline">Sort:</span>
                 <select
                   value={sortBy}
-                  onChange={e => setSortBy(e.target.value as any)}
+                  onChange={e => setSortBy(e.target.value as 'featured' | 'price-asc' | 'price-desc')}
                   className="rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-semibold text-slate-700 outline-none"
                 >
                   <option value="featured">Featured / Popular</option>
@@ -419,11 +406,14 @@ export default function CustomerDashboard() {
 
         {/* SUPPORT TAB */}
         {activeTab === 'support' && <CustomerSupportView />}
+
+        {/* PROFILE TAB */}
+        {activeTab === 'profile' && <CustomerProfileView />}
       </main>
 
-      {/* Floating Bottom Cart Bar for Mobile */}
+      {/* Mobile floating cart bar — positioned above the bottom nav (bottom-[84px]) */}
       {cartCount > 0 && activeTab === 'shop' && (
-        <div className="fixed bottom-4 left-4 right-4 z-40 sm:hidden">
+        <div className="fixed bottom-[84px] left-4 right-4 z-40 md:hidden">
           <button
             type="button"
             onClick={() => setIsCartOpen(true)}
@@ -442,6 +432,15 @@ export default function CustomerDashboard() {
           </button>
         </div>
       )}
+
+      {/* Mobile Bottom Navigation Bar */}
+      <MobileBottomNav
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        cartCount={cartCount}
+        activeOrdersCount={activeOrdersCount}
+        onOpenCart={() => setIsCartOpen(true)}
+      />
 
       {/* Modals & Slide-overs */}
       <ProductDetailModal
