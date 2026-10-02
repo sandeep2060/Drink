@@ -8,13 +8,10 @@ import {
   ArrowUpRight,
   Beer,
   Check,
-  ChevronDown,
   ChevronRight,
   Clock,
   Flame,
   GlassWater,
-  Heart,
-  HelpCircle,
   MapPin,
   Menu,
   Phone,
@@ -22,6 +19,7 @@ import {
   ShieldCheck,
   ShoppingBag,
   Sparkles,
+  Star,
   Store,
   Truck,
   User,
@@ -31,164 +29,156 @@ import {
   Zap,
 } from 'lucide-react';
 
-// Barmandoo categories structure
-const BARMANDOO_NAV_CATEGORIES = [
+const NAV_ITEMS = [
   { name: 'Hard Drinks / Spirits', href: '/customer', icon: Wine, badge: 'Popular' },
-  { name: 'Beer & Cider', href: '/customer', icon: Beer, badge: 'Chilled' },
-  { name: 'Wine & Champagne', href: '/customer', icon: GlassWater, badge: 'Imported' },
-  { name: 'Late-Night Food & Momo', href: '/customer', icon: Utensils, badge: 'Hot 24/7' },
+  { name: 'Beer & Craft Lager', href: '/customer', icon: Beer, badge: 'Chilled' },
+  { name: 'Wines & Champagne', href: '/customer', icon: GlassWater, badge: 'Imported' },
+  { name: 'Late-Night Momo & Food', href: '/customer', icon: Utensils, badge: 'Hot 24/7' },
   { name: 'Soft Drinks & Mixers', href: '/customer', icon: Sparkles, badge: '' },
   { name: 'Cigarettes & Snacks', href: '/customer', icon: Zap, badge: 'Fast' },
 ];
 
-const PROMO_SLIDES = [
-  {
-    title: 'NEPAL’S FASTEST LATE-NIGHT LIQUOR & FOOD DELIVERY',
-    subtitle: 'Get your favorite drinks & hot food delivered within 45 minutes guaranteed!',
-    tag: '45 MINS EXPRESS',
-    bgGradient: 'from-[#f46f25] to-[#f26f29]',
-    image: '/brands/barahsinghe-craft-lager.webp',
-  },
-  {
-    title: 'CHILLED BEERS & CRAFT PILSNERS ON DEMAND',
-    subtitle: 'Cold Barahsinghe, Tuborg, Gorkha & Carlsberg delivered to your party.',
-    tag: 'ALWAYS CHILLED',
-    bgGradient: 'from-[#000000] to-[#1a1a1a]',
-    image: '/brands/barahsinghe-craft-lager.webp',
-  },
+const BARMANDOO_CATEGORIES = [
+  { id: 'whiskey', name: 'Whiskey & Spirits', count: '45+ Items', tag: 'Hot Sellers', icon: Wine, border: 'hover:border-amber-500' },
+  { id: 'beer', name: 'Chilled Beers', count: '30+ Brands', tag: 'Cold Stored', icon: Beer, border: 'hover:border-yellow-500' },
+  { id: 'momo', name: 'Late-Night Food & Momo', count: 'Hot & Fresh', tag: '24/7 Delivery', icon: Utensils, border: 'hover:border-orange-500' },
+  { id: 'wine', name: 'Wines & Champagne', count: 'Red, White & Rosé', tag: 'Imported', icon: GlassWater, border: 'hover:border-rose-500' },
+  { id: 'soft', name: 'Soft Drinks & Mixers', count: 'Tonic, Soda & Cola', tag: 'Mixers', icon: Sparkles, border: 'hover:border-blue-500' },
+  { id: 'snacks', name: 'Snacks & Cigarettes', count: 'Instant Delivery', tag: 'Express', icon: Zap, border: 'hover:border-emerald-500' },
 ];
 
-const BARMANDOO_CATEGORIES_GRID = [
-  { id: 'spirits', name: 'Whiskey & Rum', items: '40+ Items', color: 'bg-amber-500/10 border-amber-500/30 text-amber-600', icon: Wine },
-  { id: 'beers', name: 'Cold Beers', items: '25+ Brands', color: 'bg-yellow-500/10 border-yellow-500/30 text-yellow-600', icon: Beer },
-  { id: 'food', name: 'Late Night Food', items: 'Hot Momo & Snacks', color: 'bg-orange-500/10 border-orange-500/30 text-orange-600', icon: Utensils },
-  { id: 'wine', name: 'Red & White Wine', items: 'Local & Imported', color: 'bg-rose-500/10 border-rose-500/30 text-rose-600', icon: GlassWater },
-  { id: 'mixers', name: 'Mixers & Juices', items: 'Tonic, Soda, Cola', color: 'bg-blue-500/10 border-blue-500/30 text-blue-600', icon: Sparkles },
-  { id: 'snacks', name: 'Snacks & Cigarettes', items: 'Instant Delivery', color: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600', icon: Zap },
-];
-
-const BARMANDOO_PRODUCTS = [
+const BEST_SELLERS = [
   {
     id: 'b1',
     name: 'Old Durbar Black Chimney Peated Whisky',
     brand: 'Old Durbar',
+    category: 'Whiskey',
     price: 3450,
     originalPrice: 3600,
     size: '750ml Bottle',
     abv: '40%',
     image: '/brands/barahsinghe-craft-lager.webp',
-    inStock: true,
     tag: 'Best Seller',
+    rating: 4.9,
   },
   {
     id: 'b2',
     name: 'Barahsinghe Craft Pilsner (Case of 12)',
     brand: 'Barahsinghe',
+    category: 'Beer',
     price: 4380,
     originalPrice: 4500,
     size: '12 x 650ml',
     abv: '5.0%',
     image: '/brands/barahsinghe-craft-lager.webp',
-    inStock: true,
     tag: '45 Mins Cold',
+    rating: 5.0,
   },
   {
     id: 'b3',
     name: 'Khukuri XXX Coronation Rum',
     brand: 'Khukuri',
+    category: 'Spirits',
     price: 1650,
     originalPrice: 1750,
     size: '750ml Bottle',
     abv: '42.8%',
     image: '/brands/barahsinghe-craft-lager.webp',
-    inStock: true,
     tag: 'Nepal Icon',
+    rating: 4.8,
   },
   {
     id: 'b4',
     name: 'Tuborg Strong Premium Beer',
     brand: 'Tuborg',
+    category: 'Beer',
     price: 375,
     originalPrice: 400,
     size: '650ml Bottle',
     abv: '6.5%',
     image: '/brands/barahsinghe-craft-lager.webp',
-    inStock: true,
     tag: 'Cold Stored',
+    rating: 4.7,
   },
   {
     id: 'b5',
     name: '8848 Pure Rye Mountain Vodka',
     brand: '8848 Vodka',
+    category: 'Spirits',
     price: 1950,
     originalPrice: 2100,
     size: '750ml Bottle',
     abv: '40.0%',
     image: '/brands/barahsinghe-craft-lager.webp',
-    inStock: true,
     tag: '5x Distilled',
+    rating: 4.9,
   },
   {
     id: 'b6',
     name: 'Steamed Buff / Chicken Momo (Full Plate)',
     brand: 'Barmandoo Kitchen',
+    category: 'Food',
     price: 240,
     originalPrice: 280,
-    size: '10 Pieces + Achar',
+    size: '10 Pcs + Hot Achar',
     abv: 'Hot Food',
     image: '/brands/barahsinghe-craft-lager.webp',
-    inStock: true,
     tag: 'Hot 24/7',
+    rating: 5.0,
   },
 ];
 
 export default function HomeLanding() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [activeCategoryTab, setActiveCategoryTab] = useState<'all' | 'liquor' | 'food'>('all');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide(prev => (prev + 1) % PROMO_SLIDES.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, []);
+  const [activeTab, setActiveTab] = useState<'all' | 'liquor' | 'food'>('all');
 
   return (
-    <div className="min-h-screen bg-[#f3f3f3] text-[#404040] font-sans antialiased">
-      {/* 1. TOP BARMANDOO ORANGE MICRO BANNER */}
-      <div className="bg-[#f46f25] px-4 py-1.5 text-center text-xs font-bold text-white shadow-xs">
+    <div className="min-h-screen bg-[#f3f3f3] text-[#404040] font-sans antialiased selection:bg-[#f46f25] selection:text-white">
+      {/* 1. TOP BARMANDOO ORANGE BANNER */}
+      <div className="bg-[#f46f25] px-4 py-1.5 text-center text-xs font-black text-white shadow-xs">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="inline-block h-2 w-2 animate-ping rounded-full bg-white" />
-            <span className="tracking-wide">BARMANDOO · FASTEST LATE-NIGHT LIQUOR & FOOD DELIVERY IN NEPAL</span>
+            <span className="tracking-wide uppercase">
+              BARMANDOO · NEPAL&apos;S FASTEST LATE-NIGHT LIQUOR &amp; FOOD DELIVERY
+            </span>
           </div>
           <div className="hidden sm:flex items-center gap-4 text-[11px]">
-            <span className="flex items-center gap-1">
-              <Clock size={13} /> 45-MINUTE EXPRESS DELIVERY
+            <span className="flex items-center gap-1 font-bold">
+              <Clock size={13} /> 45-MINUTE GUARANTEED DELIVERY
             </span>
-            <span className="border-l border-white/30 pl-3">HOTLINE: +977-9802088800</span>
+            <span className="border-l border-white/30 pl-3 font-bold">HOTLINE: +977-9802088800</span>
           </div>
         </div>
       </div>
 
-      {/* 2. MAIN BARMANDOO HEADER */}
+      {/* 2. MAIN BARMANDOO BRAND HEADER */}
       <header className="sticky top-0 z-40 border-b border-[#dddada] bg-white shadow-xs">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-          {/* Logo */}
+          {/* Mobile Menu Toggle */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            className="rounded-lg p-2 text-[#404040] hover:bg-[#f7f8f8] md:hidden"
+          >
+            <Menu size={22} />
+          </button>
+
+          {/* Barmandoo Logo */}
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="grid h-10 w-10 place-items-center rounded-lg bg-[#f46f25] text-white font-black text-xl shadow-md">
+            <div className="grid h-10 w-10 place-items-center rounded-lg bg-[#f46f25] text-white font-black text-2xl shadow-md">
               B
             </div>
             <div>
               <div className="text-xl font-black tracking-tight text-[#000000]">
                 barmandoo<span className="text-[#f46f25]">.</span>
               </div>
-              <p className="text-[10px] font-bold text-[#555]">Liquor & Late Night Food</p>
+              <p className="text-[10px] font-bold text-[#555]">Liquor &amp; Late Night Food</p>
             </div>
           </Link>
 
-          {/* Center Search Input */}
+          {/* Search Bar */}
           <div className="relative hidden md:block w-full max-w-md">
             <input
               type="text"
@@ -199,20 +189,20 @@ export default function HomeLanding() {
             />
             <button
               type="button"
-              className="absolute right-1 top-1/2 -translate-y-1/2 grid h-7 w-7 place-items-center rounded-full bg-[#f46f25] text-white"
+              className="absolute right-1 top-1/2 -translate-y-1/2 grid h-7 w-7 place-items-center rounded-full bg-[#f46f25] text-white hover:bg-[#e05e16] transition"
             >
               <Search size={14} />
             </button>
           </div>
 
-          {/* Header Actions */}
+          {/* Header Action Buttons */}
           <div className="flex items-center gap-3">
             <Link
               href="/login"
               className="flex items-center gap-1.5 rounded-lg border border-[#dddada] bg-[#f7f8f8] px-3.5 py-2 text-xs font-bold text-[#404040] hover:bg-white hover:border-[#f46f25] transition"
             >
               <User size={15} className="text-[#f46f25]" />
-              <span>Login / Register</span>
+              <span className="hidden sm:inline">Login / Register</span>
             </Link>
 
             <Link
@@ -220,7 +210,7 @@ export default function HomeLanding() {
               className="relative flex items-center gap-2 rounded-lg bg-[#f46f25] px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-[#e05e16] transition"
             >
               <ShoppingBag size={16} />
-              <span>Cart</span>
+              <span className="hidden sm:inline">Cart</span>
               <span className="grid h-4 w-4 place-items-center rounded-full bg-white text-[10px] font-black text-[#f46f25]">
                 0
               </span>
@@ -228,11 +218,11 @@ export default function HomeLanding() {
           </div>
         </div>
 
-        {/* Barmandoo Category Navigation Bar */}
-        <div className="border-t border-[#eee] bg-[#fff] px-4 py-2 hidden sm:block">
+        {/* Categories Bar */}
+        <div className="border-t border-[#eee] bg-white px-4 py-2 hidden md:block">
           <div className="mx-auto flex max-w-7xl items-center justify-between text-xs font-bold text-[#404040]">
             <div className="flex items-center gap-6 overflow-x-auto">
-              {BARMANDOO_NAV_CATEGORIES.map((cat, idx) => {
+              {NAV_ITEMS.map((cat, idx) => {
                 const Icon = cat.icon;
                 return (
                   <Link
@@ -252,33 +242,35 @@ export default function HomeLanding() {
               })}
             </div>
 
-            <div className="flex items-center gap-2 text-[#f46f25]">
+            <div className="flex items-center gap-2 text-[#f46f25] font-black">
               <Flame size={14} />
-              <span>Hot Deals</span>
+              <span>45 MIN EXPRESS</span>
             </div>
           </div>
         </div>
       </header>
 
-      {/* 3. HERO SLIDER BANNER (BARMANDOO STYLE) */}
+      {/* 3. HERO BANNER (BARMANDOO EXACT SLIDER LOOK) */}
       <section className="relative bg-[#000000] text-white">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-            {/* Left Content */}
+            {/* Left Column Text */}
             <div className="lg:col-span-7 space-y-5">
-              <div className="inline-flex items-center gap-2 rounded-md bg-[#f46f25] px-3 py-1 text-xs font-black text-white">
+              <div className="inline-flex items-center gap-2 rounded-md bg-[#f46f25] px-3.5 py-1 text-xs font-black text-white">
                 <Clock size={14} />
-                <span>{PROMO_SLIDES[currentSlide].tag}</span>
+                <span>45 MINUTE EXPRESS DELIVERY</span>
               </div>
 
               <h1 className="text-3xl font-black tracking-tight sm:text-5xl lg:text-5xl leading-tight">
-                {PROMO_SLIDES[currentSlide].title}
+                NEPAL&apos;S FASTEST LATE-NIGHT <br />
+                <span className="text-[#f46f25]">LIQUOR &amp; FOOD DELIVERY</span>
               </h1>
 
               <p className="text-sm sm:text-base text-[#ccc] font-medium leading-relaxed max-w-xl">
-                {PROMO_SLIDES[currentSlide].subtitle} Order online for fast, safe & chilled doorstep delivery across Butwal and surrounding areas.
+                Order authentic whiskies, chilled beers, imported spirits, mixers, snacks &amp; late-night hot momos. Delivered right to your doorstep in 45 minutes or less!
               </p>
 
+              {/* Action Buttons */}
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <Link
                   href="/customer"
@@ -296,15 +288,15 @@ export default function HomeLanding() {
                 </Link>
               </div>
 
-              {/* Barmandoo Trust Chips */}
-              <div className="pt-4 grid grid-cols-3 gap-3 border-t border-white/10 text-xs font-semibold text-[#eee]">
+              {/* Features List */}
+              <div className="pt-4 grid grid-cols-3 gap-3 border-t border-white/15 text-xs font-semibold text-[#eee]">
                 <div className="flex items-center gap-2">
                   <ShieldCheck size={16} className="text-[#f46f25]" />
                   <span>100% Genuine</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Truck size={16} className="text-[#f46f25]" />
-                  <span>45 Min Express</span>
+                  <span>Chilled 45 Mins</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Utensils size={16} className="text-[#f46f25]" />
@@ -313,13 +305,13 @@ export default function HomeLanding() {
               </div>
             </div>
 
-            {/* Right Banner Image */}
+            {/* Right Column Showcase */}
             <div className="lg:col-span-5 relative">
-              <div className="relative mx-auto max-w-md rounded-2xl border border-white/20 bg-white/5 p-6 backdrop-blur-md">
-                <div className="relative aspect-4/3 w-full overflow-hidden rounded-xl bg-black">
+              <div className="relative mx-auto max-w-md rounded-2xl border border-white/20 bg-white/5 p-6 backdrop-blur-md shadow-2xl">
+                <div className="relative aspect-4/3 w-full overflow-hidden rounded-xl bg-black border border-white/10">
                   <Image
                     src="/home/drinks-lineup.webp"
-                    alt="Barmandoo Express Drinks"
+                    alt="Barmandoo Express Drinks Showcase"
                     fill
                     className="object-cover"
                   />
@@ -328,16 +320,16 @@ export default function HomeLanding() {
                 <div className="mt-4 flex items-center justify-between">
                   <div>
                     <span className="block text-[10px] font-bold text-[#f46f25] uppercase">
-                      Chilled & Delivered
+                      Chilled &amp; Delivered
                     </span>
-                    <span className="text-sm font-black text-white">Beer, Spirits & Food</span>
+                    <span className="text-sm font-black text-white">Beer, Spirits &amp; Food</span>
                   </div>
 
                   <Link
                     href="/customer"
-                    className="rounded-lg bg-[#f46f25] px-3.5 py-1.5 text-xs font-bold text-white"
+                    className="rounded-lg bg-[#f46f25] px-4 py-2 text-xs font-bold text-white hover:bg-[#e05e16]"
                   >
-                    Shop Now
+                    Shop Catalog
                   </Link>
                 </div>
               </div>
@@ -346,7 +338,7 @@ export default function HomeLanding() {
         </div>
       </section>
 
-      {/* 4. CATEGORIES GRID (BARMANDOO CARDS) */}
+      {/* 4. SHOP BY CATEGORY SECTION */}
       <section className="py-10 mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex items-center justify-between border-b border-[#dddada] pb-3 mb-6">
           <div>
@@ -360,16 +352,16 @@ export default function HomeLanding() {
         </div>
 
         <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
-          {BARMANDOO_CATEGORIES_GRID.map(cat => {
+          {BARMANDOO_CATEGORIES.map(cat => {
             const Icon = cat.icon;
             return (
               <Link
                 key={cat.id}
                 href="/customer"
-                className="group relative flex flex-col justify-between rounded-xl border border-[#dddada] bg-white p-4 transition hover:border-[#f46f25] hover:shadow-md"
+                className={`group relative flex flex-col justify-between rounded-xl border border-[#dddada] bg-white p-4 transition ${cat.border} hover:shadow-md`}
               >
                 <div>
-                  <div className={`grid h-12 w-12 place-items-center rounded-lg border ${cat.color} mb-3 group-hover:scale-105 transition`}>
+                  <div className="grid h-12 w-12 place-items-center rounded-lg border border-[#eee] bg-[#f7f8f8] mb-3 text-[#f46f25] group-hover:bg-[#f46f25] group-hover:text-white transition">
                     <Icon size={22} />
                   </div>
                   <h3 className="text-xs font-extrabold text-[#000000] group-hover:text-[#f46f25] transition">
@@ -378,7 +370,7 @@ export default function HomeLanding() {
                 </div>
 
                 <div className="mt-3 text-[11px] font-semibold text-[#777] flex items-center justify-between border-t border-[#eee] pt-2">
-                  <span>{cat.items}</span>
+                  <span>{cat.count}</span>
                   <ArrowUpRight size={13} className="text-[#f46f25]" />
                 </div>
               </Link>
@@ -387,7 +379,7 @@ export default function HomeLanding() {
         </div>
       </section>
 
-      {/* 5. BEST SELLERS / PRODUCTS GRID (BARMANDOO STYLED) */}
+      {/* 5. BEST SELLERS GRID */}
       <section className="py-10 bg-white border-y border-[#dddada]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="flex items-center justify-between mb-6">
@@ -402,9 +394,9 @@ export default function HomeLanding() {
 
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setActiveCategoryTab('all')}
+                onClick={() => setActiveTab('all')}
                 className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
-                  activeCategoryTab === 'all'
+                  activeTab === 'all'
                     ? 'bg-[#f46f25] text-white'
                     : 'bg-[#f7f8f8] text-[#404040] border border-[#dddada]'
                 }`}
@@ -412,9 +404,9 @@ export default function HomeLanding() {
                 All
               </button>
               <button
-                onClick={() => setActiveCategoryTab('liquor')}
+                onClick={() => setActiveTab('liquor')}
                 className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
-                  activeCategoryTab === 'liquor'
+                  activeTab === 'liquor'
                     ? 'bg-[#f46f25] text-white'
                     : 'bg-[#f7f8f8] text-[#404040] border border-[#dddada]'
                 }`}
@@ -422,9 +414,9 @@ export default function HomeLanding() {
                 Liquor
               </button>
               <button
-                onClick={() => setActiveCategoryTab('food')}
+                onClick={() => setActiveTab('food')}
                 className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
-                  activeCategoryTab === 'food'
+                  activeTab === 'food'
                     ? 'bg-[#f46f25] text-white'
                     : 'bg-[#f7f8f8] text-[#404040] border border-[#dddada]'
                 }`}
@@ -435,7 +427,7 @@ export default function HomeLanding() {
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-            {BARMANDOO_PRODUCTS.map(prod => (
+            {BEST_SELLERS.map(prod => (
               <div
                 key={prod.id}
                 className="group relative flex flex-col justify-between rounded-xl border border-[#dddada] bg-white p-3.5 shadow-xs transition hover:border-[#f46f25] hover:shadow-md"
@@ -517,7 +509,7 @@ export default function HomeLanding() {
         </div>
       </section>
 
-      {/* 7. BARMANDOO FOOTER */}
+      {/* 7. FOOTER */}
       <footer className="border-t border-[#dddada] bg-[#000000] text-white py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-xs">
           <div>
