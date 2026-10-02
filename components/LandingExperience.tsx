@@ -339,6 +339,23 @@ export function LandingExperience() {
         <div className="last-call-stamp"><Clock3 size={16} /> 24 / 7</div>
       </section>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
       <footer className="landing-footer">
         <a className="landing-brand" href="#top"><span className="brand-mark"><Beer size={18} /></span><span>drinkdrop<span className="brand-period">.</span></span></a>
         <p>Good drinks, on your time.</p>
