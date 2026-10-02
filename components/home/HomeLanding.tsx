@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -5,270 +8,500 @@ import {
   ArrowUpRight,
   Beer,
   Check,
-  Citrus,
-  Clock3,
-  CupSoda,
-  Droplets,
+  ChevronRight,
+  Clock,
+  Flame,
   GlassWater,
   MapPin,
-  PackageCheck,
-  Route,
-  ShieldCheck,
+  Menu,
+  PhoneCall,
+  Search,
+  ShieldAlert,
+  ShoppingBag,
+  Sparkles,
   Store,
   Truck,
-  Wallet,
+  User,
+  Utensils,
+  Wine,
+  X,
   Zap,
-  type LucideIcon,
 } from 'lucide-react';
-import { getHomeData, type HomeCategory, type HomeProduct } from '@/lib/home-data';
 import { HomeNavbar } from './HomeNavbar';
 import styles from './home.module.css';
 
-function categoryIcon(name: string): LucideIcon {
-  const value = name.toLowerCase();
-  if (value.includes('water')) return Droplets;
-  if (value.includes('juice')) return Citrus;
-  if (value.includes('energy')) return Zap;
-  if (value.includes('beer')) return Beer;
-  if (value.includes('wine') || value.includes('spirit')) return GlassWater;
-  if (value.includes('snack')) return PackageCheck;
-  return CupSoda;
-}
+type HomeLandingProps = {
+  systemName?: string;
+  tagline?: string;
+  logoUrl?: string | null;
+  businessAddress?: string;
+};
 
-function CategoryTile({ category, index }: { category: HomeCategory; index: number }) {
-  const Icon = categoryIcon(category.name);
-  const image = category.imageUrl || category.productImageUrl;
-  return (
-    <Link href="/customer" className={`${styles.categoryCard} ${styles[`categoryTone${index % 6}`]}`}>
-      <span className={styles.categoryImage}>
-        {image ? (
-          <Image src={image} alt="" fill sizes="(max-width: 640px) 45vw, (max-width: 1000px) 28vw, 17vw" unoptimized />
-        ) : (
-          <Icon size={37} strokeWidth={1.45} aria-hidden="true" />
-        )}
-      </span>
-      <span className={styles.categoryLabel}>{category.name}</span>
-      <ArrowUpRight className={styles.categoryArrow} size={17} aria-hidden="true" />
-    </Link>
-  );
-}
+// Barmandoo-style food & drinks categories
+const BARMANDOO_CATEGORIES = [
+  { id: 'whiskey', name: 'Whiskey & Spirits', icon: Wine, count: '45+ Items', tag: 'Hot Sellers', tone: 'bg-amber-500/10 text-amber-500' },
+  { id: 'beer', name: 'Chilled Beers & Craft', icon: Beer, count: '30+ Brands', tag: 'Chilled', tone: 'bg-yellow-500/10 text-yellow-500' },
+  { id: 'food', name: 'Late-Night Food & Momo', icon: Utensils, count: 'Snacks & Meals', tag: '24/7 Hot', tone: 'bg-rose-500/10 text-rose-500' },
+  { id: 'wine', name: 'Wines & Champagne', icon: GlassWater, count: 'Imported & Local', tag: 'Premium', tone: 'bg-purple-500/10 text-purple-500' },
+  { id: 'soft', name: 'Cold Drinks & Mixers', icon: Sparkles, count: 'Soda, Tonic & Juices', tag: 'Mixers', tone: 'bg-blue-500/10 text-blue-500' },
+  { id: 'energy', name: 'Energy & Cigarettes', icon: Zap, count: 'Instant Delivery', tag: 'Express', tone: 'bg-emerald-500/10 text-emerald-500' },
+];
 
-function ProductCard({ product, currency }: { product: HomeProduct; currency: string }) {
+// Curated Best Seller items mimicking Barmandoo
+const BEST_SELLERS = [
+  {
+    id: '1',
+    name: 'Old Durbar Black Chimney Peated Whisky',
+    brand: 'Old Durbar',
+    category: 'Whiskey',
+    price: 3450,
+    size: '750ml',
+    abv: '40%',
+    image: '/brands/barahsinghe-craft-lager.webp',
+    inStock: true,
+    badge: 'BEST SELLER',
+  },
+  {
+    id: '2',
+    name: 'Barahsinghe Craft Pilsner (Case of 12)',
+    brand: 'Barahsinghe',
+    category: 'Beer',
+    price: 4380,
+    size: '12 x 650ml',
+    abv: '5.0%',
+    image: '/brands/barahsinghe-craft-lager.webp',
+    inStock: true,
+    badge: 'CHILLED 45 MINS',
+  },
+  {
+    id: '3',
+    name: 'Khukuri XXX Coronation Rum',
+    brand: 'Khukuri',
+    category: 'Spirits',
+    price: 1650,
+    size: '750ml',
+    abv: '42.8%',
+    image: '/brands/barahsinghe-craft-lager.webp',
+    inStock: true,
+    badge: 'NEPAL ICON',
+  },
+  {
+    id: '4',
+    name: 'Tuborg Strong Premium Beer',
+    brand: 'Tuborg',
+    category: 'Beer',
+    price: 375,
+    size: '650ml Bottle',
+    abv: '6.5%',
+    image: '/brands/barahsinghe-craft-lager.webp',
+    inStock: true,
+    badge: 'COLD STORED',
+  },
+];
+
+export default function HomeLanding() {
+  const [activeTab, setActiveTab] = useState<'all' | 'drinks' | 'food'>('drinks');
+  const [searchQuery, setSearchQuery] = useState('');
+
   return (
-    <article className={styles.productCard}>
-      <Link href="/customer" className={styles.productImage} aria-label={`View ${product.name} in the customer shop`}>
-        {product.imageUrl ? (
-          <Image src={product.imageUrl} alt={product.name} fill sizes="(max-width: 640px) 44vw, 240px" unoptimized />
-        ) : (
-          <CupSoda size={46} strokeWidth={1.35} aria-hidden="true" />
-        )}
-        <span className={styles.availableBadge}><span /> Available</span>
-      </Link>
-      <div className={styles.productDetails}>
-        {product.brand && <p className={styles.productBrand}>{product.brand}</p>}
-        <h3><Link href="/customer">{product.name}</Link></h3>
-        <p className={styles.productSize}>{[product.size, product.unit].filter(Boolean).join(' ') || 'Listed by a local dealer'}</p>
-        <div className={styles.productBuyRow}>
-          <strong>{currency} {product.price.toLocaleString('en-NP')}</strong>
-          <Link href="/customer" className={styles.productView} aria-label={`View ${product.name}`}><ArrowRight size={17} /></Link>
+    <div className="min-h-screen bg-[#0b0f19] text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950">
+      {/* 1. TOP BARMANDOO BANNER */}
+      <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-600 px-4 py-2 text-center text-xs font-black tracking-wide text-slate-950 shadow-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="inline-block h-2 w-2 animate-ping rounded-full bg-slate-950" />
+            <span>NEPAL'S FASTEST LATE-NIGHT LIQUOR & FOOD DELIVERY · BUTWAL & SURROUNDINGS</span>
+          </div>
+          <div className="hidden sm:flex items-center gap-4 text-[11px]">
+            <span className="flex items-center gap-1 font-bold">
+              <Clock size={13} /> 30 - 45 MIN EXPRESS DELIVERY
+            </span>
+            <span className="border-l border-slate-950/30 pl-4 font-bold">HOTLINE: +977 9800000000</span>
+          </div>
         </div>
       </div>
-    </article>
-  );
-}
 
-export default async function HomeLanding() {
-  const data = await getHomeData();
-  const benefits = [
-    { icon: Truck, title: 'Nearby delivery', detail: 'From dealers around Butwal' },
-    { icon: ShieldCheck, title: 'Clear pricing', detail: 'See dealer prices before ordering' },
-    { icon: Store, title: 'Local businesses', detail: 'Discover drinks from nearby stores' },
-    { icon: Route, title: 'Order updates', detail: 'Check your orders in one place' },
-  ];
+      {/* 2. BARMANDOO STYLED NAVBAR */}
+      <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-[#0b0f19]/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3">
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-amber-500 to-yellow-600 text-slate-950 font-black text-xl shadow-lg shadow-amber-500/20">
+              <Wine size={22} strokeWidth={2.4} />
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5 text-xl font-black tracking-tight text-white">
+                drinkdrop<span className="text-amber-500">.</span>
+                <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold text-amber-400 border border-amber-500/30">
+                  EXPRESS
+                </span>
+              </div>
+              <p className="text-[10px] font-semibold text-slate-400">Late Night Liquor & Drinks</p>
+            </div>
+          </Link>
 
-  return (
-    <main className={styles.homePage} id="home">
-      <HomeNavbar
-        systemName={data.systemName}
-        tagline={data.tagline}
-        logoUrl={data.logoUrl}
-        location={data.businessAddress}
-        openStatus={data.openStatus}
-        openLabel={data.openLabel}
-      />
+          {/* Quick Category Switcher Pill (Drinks vs Food) */}
+          <div className="hidden md:flex items-center rounded-full border border-slate-800 bg-slate-900/90 p-1">
+            <button
+              onClick={() => setActiveTab('drinks')}
+              className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold transition ${
+                activeTab === 'drinks'
+                  ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 shadow-sm'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Wine size={14} />
+              <span>Liquor & Drinks</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('food')}
+              className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold transition ${
+                activeTab === 'food'
+                  ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 shadow-sm'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Utensils size={14} />
+              <span>Late-Night Momo & Food</span>
+            </button>
+          </div>
 
-      <section className={styles.hero} aria-labelledby="hero-title">
-        <Image
-          src="/home/butwal-night.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className={styles.heroBackground}
-          aria-hidden="true"
-        />
-        <div className={styles.heroOverlay} aria-hidden="true" />
-        <div className={styles.heroLights} aria-hidden="true" />
-        <div className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <p className={styles.locationPill}><MapPin size={15} /> {data.businessAddress}</p>
-            {data.maintenanceMode && <p className={styles.closedNotice}><Clock3 size={14} /> Currently closed while the store is being updated.</p>}
-            <h1 id="hero-title">Your Favorite Drinks <span>Delivered Fast!</span></h1>
-            <p className={styles.heroDescription}>Cold drinks, juices, energy drinks, water and more, all in one place. Find a nearby dealer and order for home.</p>
-            <ul className={styles.benefitList} aria-label="DrinkDrop benefits">
-              {benefits.slice(0, 3).map(({ icon: Icon, title, detail }) => (
-                <li key={title}>
-                  <span className={styles.benefitIcon}><Icon size={17} /></span>
-                  <span><b>{title}</b><small>{detail}</small></span>
-                </li>
-              ))}
-            </ul>
-            <Link href="/customer" className={styles.locationFinder}>
-              <span className={styles.finderPin}><MapPin size={19} /></span>
-              <span className={styles.finderCopy}><small>Choose your delivery location</small><b>{data.businessAddress}</b></span>
-              <span className={styles.finderButton}>Find drinks <ArrowRight size={17} /></span>
+          {/* Nav Right Actions */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/customer"
+              className="flex items-center gap-2 rounded-xl bg-slate-900 px-3.5 py-2 text-xs font-bold text-slate-200 border border-slate-800 hover:border-slate-700 hover:bg-slate-850 transition"
+            >
+              <Search size={15} className="text-amber-400" />
+              <span className="hidden sm:inline">Search Drinks</span>
             </Link>
-            <p className={styles.finderNote}>Set or update your address in the customer shop.</p>
-          </div>
 
-          <div className={styles.drinkShowcase} aria-label="A selection of soft drinks and bottled water">
-            <div className={styles.showcaseGlow} aria-hidden="true" />
-            <div className={styles.drinkPhoto}>
-              <Image
-                src="/home/drinks-lineup.webp"
-                alt="Cold 7UP and Pepsi bottles in a chilled drink display"
-                width={717}
-                height={400}
-                sizes="(max-width: 760px) 90vw, 46vw"
-              />
-            </div>
-            <div className={styles.waterPhoto}>
-              <Image
-                src="/home/water-bottle.webp"
-                alt="Chilled bottle of water covered with condensation"
-                width={750}
-                height={1000}
-                sizes="(max-width: 760px) 27vw, 14vw"
-              />
-            </div>
-            <div className={styles.showcaseTag}><span className={styles.liveDot} /> COLD PICKS, CLOSE BY</div>
-            <div className={styles.cityPhotoCredit}>
-              Butwal evening photo: <a href="https://commons.wikimedia.org/wiki/File:Evening_View_of_Butwal_from_Nuwakot.jpg" target="_blank" rel="noreferrer">Mithun Kunwar, CC BY-SA 4.0</a>
-            </div>
+            <Link
+              href="/login"
+              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 px-4 py-2 text-xs font-extrabold text-slate-950 shadow-lg shadow-amber-500/20 hover:brightness-110 active:scale-95 transition"
+            >
+              <User size={15} />
+              <span>Sign In</span>
+            </Link>
+
+            <Link
+              href="/customer"
+              className="relative grid h-9 w-9 place-items-center rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 transition"
+              title="View Customer Shop"
+            >
+              <ShoppingBag size={18} />
+            </Link>
           </div>
         </div>
-        <div className={styles.heroBottom}><span>बुटवल · LUMBINI, NEPAL</span><span>LOCAL DRINKS, A SHORTER ROUTE</span></div>
+      </header>
+
+      {/* 3. HERO SECTION - BARMANDOO DARK LATE NIGHT THEME */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#0b0f19] via-[#111726] to-[#0b0f19] py-16 lg:py-24 border-b border-slate-800/60">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent pointer-events-none" />
+
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 relative z-10">
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+            {/* Left Copy */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-extrabold text-amber-400">
+                <Flame size={14} className="animate-bounce text-amber-400" />
+                <span>30-45 MINUTES GUARANTEED EXPRESS DELIVERY</span>
+              </div>
+
+              <h1 className="text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-6xl leading-[1.1]">
+                Craving Late-Night <br />
+                <span className="bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 bg-clip-text text-transparent">
+                  Liquor & Cold Drinks?
+                </span>
+              </h1>
+
+              <p className="max-w-xl text-sm sm:text-base text-slate-400 font-medium leading-relaxed">
+                Order authentic Nepali whiskies, ice-cold beers, imported spirits, mixers, snacks, and late-night hot momos. Delivered right to your doorstep in 45 minutes or less.
+              </p>
+
+              {/* Instant Search / Location Bar */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 rounded-2xl border border-slate-800 bg-slate-900/90 p-2 shadow-2xl backdrop-blur-md max-w-2xl">
+                <div className="flex items-center gap-2.5 flex-1 px-3 py-2 w-full">
+                  <MapPin size={18} className="text-amber-400 shrink-0" />
+                  <div className="text-left">
+                    <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                      Delivering to
+                    </span>
+                    <span className="block text-xs font-bold text-slate-200">
+                      Traffic Chowk, Milanchowk & Central Butwal
+                    </span>
+                  </div>
+                </div>
+
+                <Link
+                  href="/customer"
+                  className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 px-6 py-3 text-xs font-black text-slate-950 shadow-lg shadow-amber-500/25 transition hover:brightness-110 active:scale-95"
+                >
+                  <span>Order Now</span>
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
+
+              {/* Guarantees */}
+              <div className="pt-2 grid grid-cols-3 gap-4 max-w-lg">
+                <div className="flex items-center gap-2 text-xs font-bold text-slate-300">
+                  <div className="grid h-6 w-6 place-items-center rounded-full bg-emerald-500/10 text-emerald-400">
+                    <Check size={14} />
+                  </div>
+                  <span>100% Genuine</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs font-bold text-slate-300">
+                  <div className="grid h-6 w-6 place-items-center rounded-full bg-emerald-500/10 text-emerald-400">
+                    <Check size={14} />
+                  </div>
+                  <span>Chilled Cold</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs font-bold text-slate-300">
+                  <div className="grid h-6 w-6 place-items-center rounded-full bg-emerald-500/10 text-emerald-400">
+                    <Check size={14} />
+                  </div>
+                  <span>COD / Fonepay</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Showcase Card */}
+            <div className="lg:col-span-5 relative">
+              <div className="relative mx-auto max-w-md rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl backdrop-blur-xl">
+                <div className="absolute -top-3 right-6 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 px-3 py-1 text-[10px] font-black text-slate-950 shadow-md">
+                  HOTTEST SELLER TODAY
+                </div>
+
+                <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-slate-950 border border-slate-800">
+                  <Image
+                    src="/home/drinks-lineup.webp"
+                    alt="Barmandoo Chilled Drinks Lineup"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-extrabold text-amber-400">BARMANDOO SPECIAL</span>
+                    <span className="text-xs font-extrabold text-emerald-400">IN STOCK</span>
+                  </div>
+                  <h3 className="text-lg font-black text-white">Chilled Party Pack & Drinks</h3>
+                  <p className="text-xs text-slate-400">
+                    Includes craft beers, signature whiskies, mixers, and ice buckets delivered cold.
+                  </p>
+
+                  <div className="pt-2 flex items-center justify-between border-t border-slate-800">
+                    <div>
+                      <span className="block text-[10px] text-slate-500 font-bold">Starting from</span>
+                      <span className="text-lg font-black text-amber-400">Rs. 350</span>
+                    </div>
+
+                    <Link
+                      href="/customer"
+                      className="rounded-xl bg-slate-800 px-4 py-2 text-xs font-bold text-white hover:bg-slate-700 transition"
+                    >
+                      Browse Store →
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <section className={styles.categorySection} id="categories" aria-labelledby="category-title">
-        <div className={styles.sectionTopline}><span className={styles.sectionEyebrow}>A good place to start</span><Link href="/customer">Browse the shop <ArrowRight size={16} /></Link></div>
-        <div className={styles.sectionHeading}>
-          <div><p className={styles.kicker}>SHOP BY CATEGORY</p><h2 id="category-title">Popular categories</h2></div>
-          <span className={styles.categoryCount}>{data.categories.length} categories</span>
+      {/* 4. CATEGORY TILES (BARMANDOO STYLE) */}
+      <section className="py-14 mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="flex items-end justify-between border-b border-slate-800 pb-4 mb-8">
+          <div>
+            <span className="text-xs font-extrabold tracking-widest text-amber-400 uppercase">
+              Explore Categories
+            </span>
+            <h2 className="text-2xl font-black text-white sm:text-3xl mt-1">What are you drinking tonight?</h2>
+          </div>
+
+          <Link href="/customer" className="hidden sm:flex items-center gap-1 text-xs font-bold text-amber-400 hover:underline">
+            View All Categories <ChevronRight size={16} />
+          </Link>
         </div>
-        <div className={styles.categoryGrid}>
-          {data.categories.map((category, index) => <CategoryTile key={category.id} category={category} index={index} />)}
+
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+          {BARMANDOO_CATEGORIES.map(cat => {
+            const Icon = cat.icon;
+            return (
+              <Link
+                key={cat.id}
+                href="/customer"
+                className="group relative flex flex-col justify-between rounded-2xl border border-slate-800/80 bg-slate-900/60 p-4 transition hover:border-amber-500/50 hover:bg-slate-850 hover:shadow-xl"
+              >
+                <div>
+                  <div className={`grid h-12 w-12 place-items-center rounded-xl ${cat.tone} mb-3 group-hover:scale-110 transition`}>
+                    <Icon size={24} />
+                  </div>
+                  <span className="inline-block rounded-md bg-slate-800 px-2 py-0.5 text-[9px] font-bold text-slate-300 mb-1">
+                    {cat.tag}
+                  </span>
+                  <h3 className="text-xs font-extrabold text-white group-hover:text-amber-400 transition">{cat.name}</h3>
+                </div>
+
+                <div className="mt-3 text-[11px] font-medium text-slate-500 flex items-center justify-between border-t border-slate-800/60 pt-2">
+                  <span>{cat.count}</span>
+                  <ArrowUpRight size={14} className="text-slate-400 group-hover:text-amber-400 transition" />
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
-      <section className={styles.whySection} aria-labelledby="why-title">
-        <Image src="/home/butwal-night.webp" alt="" fill sizes="100vw" className={styles.whyBackground} />
-        <div className={styles.whyOverlay} aria-hidden="true" />
-        <div className={styles.whyInner}>
-          <div className={styles.whyHeading}><p className={styles.kickerLight}>MADE FOR YOUR SIDE OF TOWN</p><h2 id="why-title">Why choose {data.systemName}?</h2><p>Fast to browse. Rooted in Butwal.</p></div>
-          <div className={styles.whyGrid}>
-            {benefits.map(({ icon: Icon, title, detail }, index) => (
-              <article key={title} className={styles.whyItem}>
-                <span className={styles.whyIcon}>{index === 1 ? <Wallet size={20} /> : <Icon size={20} />}</span>
-                <div><h3>{index === 1 && data.deliveryFee !== null ? 'Configured delivery fee' : index === 1 ? 'Dealer-set prices' : title}</h3><p>{index === 1 && data.deliveryFee !== null ? `${data.currencySymbol} ${data.deliveryFee.toLocaleString('en-NP')} base fee` : detail}</p></div>
-                <Check className={styles.whyCheck} size={16} aria-hidden="true" />
-              </article>
+      {/* 5. FEATURED PRODUCTS GRID (BEST SELLERS) */}
+      <section className="py-12 bg-slate-900/40 border-y border-slate-800/60">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <span className="text-xs font-extrabold tracking-widest text-amber-400 uppercase">
+                Trending Drinks
+              </span>
+              <h2 className="text-2xl font-black text-white sm:text-3xl mt-1">Best Selling Liquor & Beers</h2>
+            </div>
+
+            <Link href="/customer" className="flex items-center gap-1.5 rounded-xl bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400 transition">
+              <span>Explore Shop</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {BEST_SELLERS.map(item => (
+              <div
+                key={item.id}
+                className="group relative flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-900/90 p-4 shadow-lg transition hover:border-amber-500/40 hover:shadow-2xl"
+              >
+                <div>
+                  {/* Badge & Image */}
+                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-slate-950 p-4 border border-slate-800">
+                    <span className="absolute top-2 left-2 rounded-md bg-amber-500/20 px-2 py-0.5 text-[9px] font-black text-amber-400 border border-amber-500/30">
+                      {item.badge}
+                    </span>
+
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      className="object-contain p-2 group-hover:scale-105 transition duration-300"
+                    />
+                  </div>
+
+                  {/* Title & Specs */}
+                  <div className="mt-3 space-y-1">
+                    <span className="text-[10px] font-bold uppercase text-slate-500">{item.brand}</span>
+                    <h3 className="text-sm font-extrabold text-white line-clamp-1 group-hover:text-amber-400 transition">
+                      {item.name}
+                    </h3>
+                    <div className="flex items-center gap-2 text-[11px] font-medium text-slate-400">
+                      <span>{item.size}</span>
+                      <span>·</span>
+                      <span className="text-amber-400/90 font-bold">{item.abv} ABV</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Price & Buy Button */}
+                <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+                  <div>
+                    <span className="block text-[9px] font-bold text-slate-500">Price</span>
+                    <span className="text-base font-black text-amber-400">Rs. {item.price.toLocaleString('en-NP')}</span>
+                  </div>
+
+                  <Link
+                    href="/customer"
+                    className="flex items-center gap-1 rounded-xl bg-amber-500 px-3 py-1.5 text-xs font-bold text-slate-950 shadow-md hover:bg-amber-400 transition"
+                  >
+                    <span>Add</span>
+                    <ShoppingBag size={14} />
+                  </Link>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className={styles.availableSection} id="available" aria-labelledby="available-title">
-        <div className={styles.sectionHeading}>
-          <div><p className={styles.kicker}>FROM ACTIVE LOCAL LISTINGS</p><h2 id="available-title">Available nearby</h2><p className={styles.sectionSubheading}>Prices come from dealers with stock available to order.</p></div>
-          <Link className={styles.textAction} href="/customer">View shop <ArrowRight size={16} /></Link>
+      {/* 6. HOW BARMANDOO WORKS (4 STEPS) */}
+      <section className="py-16 mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <span className="text-xs font-extrabold tracking-widest text-amber-400 uppercase">
+            Fast & Hassle Free
+          </span>
+          <h2 className="text-3xl font-black text-white mt-1">How DrinkDrop Express Works</h2>
+          <p className="text-xs text-slate-400 mt-2">
+            Get your drinks delivered in four simple steps without stepping out.
+          </p>
         </div>
-        {data.products.length ? (
-          <div className={styles.productGrid}>{data.products.slice(0, 4).map(product => <ProductCard key={product.id} product={product} currency={data.currencySymbol} />)}</div>
-        ) : (
-          <div className={styles.catalogEmpty}>
-            <span className={styles.emptyIcon}><CupSoda size={24} /></span>
-            <div><h3>Local dealers are preparing their listings</h3><p>Available drinks will appear here as soon as a nearby dealer adds stock.</p></div>
-            <Link href="/customer">Open the shop <ArrowRight size={16} /></Link>
-          </div>
-        )}
-      </section>
 
-      <section className={styles.localStrip}>
-        <div className={styles.localStamp}>BUTWAL<br /><span>♥</span><br />NEPAL</div>
-        <div><p className={styles.kickerLight}>YOUR CITY, YOUR LOCAL STORES</p><h2>Butwal ko<br /><em>pahilo choice.</em></h2><p>One simple place to discover drinks from the dealers around you.</p></div>
-        <Link href="/customer" className={styles.localAction}>Find local drinks <ArrowRight size={17} /></Link>
-        <span className={styles.localHills} aria-hidden="true" />
-      </section>
-
-      <section className={styles.stepsSection} aria-labelledby="steps-title">
-        <div className={styles.sectionHeading}><div><p className={styles.kicker}>FOUR STEPS, NO DETOURS</p><h2 id="steps-title">How it works</h2></div></div>
-        <div className={styles.stepsGrid}>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { icon: CupSoda, title: 'Choose your drinks', detail: 'Browse active listings and prices.' },
-            { icon: MapPin, title: 'Set your location', detail: 'Add a delivery address in the customer shop.' },
-            { icon: Store, title: 'Nearby dealer prepares', detail: 'Your order goes to a local drinks dealer.' },
-            { icon: Truck, title: 'Get it delivered', detail: 'Follow updates from your order page.' },
-          ].map(({ icon: Icon, title, detail }, index) => (
-            <article key={title} className={styles.stepItem}>
-              <span className={styles.stepNumber}>0{index + 1}</span><span className={styles.stepIcon}><Icon size={21} /></span>
-              <h3>{title}</h3><p>{detail}</p>
-              {index < 3 && <ArrowRight className={styles.stepConnector} size={17} aria-hidden="true" />}
-            </article>
+            { step: '01', title: 'Pick Your Liquor', desc: 'Browse hundreds of beers, whiskies, wines & mixers in our catalog.' },
+            { step: '02', title: 'Set Delivery Location', desc: 'Select your zone in Butwal & specify landmark for rider.' },
+            { step: '03', title: 'Select Payment Method', desc: 'Pay via Cash on Delivery (COD) or instant Fonepay QR code.' },
+            { step: '04', title: 'Doorstep Delivery', desc: 'Receive your cold drinks in 30 to 45 minutes guaranteed.' },
+          ].map((item, idx) => (
+            <div key={idx} className="relative rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+              <span className="text-3xl font-black text-amber-500/30">{item.step}</span>
+              <h3 className="text-sm font-extrabold text-white mt-2">{item.title}</h3>
+              <p className="text-xs text-slate-400 mt-1 leading-relaxed">{item.desc}</p>
+            </div>
           ))}
         </div>
       </section>
 
-      <section className={styles.trackingSection} aria-labelledby="tracking-title">
-        <div className={styles.trackingCopy}><p className={styles.kicker}>NO GUESSING WHERE IT WENT</p><h2 id="tracking-title">Your order,<br /><em>one place.</em></h2><p>Open your orders to check the latest status updates from your dealer and rider.</p><Link href="/orders" className={styles.primaryButton}>Track an order <ArrowRight size={17} /></Link></div>
-        <div className={styles.routeIllustration} aria-label="Illustration of a local dealer, rider and delivery destination">
-          <div className={styles.mapRoad} aria-hidden="true" />
-          <span className={`${styles.mapPin} ${styles.dealerPin}`}><Store size={17} /><b>Dealer</b></span>
-          <span className={`${styles.mapPin} ${styles.riderPin}`}><Truck size={17} /><b>Rider</b></span>
-          <span className={`${styles.mapPin} ${styles.homePin}`}><MapPin size={18} /><b>You</b></span>
-          <span className={styles.mapLabel}>BUTWAL · RUPANDEHI</span>
-          <span className={styles.mapRoadLabel}>TINau corridor</span>
-        </div>
-      </section>
-
-      <section className={styles.marketplaceSection} id="marketplace">
-        <div><p className={styles.kicker}>THE DRINKDROP WAY</p><h2>Local dealers.<br /><em>One easy platform.</em></h2></div>
-        <p className={styles.marketplaceText}>We bring nearby beverage dealers together so you can check what is available, compare listed prices, and place an order from one customer shop.</p>
-        <Link href="/customer" className={styles.textAction}>Discover local listings <ArrowRight size={16} /></Link>
-      </section>
-
-      <section className={styles.trustSection} aria-label="Customer experience details">
-        <div><ShieldCheck size={20} /><span><b>Adult-only service</b><small>Age check before entry</small></span></div>
-        <div><Store size={20} /><span><b>Dealer listings</b><small>Stock and prices shown from dealer inventory</small></span></div>
-        <div><Clock3 size={20} /><span><b>{data.openLabel}</b><small>Based on configured business hours</small></span></div>
-      </section>
-
-      <footer className={styles.footer} id="contact">
-        <div className={styles.footerMain}>
-          <div className={styles.footerBrand}>
-            <Link className={styles.brand} href="/">
-              {data.logoUrl ? <Image src={data.logoUrl} alt="" width={34} height={34} unoptimized className={styles.brandImage} /> : <span className={styles.brandMark}><Beer size={19} /></span>}
-              <span className={styles.brandWords}><b>{data.systemName}</b><small>{data.tagline}</small></span>
-            </Link>
-            <p>Good drinks, local dealers, delivered around Butwal.</p>
-            <p className={styles.footerImageCredit}>Butwal evening: <a href="https://commons.wikimedia.org/wiki/File:Evening_View_of_Butwal_from_Nuwakot.jpg" target="_blank" rel="noreferrer">Mithun Kunwar, CC BY-SA 4.0</a>, resized. Bottles: <a href="https://commons.wikimedia.org/wiki/File:Pepsi_Tailand.JPG" target="_blank" rel="noreferrer">MOs810, CC BY-SA 4.0</a>, resized/cropped.</p>
+      {/* 7. FOOTER */}
+      <footer className="border-t border-slate-800 bg-[#070a12] py-12 text-slate-400 text-xs">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <div className="flex items-center gap-2 text-base font-black text-white mb-2">
+              <Wine size={18} className="text-amber-500" />
+              <span>drinkdrop<span className="text-amber-500">.</span></span>
+            </div>
+            <p className="text-slate-400 leading-relaxed">
+              Nepal's premier late-night liquor & food delivery platform in Butwal. Fast, reliable, and authentic.
+            </p>
           </div>
-          <div className={styles.footerColumn}><h2>Explore</h2><Link href="/">Home</Link><Link href="/customer">Shop</Link><Link href="/orders">Track order</Link><Link href="#marketplace">About DrinkDrop</Link></div>
-          <div className={styles.footerColumn}><h2>Account</h2><Link href="/login">Login</Link><Link href="/signup">Create account</Link><Link href="/customer">Customer shop</Link></div>
-          <div className={styles.footerColumn}><h2>Visit or call</h2><span>{data.businessAddress}</span>{data.phone && <a href={`tel:${data.phone}`}>{data.phone}</a>}{data.email && <a href={`mailto:${data.email}`}>{data.email}</a>}</div>
+
+          <div>
+            <h4 className="font-extrabold text-white mb-3">Quick Links</h4>
+            <ul className="space-y-2">
+              <li><Link href="/customer" className="hover:text-amber-400">Shop All Liquor</Link></li>
+              <li><Link href="/orders" className="hover:text-amber-400">Track Order Status</Link></li>
+              <li><Link href="/admin" className="hover:text-amber-400">Admin Portal</Link></li>
+              <li><Link href="/rider" className="hover:text-amber-400">Rider Workspace</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-extrabold text-white mb-3">Customer Support</h4>
+            <ul className="space-y-2">
+              <li>Hotline: +977 9800000000</li>
+              <li>Email: support@drinkdrop.com</li>
+              <li>Location: Traffic Chowk, Butwal, Nepal</li>
+              <li>Operational Hours: 24/7 Delivery</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-extrabold text-white mb-3">Legal & Age Gate</h4>
+            <p className="text-slate-400 text-[11px] leading-relaxed">
+              Strictly 18+ only. ID verification is conducted upon delivery by our riders. Please drink responsibly.
+            </p>
+          </div>
         </div>
-        <div className={styles.footerBottom}><span>© {new Date().getFullYear()} {data.systemName}. All rights reserved.</span><span>Please enjoy responsibly. 18+ only.</span><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">Photo license details</a></div>
+
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 pt-8 mt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500">
+          <span>© {new Date().getFullYear()} DrinkDrop Express Nepal. All rights reserved.</span>
+          <span>Designed with late-night convenience in mind.</span>
+        </div>
       </footer>
-    </main>
+    </div>
   );
 }
