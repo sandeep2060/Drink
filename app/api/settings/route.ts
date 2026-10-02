@@ -71,6 +71,8 @@ async function getSupabaseServerClient() {
   });
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const supabase = await getSupabaseServerClient();
 
