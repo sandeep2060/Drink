@@ -45,6 +45,7 @@ type SettingsRow = {
   currency_symbol: string | null;
   default_delivery_fee: number | string | null;
   maintenance_mode: boolean;
+  hero_bg_images?: string[] | null;
 };
 
 export type HomeCategory = {
@@ -77,6 +78,7 @@ export type HomeData = {
   currencySymbol: string;
   deliveryFee: number | null;
   maintenanceMode: boolean;
+  heroBgImages: string[];
   categories: HomeCategory[];
   products: HomeProduct[];
   openStatus: 'open' | 'closed' | 'unknown';
@@ -173,16 +175,17 @@ function calculateOpenStatus(hours: BusinessHoursRow[], timezone: string) {
 export async function getHomeData(): Promise<HomeData> {
   const fallbackTimezone = 'Asia/Kathmandu';
   const defaultData: HomeData = {
-    systemName: 'DrinkDrop',
-    tagline: 'Drinks Delivered Fast',
+    systemName: 'Barmandoo',
+    tagline: 'FOOD & DRINKS DELIVERY · EASY, FAST & CONVENIENT',
     logoUrl: null,
     phone: null,
     email: null,
-    businessAddress: 'Butwal, Nepal',
+    businessAddress: 'Kathmandu & Butwal, Nepal',
     timezone: fallbackTimezone,
     currencySymbol: 'Rs.',
     deliveryFee: null,
     maintenanceMode: false,
+    heroBgImages: [],
     categories: schemaCategories.map(category => ({ ...category, imageUrl: null, productImageUrl: null })),
     products: [],
     openStatus: 'unknown',
@@ -208,7 +211,7 @@ export async function getHomeData(): Promise<HomeData> {
         .eq('dealer.accepting_orders', true)
         .order('selling_price', { ascending: true })
         .limit(8),
-      supabase.from('system_settings').select('system_name,tagline,logo_url,contact_phone,alternate_phone,contact_email,support_email,business_address,timezone,currency_symbol,default_delivery_fee,maintenance_mode').maybeSingle(),
+      supabase.from('system_settings').select('system_name,tagline,logo_url,contact_phone,alternate_phone,contact_email,support_email,business_address,timezone,currency_symbol,default_delivery_fee,maintenance_mode,hero_bg_images').maybeSingle(),
       supabase.from('business_hours').select('day_of_week,is_open,open_time,close_time,second_open_time,second_close_time').order('day_of_week'),
     ]);
 
@@ -239,6 +242,10 @@ export async function getHomeData(): Promise<HomeData> {
       ? { openStatus: 'closed' as const, openLabel: 'Currently closed' }
       : calculateOpenStatus(hours, timezone);
 
+    const bgImages = Array.isArray(settings?.hero_bg_images)
+      ? settings!.hero_bg_images.filter((img): img is string => typeof img === 'string' && img.trim().length > 0)
+      : [];
+
     return {
       ...defaultData,
       systemName: settings?.system_name || defaultData.systemName,
@@ -253,6 +260,7 @@ export async function getHomeData(): Promise<HomeData> {
         ? Number(settings.default_delivery_fee)
         : defaultData.deliveryFee,
       maintenanceMode,
+      heroBgImages: bgImages,
       categories: sourceCategories.map(category => ({
         id: category.id,
         name: category.name,

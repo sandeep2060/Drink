@@ -57,6 +57,7 @@ type SettingsState = {
   privacy_text: string;
   cancellation_policy: string;
   delivery_policy: string;
+  hero_bg_images: string[];
 };
 
 type BusinessHour = {
@@ -102,6 +103,7 @@ const DEFAULT_SETTINGS: SettingsState = {
   privacy_text: 'Your privacy is paramount. We store your delivery details safely to process orders.',
   cancellation_policy: 'Orders can be cancelled before rider assignment. Cancellations after dispatch may incur a delivery fee.',
   delivery_policy: 'Standard delivery time is 30-45 minutes within specified operational zones.',
+  hero_bg_images: ['', '', '', '', ''],
 };
 
 const DEFAULT_HOURS: BusinessHour[] = Array.from({ length: 7 }, (_, i) => ({
@@ -141,11 +143,11 @@ export function SettingsForm() {
               whatsapp_number: data.settings.whatsapp_number || '',
               support_email: data.settings.support_email || '',
               business_address: data.settings.business_address || '',
-              footer_text: data.settings.footer_text || '',
-              terms_text: data.settings.terms_text || '',
-              privacy_text: data.settings.privacy_text || '',
               cancellation_policy: data.settings.cancellation_policy || '',
               delivery_policy: data.settings.delivery_policy || '',
+              hero_bg_images: Array.isArray(data.settings.hero_bg_images) && data.settings.hero_bg_images.length > 0
+                ? data.settings.hero_bg_images
+                : ['', '', '', '', ''],
             });
           }
           if (data.business_hours && Array.isArray(data.business_hours) && data.business_hours.length > 0) {
@@ -587,6 +589,43 @@ export function SettingsForm() {
                       className="w-32 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-mono font-semibold text-slate-800"
                     />
                   </div>
+                </div>
+              </div>
+
+              {/* HERO BACKGROUND SLIDER IMAGES (UP TO 5) */}
+              <div className="pt-4 border-t border-slate-200">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-xs font-bold text-slate-900">
+                    Hero Section Background Sliding Images (5s Auto Slide)
+                  </label>
+                  <span className="text-[11px] font-semibold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full">
+                    Up to 5 URLs
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 mb-3">
+                  Enter image URLs below. These will auto-slide every 5 seconds on the main Barmandoo hero landing page.
+                </p>
+
+                <div className="space-y-2.5">
+                  {[0, 1, 2, 3, 4].map(idx => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <span className="grid h-8 w-8 place-items-center rounded-lg bg-slate-100 text-xs font-bold text-slate-600 shrink-0">
+                        #{idx + 1}
+                      </span>
+                      <input
+                        type="text"
+                        value={settings.hero_bg_images?.[idx] || ''}
+                        onChange={e => {
+                          const newImgs = [...(settings.hero_bg_images || ['', '', '', '', ''])];
+                          while (newImgs.length < 5) newImgs.push('');
+                          newImgs[idx] = e.target.value;
+                          handleChange('hero_bg_images', newImgs);
+                        }}
+                        className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs text-slate-900 outline-none focus:border-blue-500 focus:bg-white font-mono"
+                        placeholder={`Hero Background Image URL #${idx + 1} (e.g. https://.../bg${idx + 1}.jpg)`}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

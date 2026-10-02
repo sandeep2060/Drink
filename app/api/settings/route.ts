@@ -34,6 +34,7 @@ export type SystemSettingsData = {
   privacy_text: string | null;
   cancellation_policy: string | null;
   delivery_policy: string | null;
+  hero_bg_images?: string[];
 };
 
 export type BusinessHourItem = {

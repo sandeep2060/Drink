@@ -7,20 +7,16 @@ import {
   ArrowRight,
   ArrowUpRight,
   Beer,
-  Check,
   ChevronRight,
   Clock,
   Flame,
   GlassWater,
   MapPin,
   Menu,
-  Phone,
   Search,
   ShieldCheck,
   ShoppingBag,
   Sparkles,
-  Star,
-  Store,
   Truck,
   User,
   Utensils,
@@ -28,15 +24,7 @@ import {
   X,
   Zap,
 } from 'lucide-react';
-
-const NAV_ITEMS = [
-  { name: 'Hard Drinks / Spirits', href: '/customer', icon: Wine, badge: 'Popular' },
-  { name: 'Beer & Craft Lager', href: '/customer', icon: Beer, badge: 'Chilled' },
-  { name: 'Wines & Champagne', href: '/customer', icon: GlassWater, badge: 'Imported' },
-  { name: 'Late-Night Momo & Food', href: '/customer', icon: Utensils, badge: 'Hot 24/7' },
-  { name: 'Soft Drinks & Mixers', href: '/customer', icon: Sparkles, badge: '' },
-  { name: 'Cigarettes & Snacks', href: '/customer', icon: Zap, badge: 'Fast' },
-];
+import { getHomeData, type HomeData } from '@/lib/home-data';
 
 const BARMANDOO_CATEGORIES = [
   { id: 'whiskey', name: 'Whiskey & Spirits', count: '45+ Items', tag: 'Hot Sellers', icon: Wine, border: 'hover:border-amber-500' },
@@ -59,7 +47,6 @@ const BEST_SELLERS = [
     abv: '40%',
     image: '/brands/barahsinghe-craft-lager.webp',
     tag: 'Best Seller',
-    rating: 4.9,
   },
   {
     id: 'b2',
@@ -72,7 +59,6 @@ const BEST_SELLERS = [
     abv: '5.0%',
     image: '/brands/barahsinghe-craft-lager.webp',
     tag: '45 Mins Cold',
-    rating: 5.0,
   },
   {
     id: 'b3',
@@ -85,7 +71,6 @@ const BEST_SELLERS = [
     abv: '42.8%',
     image: '/brands/barahsinghe-craft-lager.webp',
     tag: 'Nepal Icon',
-    rating: 4.8,
   },
   {
     id: 'b4',
@@ -98,7 +83,6 @@ const BEST_SELLERS = [
     abv: '6.5%',
     image: '/brands/barahsinghe-craft-lager.webp',
     tag: 'Cold Stored',
-    rating: 4.7,
   },
   {
     id: 'b5',
@@ -111,7 +95,6 @@ const BEST_SELLERS = [
     abv: '40.0%',
     image: '/brands/barahsinghe-craft-lager.webp',
     tag: '5x Distilled',
-    rating: 4.9,
   },
   {
     id: 'b6',
@@ -124,222 +107,200 @@ const BEST_SELLERS = [
     abv: 'Hot Food',
     image: '/brands/barahsinghe-craft-lager.webp',
     tag: 'Hot 24/7',
-    rating: 5.0,
   },
 ];
 
+const DEFAULT_SLIDES = [
+  '/home/butwal-night.webp',
+  '/home/drinks-lineup.webp',
+  '/home/water-bottle.webp',
+];
+
 export default function HomeLanding() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [homeData, setHomeData] = useState<HomeData | null>(null);
+  const [currentBgIndex, setCurrentBgIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'all' | 'liquor' | 'food'>('all');
 
+  useEffect(() => {
+    getHomeData().then(data => setHomeData(data));
+  }, []);
+
+  const slideImages = homeData?.heroBgImages && homeData.heroBgImages.length > 0
+    ? homeData.heroBgImages
+    : DEFAULT_SLIDES;
+
+  // 5 SECONDS AUTO BACKGROUND SLIDER
+  useEffect(() => {
+    if (slideImages.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentBgIndex(prev => (prev + 1) % slideImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [slideImages]);
+
   return (
     <div className="min-h-screen bg-[#f3f3f3] text-[#404040] font-sans antialiased selection:bg-[#f46f25] selection:text-white">
-      {/* 1. TOP BARMANDOO ORANGE BANNER */}
+      {/* 1. TOP BARMANDOO BANNER */}
       <div className="bg-[#f46f25] px-4 py-1.5 text-center text-xs font-black text-white shadow-xs">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="inline-block h-2 w-2 animate-ping rounded-full bg-white" />
             <span className="tracking-wide uppercase">
-              BARMANDOO · NEPAL&apos;S FASTEST LATE-NIGHT LIQUOR &amp; FOOD DELIVERY
+              BARMANDOO · FASTEST LATE-NIGHT LIQUOR &amp; FOOD DELIVERY IN NEPAL
             </span>
           </div>
           <div className="hidden sm:flex items-center gap-4 text-[11px]">
             <span className="flex items-center gap-1 font-bold">
-              <Clock size={13} /> 45-MINUTE GUARANTEED DELIVERY
+              <Clock size={13} /> 45-MINUTE EXPRESS DELIVERY
             </span>
             <span className="border-l border-white/30 pl-3 font-bold">HOTLINE: +977-9802088800</span>
           </div>
         </div>
       </div>
 
-      {/* 2. MAIN BARMANDOO BRAND HEADER */}
-      <header className="sticky top-0 z-40 border-b border-[#dddada] bg-white shadow-xs">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-          {/* Mobile Menu Toggle */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="rounded-lg p-2 text-[#404040] hover:bg-[#f7f8f8] md:hidden"
+      {/* 2. EXACT BARMANDOO HERO LANDING HEADER */}
+      <section className="relative min-h-[85vh] overflow-hidden bg-[#080d16] text-white flex flex-col justify-between">
+        {/* BACKGROUND AUTO SLIDER (5 SECONDS TRANSITION) */}
+        {slideImages.map((imgUrl, idx) => (
+          <div
+            key={idx}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              idx === currentBgIndex ? 'opacity-35 scale-105 transition-transform duration-10000' : 'opacity-0 pointer-events-none'
+            }`}
           >
-            <Menu size={22} />
-          </button>
+            <Image
+              src={imgUrl}
+              alt="Barmandoo Background"
+              fill
+              priority={idx === 0}
+              className="object-cover object-center"
+              unoptimized
+            />
+          </div>
+        ))}
 
-          {/* Barmandoo Logo */}
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="grid h-10 w-10 place-items-center rounded-lg bg-[#f46f25] text-white font-black text-2xl shadow-md">
+        {/* OVERLAY GRADIENTS matching barmandoo screenshot */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/80 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent pointer-events-none" />
+
+        {/* TOP BAR / LOGO & CART ICON */}
+        <header className="relative z-20 mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-6">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[#f46f25] to-orange-600 text-white font-black text-2xl shadow-lg shadow-orange-500/30">
               B
             </div>
             <div>
-              <div className="text-xl font-black tracking-tight text-[#000000]">
+              <div className="text-2xl font-black tracking-tight text-white">
                 barmandoo<span className="text-[#f46f25]">.</span>
               </div>
-              <p className="text-[10px] font-bold text-[#555]">Liquor &amp; Late Night Food</p>
+              <p className="text-[10px] font-bold text-slate-300">Liquor &amp; Late Night Food</p>
             </div>
           </Link>
 
-          {/* Search Bar */}
-          <div className="relative hidden md:block w-full max-w-md">
-            <input
-              type="text"
-              placeholder="Search liquor, beer, whisky, momo, snacks..."
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="w-full rounded-full border border-[#a8a8a8] bg-[#f7f8f8] py-2 pl-4 pr-10 text-xs font-medium outline-none focus:border-[#f46f25] focus:bg-white focus:ring-1 focus:ring-[#f46f25]"
-            />
-            <button
-              type="button"
-              className="absolute right-1 top-1/2 -translate-y-1/2 grid h-7 w-7 place-items-center rounded-full bg-[#f46f25] text-white hover:bg-[#e05e16] transition"
-            >
-              <Search size={14} />
-            </button>
-          </div>
-
-          {/* Header Action Buttons */}
-          <div className="flex items-center gap-3">
+          {/* User & Cart Icons top right */}
+          <div className="flex items-center gap-4">
             <Link
               href="/login"
-              className="flex items-center gap-1.5 rounded-lg border border-[#dddada] bg-[#f7f8f8] px-3.5 py-2 text-xs font-bold text-[#404040] hover:bg-white hover:border-[#f46f25] transition"
+              className="grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-white/10 text-white hover:bg-white/20 transition"
+              title="Sign In"
             >
-              <User size={15} className="text-[#f46f25]" />
-              <span className="hidden sm:inline">Login / Register</span>
+              <User size={18} />
             </Link>
 
             <Link
               href="/customer"
-              className="relative flex items-center gap-2 rounded-lg bg-[#f46f25] px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-[#e05e16] transition"
+              className="relative grid h-10 w-10 place-items-center rounded-full bg-[#f46f25] text-white shadow-lg shadow-orange-500/30 hover:bg-[#e05e16] transition"
+              title="Cart"
             >
-              <ShoppingBag size={16} />
-              <span className="hidden sm:inline">Cart</span>
-              <span className="grid h-4 w-4 place-items-center rounded-full bg-white text-[10px] font-black text-[#f46f25]">
+              <ShoppingBag size={18} />
+              <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-white text-[10px] font-black text-[#f46f25] ring-2 ring-[#080d16]">
                 0
               </span>
             </Link>
           </div>
-        </div>
+        </header>
 
-        {/* Categories Bar */}
-        <div className="border-t border-[#eee] bg-white px-4 py-2 hidden md:block">
-          <div className="mx-auto flex max-w-7xl items-center justify-between text-xs font-bold text-[#404040]">
-            <div className="flex items-center gap-6 overflow-x-auto">
-              {NAV_ITEMS.map((cat, idx) => {
-                const Icon = cat.icon;
-                return (
-                  <Link
-                    key={idx}
-                    href={cat.href}
-                    className="flex items-center gap-1.5 hover:text-[#f46f25] transition whitespace-nowrap"
-                  >
-                    <Icon size={14} className="text-[#f46f25]" />
-                    <span>{cat.name}</span>
-                    {cat.badge && (
-                      <span className="rounded-md bg-[#f46f25]/10 px-1.5 py-0.5 text-[9px] font-extrabold text-[#f46f25]">
-                        {cat.badge}
-                      </span>
-                    )}
-                  </Link>
-                );
-              })}
-            </div>
+        {/* CENTER HERO HEADING & SEARCH (EXACT BARMANDOO SCREENSHOT LAYOUT) */}
+        <div className="relative z-20 mx-auto flex flex-1 w-full max-w-5xl flex-col items-center justify-center px-4 py-12 text-center">
+          {/* Logo Badge */}
+          <div className="mb-4 flex items-center justify-center gap-2 rounded-full border border-amber-500/30 bg-black/60 px-4 py-1.5 text-xs font-black text-amber-400 backdrop-blur-md">
+            <Flame size={15} className="text-[#f46f25]" />
+            <span>NEPAL&apos;S #1 ON-DEMAND DELIVERY PLATFORM</span>
+          </div>
 
-            <div className="flex items-center gap-2 text-[#f46f25] font-black">
-              <Flame size={14} />
-              <span>45 MIN EXPRESS</span>
+          {/* MAIN BIG HEADING */}
+          <h1 className="text-4xl font-black tracking-tight text-white sm:text-6xl md:text-7xl uppercase leading-none drop-shadow-md">
+            <span className="text-[#f46f25]">FOOD &amp; </span>
+            <span className="text-cyan-400">DRINKS </span>
+            <span className="text-white">DELIVERY</span>
+          </h1>
+
+          <p className="mt-2 text-sm font-bold tracking-widest text-slate-200 uppercase">
+            EASY, FAST &amp; CONVENIENT
+          </p>
+
+          {/* LARGE CENTERED SEARCH INPUT BAR */}
+          <div className="mt-8 w-full max-w-2xl">
+            <div className="relative flex items-center rounded-full border border-white/30 bg-white/95 p-1.5 shadow-2xl backdrop-blur-md transition-all focus-within:ring-4 focus-within:ring-orange-500/30">
+              <Search size={22} className="ml-4 text-slate-400 shrink-0" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Search for food or drinks (beer, whisky, momo, pizza...)"
+                className="w-full bg-transparent px-3 py-2.5 text-sm font-bold text-slate-900 outline-none placeholder:text-slate-400"
+              />
+              <Link
+                href="/customer"
+                className="flex items-center gap-2 rounded-full bg-[#f46f25] px-6 py-3 text-xs font-black text-white shadow-md hover:bg-[#e05e16] transition shrink-0"
+              >
+                <span>SEARCH</span>
+                <ArrowRight size={15} />
+              </Link>
             </div>
           </div>
+
+          <p className="mt-4 text-xs font-extrabold tracking-wider text-slate-300 uppercase">
+            ALCOHOL, BEVERAGES &amp; FOOD DELIVERY WITHIN 45 MINS
+          </p>
+
+          {/* SLIDER DOTS INDICATOR */}
+          <div className="mt-6 flex items-center gap-2">
+            {slideImages.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentBgIndex(idx)}
+                className={`h-2.5 rounded-full transition-all ${
+                  idx === currentBgIndex ? 'w-8 bg-[#f46f25]' : 'w-2.5 bg-white/40 hover:bg-white'
+                }`}
+                aria-label={`Slide ${idx + 1}`}
+              />
+            ))}
+          </div>
         </div>
-      </header>
 
-      {/* 3. HERO BANNER (BARMANDOO EXACT SLIDER LOOK) */}
-      <section className="relative bg-[#000000] text-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-            {/* Left Column Text */}
-            <div className="lg:col-span-7 space-y-5">
-              <div className="inline-flex items-center gap-2 rounded-md bg-[#f46f25] px-3.5 py-1 text-xs font-black text-white">
-                <Clock size={14} />
-                <span>45 MINUTE EXPRESS DELIVERY</span>
-              </div>
-
-              <h1 className="text-3xl font-black tracking-tight sm:text-5xl lg:text-5xl leading-tight">
-                NEPAL&apos;S FASTEST LATE-NIGHT <br />
-                <span className="text-[#f46f25]">LIQUOR &amp; FOOD DELIVERY</span>
-              </h1>
-
-              <p className="text-sm sm:text-base text-[#ccc] font-medium leading-relaxed max-w-xl">
-                Order authentic whiskies, chilled beers, imported spirits, mixers, snacks &amp; late-night hot momos. Delivered right to your doorstep in 45 minutes or less!
-              </p>
-
-              {/* Action Buttons */}
-              <div className="pt-2 flex flex-wrap items-center gap-3">
-                <Link
-                  href="/customer"
-                  className="flex items-center gap-2 rounded-lg bg-[#f46f25] px-6 py-3 text-xs font-black text-white shadow-lg hover:bg-[#e05e16] transition"
-                >
-                  <span>ORDER LIQUOR NOW</span>
-                  <ArrowRight size={16} />
-                </Link>
-
-                <Link
-                  href="/orders"
-                  className="flex items-center gap-2 rounded-lg border border-white/30 bg-white/10 px-5 py-3 text-xs font-bold text-white hover:bg-white/20 transition"
-                >
-                  <span>Track Delivery Status</span>
-                </Link>
-              </div>
-
-              {/* Features List */}
-              <div className="pt-4 grid grid-cols-3 gap-3 border-t border-white/15 text-xs font-semibold text-[#eee]">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck size={16} className="text-[#f46f25]" />
-                  <span>100% Genuine</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Truck size={16} className="text-[#f46f25]" />
-                  <span>Chilled 45 Mins</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Utensils size={16} className="text-[#f46f25]" />
-                  <span>Late Night Food</span>
-                </div>
-              </div>
+        {/* BOTTOM GUARANTEES STRIP */}
+        <div className="relative z-20 border-t border-white/10 bg-black/60 backdrop-blur-md py-3 text-xs font-bold text-slate-300">
+          <div className="mx-auto flex max-w-7xl items-center justify-around px-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={16} className="text-[#f46f25]" />
+              <span>100% Genuine Spirits</span>
             </div>
-
-            {/* Right Column Showcase */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative mx-auto max-w-md rounded-2xl border border-white/20 bg-white/5 p-6 backdrop-blur-md shadow-2xl">
-                <div className="relative aspect-4/3 w-full overflow-hidden rounded-xl bg-black border border-white/10">
-                  <Image
-                    src="/home/drinks-lineup.webp"
-                    alt="Barmandoo Express Drinks Showcase"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-
-                <div className="mt-4 flex items-center justify-between">
-                  <div>
-                    <span className="block text-[10px] font-bold text-[#f46f25] uppercase">
-                      Chilled &amp; Delivered
-                    </span>
-                    <span className="text-sm font-black text-white">Beer, Spirits &amp; Food</span>
-                  </div>
-
-                  <Link
-                    href="/customer"
-                    className="rounded-lg bg-[#f46f25] px-4 py-2 text-xs font-bold text-white hover:bg-[#e05e16]"
-                  >
-                    Shop Catalog
-                  </Link>
-                </div>
-              </div>
+            <div className="flex items-center gap-2">
+              <Truck size={16} className="text-[#f46f25]" />
+              <span>45 Min Express Delivery</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Utensils size={16} className="text-[#f46f25]" />
+              <span>Late-Night Hot Food</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* 4. SHOP BY CATEGORY SECTION */}
-      <section className="py-10 mx-auto max-w-7xl px-4 sm:px-6">
+      <section className="py-12 mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex items-center justify-between border-b border-[#dddada] pb-3 mb-6">
           <div>
             <h2 className="text-xl font-black text-[#000000] sm:text-2xl">Shop By Category</h2>
@@ -380,7 +341,7 @@ export default function HomeLanding() {
       </section>
 
       {/* 5. BEST SELLERS GRID */}
-      <section className="py-10 bg-white border-y border-[#dddada]">
+      <section className="py-12 bg-white border-y border-[#dddada]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="flex items-center justify-between mb-6">
             <div>
