@@ -104,7 +104,7 @@ export default function RiderDashboard() {
         {/* Today's Cash & Payout Earnings */}
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
           <div className="flex items-center justify-between text-xs text-slate-500 font-semibold mb-1">
-            <span>Today's Earnings</span>
+            <span>Today&apos;s Earnings</span>
             <TrendingUp size={16} className="text-emerald-600" />
           </div>
           <div className="text-2xl font-black text-emerald-700">

@@ -43,7 +43,7 @@ const BARMANDOO_NAV_CATEGORIES = [
 
 const PROMO_SLIDES = [
   {
-    title: "NEPAL'S FASTEST LATE-NIGHT LIQUOR & FOOD DELIVERY",
+    title: 'NEPAL’S FASTEST LATE-NIGHT LIQUOR & FOOD DELIVERY',
     subtitle: 'Get your favorite drinks & hot food delivered within 45 minutes guaranteed!',
     tag: '45 MINS EXPRESS',
     bgGradient: 'from-[#f46f25] to-[#f26f29]',
@@ -503,7 +503,7 @@ export default function HomeLanding() {
             </span>
             <h3 className="text-2xl font-black sm:text-3xl">Delivering Happiness in 45 Minutes</h3>
             <p className="text-xs text-[#ccc] max-w-xl">
-              Whether it's a late-night house party or sudden food craving, Barmandoo is your go-to delivery partner across Kathmandu & Butwal.
+              Whether it&apos;s a late-night house party or sudden food craving, Barmandoo is your go-to delivery partner across Kathmandu &amp; Butwal.
             </p>
           </div>
 
@@ -525,7 +525,7 @@ export default function HomeLanding() {
               barmandoo<span className="text-[#f46f25]">.</span>
             </div>
             <p className="text-[#aaa] leading-relaxed">
-              Nepal's fastest delivery eCommerce platform. Delivering drinks, late-night food, snacks, and essentials right to your door.
+              Nepal&apos;s fastest delivery eCommerce platform. Delivering drinks, late-night food, snacks, and essentials right to your door.
             </p>
           </div>
 
