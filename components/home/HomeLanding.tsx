@@ -654,261 +654,111 @@ export default function HomeLanding() {
       <section id="menu" className="py-20 lg:py-28 bg-[#f5f2eb] text-slate-900 relative">
         <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
           
-          {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+          {/* Section Header with Category Filter Tabs */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <span className="text-xs font-extrabold tracking-widest text-[#ff5b00] uppercase block mb-1">
+              <span className="text-xs font-black tracking-widest text-[#ff5b00] uppercase block mb-1">
                 POPULAR THIS WEEK
               </span>
               <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900">
-                Our Popular Food
+                Our Popular Food &amp; Drinks
               </h2>
             </div>
 
-            <Link
-              href="/customer"
-              className="inline-flex items-center gap-2 text-sm font-bold text-[#ff5b00] hover:text-[#e05000] transition group shrink-0"
-            >
-              <span>View All</span>
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
+            <div className="flex items-center gap-3 shrink-0 overflow-x-auto pb-1">
+              <Link
+                href="/customer"
+                className="inline-flex items-center gap-2 text-sm font-extrabold text-[#ff5b00] hover:text-[#e05000] transition group"
+              >
+                <span>View Full Catalog</span>
+                <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
+              </Link>
+            </div>
           </div>
 
-          {/* 4-Card Desktop Product Grid */}
+          {/* Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            {/* Product 1: Margherita Pizza */}
-            <div className="group rounded-3xl bg-white p-5 shadow-lg border border-slate-200/80 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-              <div>
-                {/* Image Wrap */}
-                <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                  <Image
-                    src={IMAGES.prodMargherita}
-                    alt="Margherita Pizza"
-                    fill
-                    className="object-cover group-hover:scale-105 transition duration-500"
-                    unoptimized
-                  />
+            {(dbProducts.length > 0 ? dbProducts.slice(0, 8) : [
+              { id: '1', name: 'Margherita Pizza', price: 450, imageUrl: IMAGES.prodMargherita, brand: 'Classic Italian', size: '12 inch' },
+              { id: '2', name: 'Chicken Burger', price: 320, imageUrl: IMAGES.prodBurger, brand: 'Gourmet', size: 'Double Patty' },
+              { id: '3', name: 'Spicy Chicken Wings', price: 280, imageUrl: IMAGES.prodWings, brand: 'Crispy', size: '6 pcs' },
+              { id: '4', name: 'Chilled Cold Coffee', price: 180, imageUrl: IMAGES.prodCoffee, brand: 'Brewed', size: '350 ml' },
+            ]).map((prod: any) => (
+              <div
+                key={prod.id}
+                className="group rounded-3xl bg-white p-5 shadow-lg border border-slate-200/80 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-[#ff5b00]/40 relative"
+              >
+                <div>
+                  {/* Image Wrap */}
+                  <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-4 bg-slate-100">
+                    <Image
+                      src={prod.imageUrl || IMAGES.prodBurger}
+                      alt={prod.name}
+                      fill
+                      className="object-cover group-hover:scale-108 transition-transform duration-500"
+                      unoptimized
+                    />
+                    <button
+                      onClick={() => toggleFavorite(prod.id)}
+                      className="absolute top-3 right-3 h-9 w-9 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-700 hover:text-red-500 transition shadow-md z-10"
+                      aria-label="Add to Favorites"
+                    >
+                      <Heart size={18} className={favorites[prod.id] ? 'fill-red-500 text-red-500' : ''} />
+                    </button>
+                    <span className="absolute top-3 left-3 bg-[#ff5b00] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm">
+                      Express
+                    </span>
+                  </div>
+
+                  {/* Product Details */}
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                    {prod.brand || 'Foodies Special'}
+                  </span>
+                  <h3 className="text-lg font-black text-slate-900 group-hover:text-[#ff5b00] transition line-clamp-1 mt-0.5">
+                    {prod.name}
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1 line-clamp-1 font-medium">
+                    {prod.size || 'Standard Portion'}
+                  </p>
+                  <div className="flex items-center gap-1 mt-2 text-amber-500 font-extrabold text-xs">
+                    <Star size={15} className="fill-amber-400 text-amber-400" />
+                    <span>4.8</span>
+                    <span className="text-slate-400 font-semibold text-[11px] ml-1">(120+ reviews)</span>
+                  </div>
+                </div>
+
+                {/* Price & Add Button */}
+                <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between">
+                  <div>
+                    <span className="block text-[10px] font-bold text-slate-400 uppercase">Price</span>
+                    <span className="text-xl font-black text-slate-900">
+                      Rs. {Number(prod.price).toLocaleString('en-NP')}
+                    </span>
+                  </div>
                   <button
-                    onClick={() => toggleFavorite(1)}
-                    className="absolute top-3 right-3 h-9 w-9 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-slate-700 hover:text-red-500 transition shadow"
-                    aria-label="Add to Favorites"
+                    onClick={() => handleAddToCart(prod.id)}
+                    className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-xs font-black transition-all duration-200 ${
+                      addedItems[prod.id]
+                        ? 'bg-emerald-600 text-white shadow-md'
+                        : 'bg-[#ff5b00] text-white hover:bg-[#e05000] shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95'
+                    }`}
                   >
-                    <Heart size={18} className={favorites[1] ? 'fill-red-500 text-red-500' : ''} />
+                    {addedItems[prod.id] ? (
+                      <>
+                        <Check size={15} /> Added
+                      </>
+                    ) : (
+                      <>
+                        <Plus size={15} /> Add
+                      </>
+                    )}
                   </button>
                 </div>
-
-                {/* Details */}
-                <h3 className="text-lg font-black text-slate-900 group-hover:text-[#ff5b00] transition">
-                  Margherita Pizza
-                </h3>
-                <p className="text-xs text-slate-500 mt-1 line-clamp-1">
-                  Classic cheese &amp; tomato
-                </p>
-                <div className="flex items-center gap-1 mt-2 text-amber-500 font-bold text-xs">
-                  <Star size={14} className="fill-amber-400 text-amber-400" />
-                  <span>4.8</span>
-                </div>
               </div>
-
-              {/* Price & Add */}
-              <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-lg font-black text-slate-900">
-                  Rs. 450
-                </span>
-                <button
-                  onClick={() => handleAddToCart(1)}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-extrabold transition-all ${
-                    addedItems[1]
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-[#ff5b00] text-white hover:bg-[#e05000] shadow-md shadow-orange-500/20'
-                  }`}
-                >
-                  {addedItems[1] ? (
-                    <>
-                      <Check size={14} /> Added
-                    </>
-                  ) : (
-                    <>
-                      <Plus size={14} /> Add
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Product 2: Chicken Burger */}
-            <div className="group rounded-3xl bg-white p-5 shadow-lg border border-slate-200/80 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-              <div>
-                <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                  <Image
-                    src={IMAGES.prodBurger}
-                    alt="Chicken Burger"
-                    fill
-                    className="object-cover group-hover:scale-105 transition duration-500"
-                    unoptimized
-                  />
-                  <button
-                    onClick={() => toggleFavorite(2)}
-                    className="absolute top-3 right-3 h-9 w-9 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-slate-700 hover:text-red-500 transition shadow"
-                    aria-label="Add to Favorites"
-                  >
-                    <Heart size={18} className={favorites[2] ? 'fill-red-500 text-red-500' : ''} />
-                  </button>
-                </div>
-
-                <h3 className="text-lg font-black text-slate-900 group-hover:text-[#ff5b00] transition">
-                  Chicken Burger
-                </h3>
-                <p className="text-xs text-slate-500 mt-1 line-clamp-1">
-                  Crispy chicken, fresh veggies
-                </p>
-                <div className="flex items-center gap-1 mt-2 text-amber-500 font-bold text-xs">
-                  <Star size={14} className="fill-amber-400 text-amber-400" />
-                  <span>4.6</span>
-                </div>
-              </div>
-
-              <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-lg font-black text-slate-900">
-                  Rs. 320
-                </span>
-                <button
-                  onClick={() => handleAddToCart(2)}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-extrabold transition-all ${
-                    addedItems[2]
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-[#ff5b00] text-white hover:bg-[#e05000] shadow-md shadow-orange-500/20'
-                  }`}
-                >
-                  {addedItems[2] ? (
-                    <>
-                      <Check size={14} /> Added
-                    </>
-                  ) : (
-                    <>
-                      <Plus size={14} /> Add
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Product 3: Chicken Wings */}
-            <div className="group rounded-3xl bg-white p-5 shadow-lg border border-slate-200/80 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-              <div>
-                <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                  <Image
-                    src={IMAGES.prodWings}
-                    alt="Spicy Chicken Wings"
-                    fill
-                    className="object-cover group-hover:scale-105 transition duration-500"
-                    unoptimized
-                  />
-                  <button
-                    onClick={() => toggleFavorite(3)}
-                    className="absolute top-3 right-3 h-9 w-9 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-slate-700 hover:text-red-500 transition shadow"
-                    aria-label="Add to Favorites"
-                  >
-                    <Heart size={18} className={favorites[3] ? 'fill-red-500 text-red-500' : ''} />
-                  </button>
-                </div>
-
-                <h3 className="text-lg font-black text-slate-900 group-hover:text-[#ff5b00] transition">
-                  Chicken Wings
-                </h3>
-                <p className="text-xs text-slate-500 mt-1 line-clamp-1">
-                  Spicy &amp; crunchy wings
-                </p>
-                <div className="flex items-center gap-1 mt-2 text-amber-500 font-bold text-xs">
-                  <Star size={14} className="fill-amber-400 text-amber-400" />
-                  <span>4.6</span>
-                </div>
-              </div>
-
-              <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-lg font-black text-slate-900">
-                  Rs. 280
-                </span>
-                <button
-                  onClick={() => handleAddToCart(3)}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-extrabold transition-all ${
-                    addedItems[3]
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-[#ff5b00] text-white hover:bg-[#e05000] shadow-md shadow-orange-500/20'
-                  }`}
-                >
-                  {addedItems[3] ? (
-                    <>
-                      <Check size={14} /> Added
-                    </>
-                  ) : (
-                    <>
-                      <Plus size={14} /> Add
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Product 4: Cold Coffee */}
-            <div className="group rounded-3xl bg-white p-5 shadow-lg border border-slate-200/80 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-              <div>
-                <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-4 bg-slate-100">
-                  <Image
-                    src={IMAGES.prodCoffee}
-                    alt="Chilled Cold Coffee"
-                    fill
-                    className="object-cover group-hover:scale-105 transition duration-500"
-                    unoptimized
-                  />
-                  <button
-                    onClick={() => toggleFavorite(4)}
-                    className="absolute top-3 right-3 h-9 w-9 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-slate-700 hover:text-red-500 transition shadow"
-                    aria-label="Add to Favorites"
-                  >
-                    <Heart size={18} className={favorites[4] ? 'fill-red-500 text-red-500' : ''} />
-                  </button>
-                </div>
-
-                <h3 className="text-lg font-black text-slate-900 group-hover:text-[#ff5b00] transition">
-                  Cold Coffee
-                </h3>
-                <p className="text-xs text-slate-500 mt-1 line-clamp-1">
-                  Chilled &amp; refreshing
-                </p>
-                <div className="flex items-center gap-1 mt-2 text-amber-500 font-bold text-xs">
-                  <Star size={14} className="fill-amber-400 text-amber-400" />
-                  <span>4.8</span>
-                </div>
-              </div>
-
-              <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-lg font-black text-slate-900">
-                  Rs. 180
-                </span>
-                <button
-                  onClick={() => handleAddToCart(4)}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-extrabold transition-all ${
-                    addedItems[4]
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-[#ff5b00] text-white hover:bg-[#e05000] shadow-md shadow-orange-500/20'
-                  }`}
-                >
-                  {addedItems[4] ? (
-                    <>
-                      <Check size={14} /> Added
-                    </>
-                  ) : (
-                    <>
-                      <Plus size={14} /> Add
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
+            ))}
           </div>
+        </div>
+      </section>
         </div>
       </section>
 
