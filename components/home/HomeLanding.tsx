@@ -55,7 +55,10 @@ const HERO_SLIDES = [
   'https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1600&auto=format&fit=crop',
 ];
 
-export default function HomeLanding() {
+export default function HomeLanding({ initialBranch }: { initialBranch?: 'GROCERY' | 'LIQUOR' }) {
+  const isGrocery = initialBranch === 'GROCERY';
+  const isLiquor = initialBranch === 'LIQUOR';
+
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(2);
@@ -294,17 +297,19 @@ export default function HomeLanding() {
           
           <div className="inline-flex items-center gap-2 rounded-full border border-purple-400/40 bg-purple-900/60 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-purple-200 backdrop-blur-md shadow-lg mb-6">
             <Sparkles size={15} className="text-[#ff5b00]" />
-            <span>NEPAL&apos;S #1 FASTEST DELIVERY PLATFORM</span>
+            <span>
+              {isGrocery ? 'INSTANT FRESH GROCERY & PANTRY DELIVERY' : isLiquor ? 'PREMIUM COLD BEER & LIQUOR EXPRESS' : 'NEPAL\'S #1 FASTEST DELIVERY PLATFORM'}
+            </span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight uppercase leading-tight drop-shadow-2xl">
-            <span className="text-[#ff5b00]">FOOD &amp; </span>
-            <span className="text-[#00e5ff]">DRINKS </span>
+            <span className="text-[#ff5b00]">{isGrocery ? 'FRESH ' : isLiquor ? 'PREMIUM ' : 'FOOD & '}</span>
+            <span className="text-[#00e5ff]">{isGrocery ? 'GROCERY ' : isLiquor ? 'LIQUOR & BEER ' : 'DRINKS '}</span>
             <span className="text-white">DELIVERY</span>
           </h1>
 
           <p className="mt-3 text-sm sm:text-base font-bold tracking-widest text-slate-200 uppercase drop-shadow">
-            EASY, FAST &amp; CONVENIENT
+            {isGrocery ? 'DAILY PANTRY, SNACKS, BEVERAGES & BAKERY AT YOUR DOORSTEP' : isLiquor ? 'COLD BEER, WHISKEY, WINE & SPIRITS DELIVERED IN 30 MINS' : 'EASY, FAST & CONVENIENT'}
           </p>
 
           <div className="mt-8 w-full max-w-2xl">
@@ -314,21 +319,21 @@ export default function HomeLanding() {
                 type="text"
                 value={location}
                 onChange={e => setLocation(e.target.value)}
-                placeholder="Search for food or drinks (beer, whisky, momo, pizza, snacks...)"
+                placeholder={isGrocery ? 'Search grocery (Wai Wai, Real Juice, Snacks, Milk, Bakery...)' : isLiquor ? 'Search liquor (Tuborg, Old Durbar, Jack Daniels, Wine...)' : 'Search for food or drinks (beer, whisky, momo, pizza, snacks...)'}
                 className="w-full bg-transparent px-3 py-2.5 text-sm sm:text-base font-semibold text-slate-900 outline-none placeholder:text-slate-400"
               />
               <Link
-                href="/customer"
+                href={isGrocery ? '/customer?branch=GROCERY' : isLiquor ? '/customer?branch=LIQUOR' : '/customer'}
                 className="flex items-center gap-2 rounded-full bg-[#ff5b00] px-6 py-3 text-xs sm:text-sm font-bold text-white shadow-lg hover:bg-[#e05000] transition shrink-0"
               >
-                <span>SEARCH</span>
+                <span>SHOP</span>
                 <ArrowRight size={16} />
               </Link>
             </div>
           </div>
 
           <p className="mt-5 text-xs sm:text-sm font-bold tracking-widest text-cyan-300 uppercase drop-shadow-sm">
-            ALCOHOL, BEVERAGES &amp; FOOD DELIVERY WITHIN 45 MINS
+            {isGrocery ? 'FRESH BAKERY, DAILY ESSENTIALS & SNACKS DELIVERED WITHIN 30 MINS' : isLiquor ? 'GENUINE ALCOHOL, CHILLED BEERS & MIXERS DELIVERED WITHIN 30 MINS' : 'ALCOHOL, BEVERAGES & FOOD DELIVERY WITHIN 45 MINS'}
           </p>
 
           <div className="mt-7 flex items-center gap-2.5">
