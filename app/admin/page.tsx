@@ -51,49 +51,49 @@ export default function Admin() {
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.7fr_1fr]">
         <div>
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="font-bold text-slate-800">Recent Customer Orders</h2>
+            <h2 className="text-base font-black text-slate-900">Recent Customer Orders</h2>
           </div>
           <OrderTable />
         </div>
 
         <div className="space-y-4">
           <div className="card p-5">
-            <h2 className="font-bold text-slate-800">Live Riders in Butwal</h2>
+            <h2 className="text-base font-black text-slate-900">Live Riders in Butwal</h2>
             <div className="mt-3 space-y-2 text-xs">
-              <div className="flex items-center justify-between rounded-xl bg-slate-50 p-2.5">
+              <div className="flex items-center justify-between rounded-xl bg-slate-100/80 border border-slate-200/60 p-3">
                 <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="font-bold text-slate-800">Bikash Thapa</span>
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="font-bold text-slate-900">Bikash Thapa</span>
                 </div>
-                <span className="text-slate-500">Traffic Chowk · Online</span>
+                <span className="font-semibold text-slate-600">Traffic Chowk · Online</span>
               </div>
-              <div className="flex items-center justify-between rounded-xl bg-slate-50 p-2.5">
+              <div className="flex items-center justify-between rounded-xl bg-slate-100/80 border border-slate-200/60 p-3">
                 <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="font-bold text-slate-800">Prakash Gurung</span>
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="font-bold text-slate-900">Prakash Gurung</span>
                 </div>
-                <span className="text-slate-500">Kalikanagar · On Delivery</span>
+                <span className="font-semibold text-slate-600">Kalikanagar · On Delivery</span>
               </div>
-              <div className="flex items-center justify-between rounded-xl bg-slate-50 p-2.5">
+              <div className="flex items-center justify-between rounded-xl bg-slate-100/80 border border-slate-200/60 p-3">
                 <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="font-bold text-slate-800">Kiran Sharma</span>
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="font-bold text-slate-900">Kiran Sharma</span>
                 </div>
-                <span className="text-slate-500">Milanchowk · Online</span>
+                <span className="font-semibold text-slate-600">Milanchowk · Online</span>
               </div>
             </div>
           </div>
 
           <div className="card p-5">
-            <h2 className="font-bold text-slate-800">Active Butwal Dealers</h2>
-            <div className="mt-3 space-y-2 text-xs text-slate-600">
-              <div className="rounded-xl border border-slate-100 p-2.5">
-                <strong className="text-slate-800">Butwal Central Liquors</strong>
-                <p className="text-[11px] text-slate-400">Ward 6, Traffic Chowk · Accepting Orders</p>
+            <h2 className="text-base font-black text-slate-900">Active Butwal Dealers</h2>
+            <div className="mt-3 space-y-2 text-xs text-slate-700">
+              <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-3">
+                <strong className="text-sm font-extrabold text-slate-900">Butwal Central Liquors</strong>
+                <p className="mt-0.5 text-xs font-medium text-slate-600">Ward 6, Traffic Chowk · Accepting Orders</p>
               </div>
-              <div className="rounded-xl border border-slate-100 p-2.5">
-                <strong className="text-slate-800">Highway Cold Store</strong>
-                <p className="text-[11px] text-slate-400">Milanchowk Highway · Accepting Orders</p>
+              <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-3">
+                <strong className="text-sm font-extrabold text-slate-900">Highway Cold Store</strong>
+                <p className="mt-0.5 text-xs font-medium text-slate-600">Milanchowk Highway · Accepting Orders</p>
               </div>
             </div>
           </div>

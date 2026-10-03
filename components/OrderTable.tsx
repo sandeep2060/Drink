@@ -53,22 +53,22 @@ export function OrderTable() {
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="border-b border-slate-100 bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+            <thead className="border-b border-slate-200 bg-slate-100/80 text-[11px] font-bold uppercase tracking-wider text-slate-700">
               <tr>
-                <th className="px-4 py-3">Order #</th>
-                <th className="px-4 py-3">Customer</th>
-                <th className="px-4 py-3">Delivery Zone</th>
-                <th className="px-4 py-3">Drinks</th>
-                <th className="px-4 py-3">Total</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3 text-right">Update Stage</th>
+                <th className="px-4 py-3.5">Order #</th>
+                <th className="px-4 py-3.5">Customer</th>
+                <th className="px-4 py-3.5">Delivery Zone</th>
+                <th className="px-4 py-3.5">Drinks</th>
+                <th className="px-4 py-3.5">Total</th>
+                <th className="px-4 py-3.5">Status</th>
+                <th className="px-4 py-3.5 text-right">Update Stage</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700">
+            <tbody className="divide-y divide-slate-100 text-slate-800">
               {orders.map(order => (
-                <tr key={order.id} className="hover:bg-slate-50/70 transition">
+                <tr key={order.id} className="hover:bg-slate-50/80 transition">
                   {/* Order Number */}
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3.5">
                     <button
                       type="button"
                       onClick={() => setSelectedOrder(order)}
@@ -76,52 +76,52 @@ export function OrderTable() {
                     >
                       #{order.orderNumber}
                     </button>
-                    <div className="text-[10px] text-slate-400">
+                    <div className="text-[11px] font-medium text-slate-500">
                       {new Date(order.placedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </td>
 
                   {/* Customer */}
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3.5">
                     <div className="font-bold text-slate-900">{order.customerName}</div>
-                    <div className="text-[11px] text-slate-400">{order.customerPhone}</div>
+                    <div className="text-[11px] font-medium text-slate-600">{order.customerPhone}</div>
                   </td>
 
                   {/* Zone */}
-                  <td className="px-4 py-3">
-                    <div className="font-semibold text-slate-800">{order.address.label}</div>
-                    <div className="text-[11px] text-slate-400 truncate max-w-[140px]" title={order.address.zone}>
+                  <td className="px-4 py-3.5">
+                    <div className="font-bold text-slate-900">{order.address.label}</div>
+                    <div className="text-[11px] font-semibold text-slate-600 truncate max-w-[140px]" title={order.address.zone}>
                       {order.address.zone}
                     </div>
                   </td>
 
                   {/* Items */}
-                  <td className="px-4 py-3">
-                    <div className="max-w-[200px] truncate text-slate-800 font-medium">
+                  <td className="px-4 py-3.5">
+                    <div className="max-w-[200px] truncate text-slate-900 font-bold">
                       {order.items.map(i => `${i.quantity}x ${i.name}`).join(', ')}
                     </div>
-                    <div className="text-[10px] text-slate-400">{order.items.length} unique items</div>
+                    <div className="text-[11px] font-semibold text-slate-500">{order.items.length} unique items</div>
                   </td>
 
                   {/* Total */}
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3.5">
                     <div className="font-black text-slate-900">Rs. {order.total.toLocaleString('en-NP')}</div>
-                    <div className="text-[10px] text-slate-400">
+                    <div className="text-[11px] font-semibold text-slate-600">
                       {order.paymentMethod === 'COD' ? 'Cash on Delivery' : 'Fonepay / QR'}
                     </div>
                   </td>
 
                   {/* Status Badge */}
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3.5">
                     <StatusBadge status={order.status} />
                   </td>
 
                   {/* Action Status Selector */}
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-4 py-3.5 text-right">
                     <select
                       value={order.status}
                       onChange={e => handleStatusChange(order.id, e.target.value as OrderStatus)}
-                      className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-semibold text-slate-700 outline-none hover:border-slate-300"
+                      className="rounded-xl border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-800 shadow-xs outline-none hover:border-slate-400 focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                     >
                       <option value="PENDING">Pending</option>
                       <option value="PREPARING">Preparing Drinks</option>

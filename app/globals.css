@@ -6,12 +6,12 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: #f6f8fb; color: #0f172a; font-family: Arial, Helvetica, sans-serif; }
 button, input, select, textarea { font: inherit; }
-.card { @apply rounded-2xl border border-slate-200 bg-white shadow-sm; }
-.btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition; }
-.btn-primary { @apply btn bg-blue-600 text-white hover:bg-blue-700; }
-.btn-secondary { @apply btn border border-slate-200 bg-white text-slate-700 hover:bg-slate-50; }
-.input { @apply w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100; }
-.badge { @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold; }
+.card { @apply rounded-2xl border border-slate-200 bg-white shadow-sm text-slate-900; }
+.btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition; }
+.btn-primary { @apply btn bg-blue-600 text-white hover:bg-blue-700 shadow-sm; }
+.btn-secondary { @apply btn border border-slate-300 bg-white text-slate-800 hover:bg-slate-50 hover:border-slate-400 shadow-sm; }
+.input { @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 font-medium outline-none placeholder:text-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition; }
+.badge { @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold tracking-wide; }
 
 .landing-page { --ink: #18352c; --paper: #eee9d9; --orange: #c65b36; --gold: #dda94e; background: var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif; overflow: clip; }
 .pour-story { height: 235svh; position: relative; }

@@ -71,10 +71,10 @@ export function Topbar({ title, subtitle }: { title: string; subtitle?: string }
 
         <div className="flex items-center gap-2.5">
           {/* Quick Search */}
-          <div className="hidden items-center gap-2 rounded-xl bg-slate-100 px-3 py-1.5 md:flex">
-            <Search size={15} className="text-slate-400" />
+          <div className="hidden items-center gap-2 rounded-xl bg-slate-100 border border-slate-200 px-3 py-1.5 md:flex">
+            <Search size={15} className="text-slate-500" />
             <input
-              className="w-36 bg-transparent text-xs outline-none placeholder:text-slate-400"
+              className="w-36 bg-transparent text-xs font-semibold text-slate-900 outline-none placeholder:text-slate-500"
               placeholder="Search admin..."
             />
           </div>
