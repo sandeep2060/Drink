@@ -93,6 +93,13 @@ export default function CustomerDashboard() {
   // Load and subscribe to storage
   useEffect(() => {
     function loadData() {
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const bParam = urlParams.get('branch')?.toUpperCase();
+        if (bParam === 'GROCERY' || bParam === 'LIQUOR') {
+          setBranchMode(bParam);
+        }
+      }
       setProducts(getCatalogProducts());
       setCart(getCustomerCart());
       setAddresses(getCustomerAddresses());

@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
 
   // Protected Routes and Required Roles mapping
-  const isProtected = ['/admin', '/manager', '/dealer', '/rider', '/customer', '/orders', '/reports'].some(
+  const isProtected = ['/admin', '/manager', '/dealer', '/rider', '/customer', '/main', '/orders', '/reports'].some(
     route => path === route || path.startsWith(`${route}/`)
   );
 
