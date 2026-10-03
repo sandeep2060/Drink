@@ -4,81 +4,65 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
+  Search,
   ShoppingBag,
   Menu,
   X,
   Star,
+  Heart,
   ArrowRight,
-  Leaf,
-  Sparkles,
-  Droplet,
-  Check,
-  Plus,
-  Instagram,
   ChevronRight,
-  Sun,
-  Shield,
-  Heart
+  Clock,
+  ShieldCheck,
+  Award,
+  Sparkles,
+  Phone,
+  Mail,
+  MapPin,
+  Send,
+  Plus,
+  Check,
+  Flame,
+  ArrowDown,
+  Instagram,
+  Facebook,
+  Twitter,
+  Youtube
 } from 'lucide-react';
 import SignatureDrinkCanvas from './SignatureDrinkCanvas';
 
-// High-end editorial photography assets matching Jade Drinks aesthetic
+// ----------------------------------------------------
+// REFERENCE DESIGN HIGH QUALITY PHOTOGRAPHY ASSETS
+// ----------------------------------------------------
 const IMAGES = {
-  // Hero Product Shot (Transparent / Clean Botanical Beverage)
-  heroProduct: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1200&auto=format&fit=crop',
-  // Featured Beverages
-  drinkJadeMatcha: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?q=80&w=800&auto=format&fit=crop',
-  drinkCitrusGinger: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop',
-  drinkBotanicalSparkling: 'https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=800&auto=format&fit=crop',
-  drinkBerryElixir: 'https://images.unsplash.com/photo-1546171753-97d7676e4602?q=80&w=800&auto=format&fit=crop',
-  // Story Lifestyle Photography
-  storyCraft: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=1000&auto=format&fit=crop',
-  // Ingredients Closeups
-  ingMatcha: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=600&auto=format&fit=crop',
-  ingGinger: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=600&auto=format&fit=crop',
-  ingCitrus: 'https://images.unsplash.com/photo-1582979512210-99b6a53386f9?q=80&w=600&auto=format&fit=crop',
-  ingBotanicals: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=600&auto=format&fit=crop',
-  // Lifestyle Cinematic Overlay
-  lifestyleBanner: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1600&auto=format&fit=crop',
-  // Customer Avatars
+  // Hero Burger + Fries
+  heroBurger: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1200&auto=format&fit=crop',
+  // Categories
+  catPizza: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop',
+  catBurger: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?q=80&w=800&auto=format&fit=crop',
+  catChicken: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=800&auto=format&fit=crop',
+  catAsian: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=800&auto=format&fit=crop',
+  catDrinks: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop',
+  catDesserts: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop',
+  catCoffee: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=800&auto=format&fit=crop',
+  // Signature Drinks
+  signatureDrink: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1000&auto=format&fit=crop',
+  // Popular Products
+  prodMargherita: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=800&auto=format&fit=crop',
+  prodBurger: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop',
+  prodWings: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?q=80&w=800&auto=format&fit=crop',
+  prodCoffee: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=800&auto=format&fit=crop',
+  // Testimonial Avatars
   avatar1: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&auto=format&fit=crop',
   avatar2: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300&auto=format&fit=crop',
-  avatar3: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&auto=format&fit=crop',
+  avatar3: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop',
 };
 
-const FEATURED_PRODUCTS = [
-  {
-    id: 'jade-sparkling-matcha',
-    name: 'Jade Sparkling Matcha',
-    flavor: 'Organic Ceremonial Matcha, Yuzu & Wild Mint',
-    tags: ['Organic Matcha', 'Zero Added Sugar', 'Gentle Energy'],
-    price: 'Rs. 420',
-    image: IMAGES.drinkJadeMatcha,
-  },
-  {
-    id: 'citrus-ginger-elixir',
-    name: 'Citrus Ginger Elixir',
-    flavor: 'Pressed Meyer Lemon, Fresh Ginger Root & Honeybush',
-    tags: ['Digestive Health', 'Low Calorie', 'Real Pressed Juice'],
-    price: 'Rs. 380',
-    image: IMAGES.drinkCitrusGinger,
-  },
-  {
-    id: 'botanical-sparkling-tonic',
-    name: 'Botanical Rose Tonic',
-    flavor: 'Damask Rose, Hibiscus Flower & Lemon Balm',
-    tags: ['Calming Herbs', 'Antioxidants', 'Naturally Hydrating'],
-    price: 'Rs. 450',
-    image: IMAGES.drinkBotanicalSparkling,
-  },
-  {
-    id: 'wild-berry-adaptogen',
-    name: 'Wild Berry Adaptogen',
-    flavor: 'Crisp Blackberry, Ashwagandha & Holy Basil',
-    tags: ['Stress Support', 'No Artificial Colors', 'Clean Focus'],
-    price: 'Rs. 490',
-    image: IMAGES.drinkBerryElixir,
-  },
+const HERO_SLIDES = [
+  'https://instagram.fktm17-1.fna.fbcdn.net/v/t51.82787-15/581956763_18102710806677653_9099968982455809756_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=Mzc2NzUwODg2NjAxNjU4OTkxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=k7YA3rnb0twQ7kNvwEdbAUa&_nc_oc=AdqY6_DRoz03CrBgHHSoZhstQ_MS9afeJmWNNP3Cfqj3cClZD0BtTQ2sdbC9RXS_azqhV7TSjJX9a7YkUb2wpsr-&_nc_zt=23&_nc_ht=instagram.fktm17-1.fna&_nc_gid=MqaJlvmwprD7HuVrvCJLcA&_nc_ss=7b689&oh=00_AQOMni4P6DXqlrOgEc7FLyhh2p0-CTDhxKSN9s0XA6HHpg&oe=6AC6BDAD',
+  'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1600&auto=format&fit=crop',
 ];
 
 export default function HomeLanding() {
@@ -86,35 +70,53 @@ export default function HomeLanding() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [addedItems, setAddedItems] = useState<{ [key: string]: boolean }>({});
+  const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
+  const [location, setLocation] = useState('');
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  // Live Database Products State (optional fallback to editorial list)
+  // Live Database State
+  const [dbCategories, setDbCategories] = useState<any[]>([]);
   const [dbProducts, setDbProducts] = useState<any[]>([]);
+  const [loadingDb, setLoadingDb] = useState(true);
+
+  // 5-second auto background slider state
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+      setScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // 5 SECONDS BACKGROUND AUTO SLIDER
   useEffect(() => {
-    async function loadCatalog() {
+    const interval = setInterval(() => {
+      setCurrentSlide(prev => (prev + 1) % HERO_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // FETCH LIVE DATA FROM DATABASE
+  useEffect(() => {
+    async function loadLiveData() {
+      setLoadingDb(true);
       try {
         const res = await fetch('/api/catalog');
         if (res.ok) {
           const json = await res.json();
-          if (json.products && json.products.length > 0) {
-            setDbProducts(json.products);
-          }
+          if (json.categories) setDbCategories(json.categories);
+          if (json.products) setDbProducts(json.products);
         }
       } catch (err) {
-        console.error('Catalog fetch note:', err);
+        console.error('Failed to load database catalog:', err);
+      } finally {
+        setLoadingDb(false);
       }
     }
-    loadCatalog();
+    loadLiveData();
   }, []);
 
   const handleAddToCart = (id: string) => {
@@ -123,6 +125,10 @@ export default function HomeLanding() {
     setTimeout(() => {
       setAddedItems(prev => ({ ...prev, [id]: false }));
     }, 2000);
+  };
+
+  const toggleFavorite = (id: string) => {
+    setFavorites(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -135,99 +141,119 @@ export default function HomeLanding() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F6F3EA] text-[#17201C] font-sans antialiased overflow-x-hidden selection:bg-[#123C32] selection:text-[#D7E85A]">
+    <div className="min-h-screen bg-[#0d0f12] text-white font-sans antialiased overflow-x-hidden">
       
       {/* ================================================== */}
-      {/* 1. NAVIGATION BAR */}
+      {/* 3. HEADER / NAVIGATION */}
       {/* ================================================== */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-[#F6F3EA]/90 backdrop-blur-md border-b border-[#123C32]/10 py-4 shadow-sm'
-            : 'bg-transparent py-6'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-gradient-to-r from-[#ff3b00] via-[#ff4d00] to-[#ff5b00] text-white shadow-xl ${
+          scrolled ? 'py-3 border-b border-orange-700/40 shadow-2xl backdrop-blur-md' : 'py-4.5'
         }`}
       >
-        <div className="mx-auto max-w-[1280px] px-6 sm:px-10 flex items-center justify-between">
-          
-          {/* Left: Minimal Premium Wordmark */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="h-9 w-9 rounded-full bg-[#123C32] flex items-center justify-center text-[#D7E85A] font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
-              J
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 flex items-center justify-between">
+          {/* Left: Foodies Brand Logo */}
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="h-10 w-10 rounded-full bg-white text-[#ff3b00] flex items-center justify-center font-black shadow-md group-hover:scale-105 transition-transform duration-200">
+              <Flame size={22} className="fill-[#ff3b00]" />
             </div>
-            <span className="text-2xl font-bold tracking-tight text-[#123C32]">
-              Jade <span className="font-light text-[#123C32]/70">Drinks</span>
+            <span className="text-2xl font-black tracking-tight text-white drop-shadow-sm">
+              Foodies
             </span>
           </Link>
 
-          {/* Center: Minimal Navigation Links */}
-          <nav className="hidden md:flex items-center gap-10 text-sm font-semibold text-[#17201C]/80">
-            <Link href="#shop" className="hover:text-[#123C32] transition-colors">
-              Shop
+          {/* Center Navigation Links (Desktop) */}
+          <nav className="hidden md:flex items-center gap-9 text-base font-extrabold text-white/90 tracking-wide">
+            <Link
+              href="/"
+              className="text-white relative py-1 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-white after:rounded-full"
+            >
+              Home
             </Link>
-            <Link href="#story" className="hover:text-[#123C32] transition-colors">
-              Our Story
+            <Link href="#menu" className="hover:text-white transition-colors">
+              Menu
             </Link>
-            <Link href="#ingredients" className="hover:text-[#123C32] transition-colors">
-              Ingredients
+            <Link href="#about" className="hover:text-white transition-colors">
+              About
             </Link>
-            <Link href="#journal" className="hover:text-[#123C32] transition-colors">
-              Journal
+            <Link href="#offers" className="hover:text-white transition-colors">
+              Offers
             </Link>
-            <Link href="#contact" className="hover:text-[#123C32] transition-colors">
+            <Link href="#contact" className="hover:text-white transition-colors">
               Contact
             </Link>
           </nav>
 
-          {/* Right: Cart & Pill "Shop Now" Button */}
-          <div className="flex items-center gap-5">
-            <Link
-              href="#shop"
-              className="relative p-2 text-[#123C32] hover:opacity-80 transition"
-              aria-label="Shopping Cart"
+          {/* Right Controls */}
+          <div className="flex items-center gap-4 sm:gap-5">
+            <button
+              aria-label="Search food"
+              className="p-2.5 rounded-full text-white hover:bg-white/20 transition"
             >
-              <ShoppingBag size={21} />
+              <Search size={22} />
+            </button>
+
+            <Link
+              href="/customer"
+              aria-label="View Shopping Cart"
+              className="relative p-2.5 rounded-full text-white hover:bg-white/20 transition"
+            >
+              <ShoppingBag size={22} />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-[#123C32] text-[10px] font-bold text-[#D7E85A] flex items-center justify-center">
+                <span className="absolute top-1 right-1 h-5 w-5 rounded-full bg-white text-xs font-black text-[#ff3b00] flex items-center justify-center ring-2 ring-[#ff3b00] shadow-sm">
                   {cartCount}
                 </span>
               )}
             </Link>
 
-            <Link
-              href="#shop"
-              className="hidden sm:inline-flex items-center justify-center rounded-full bg-[#123C32] hover:bg-[#0c2b24] px-6 py-2.5 text-xs font-bold text-[#F6F3EA] shadow-sm transition hover:scale-[1.02] active:scale-[0.98]"
-            >
-              Shop Now
-            </Link>
-
-            {/* Mobile Menu Button */}
+            {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-[#123C32]"
-              aria-label="Toggle Navigation"
+              className="md:hidden p-2 rounded-lg text-white hover:bg-white/20 transition"
+              aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#F6F3EA] border-b border-[#123C32]/10 px-8 py-6 space-y-4 animate-in slide-in-from-top-4">
-            <nav className="flex flex-col gap-4 text-base font-bold text-[#123C32]">
-              <Link href="#shop" onClick={() => setMobileMenuOpen(false)}>
-                Shop
+          <div className="md:hidden bg-[#ff3b00] border-t border-white/20 px-6 py-6 space-y-4 animate-in slide-in-from-top-4 duration-200">
+            <nav className="flex flex-col gap-4 text-lg font-extrabold text-white">
+              <Link
+                href="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className="underline underline-offset-4"
+              >
+                Home
               </Link>
-              <Link href="#story" onClick={() => setMobileMenuOpen(false)}>
-                Our Story
+              <Link
+                href="#menu"
+                onClick={() => setMobileMenuOpen(false)}
+                className="hover:text-white/80"
+              >
+                Menu
               </Link>
-              <Link href="#ingredients" onClick={() => setMobileMenuOpen(false)}>
-                Ingredients
+              <Link
+                href="#about"
+                onClick={() => setMobileMenuOpen(false)}
+                className="hover:text-white/80"
+              >
+                About
               </Link>
-              <Link href="#journal" onClick={() => setMobileMenuOpen(false)}>
-                Journal
+              <Link
+                href="#offers"
+                onClick={() => setMobileMenuOpen(false)}
+                className="hover:text-white/80"
+              >
+                Offers
               </Link>
-              <Link href="#contact" onClick={() => setMobileMenuOpen(false)}>
+              <Link
+                href="#contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="hover:text-white/80"
+              >
                 Contact
               </Link>
             </nav>
@@ -237,211 +263,493 @@ export default function HomeLanding() {
 
 
       {/* ================================================== */}
-      {/* 2. HERO SECTION (Editorial Botanical) */}
+      {/* 4. HERO SECTION WITH 5-SECOND AUTO BACKGROUND SLIDER */}
       {/* ================================================== */}
-      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-[#F6F3EA]">
-        {/* Soft Organic Backdrop Background Shape */}
-        <div className="absolute top-12 right-10 w-[550px] h-[550px] bg-[#A8B89A]/20 rounded-full blur-[120px] pointer-events-none" />
+      <section className="relative min-h-[90vh] pt-28 pb-16 lg:pt-36 lg:pb-24 flex flex-col justify-between overflow-hidden bg-[#18092b]">
+        
+        {/* 5-SECOND AUTO SLIDING BACKGROUND IMAGES */}
+        {HERO_SLIDES.map((slideImg, idx) => (
+          <div
+            key={idx}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              idx === currentSlide
+                ? 'opacity-85 scale-105 transition-transform duration-10000'
+                : 'opacity-0 pointer-events-none'
+            }`}
+          >
+            <Image
+              src={slideImg}
+              alt="Food & Drinks Delivery Background"
+              fill
+              priority={idx === 0}
+              className="object-cover object-center"
+              unoptimized
+            />
+          </div>
+        ))}
 
-        <div className="mx-auto max-w-[1280px] px-6 sm:px-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
+        {/* SOFTENED OVERLAY FOR MAXIMUM BACKGROUND VISIBILITY & READABILITY */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#190a36]/65 via-[#260e4e]/50 to-[#0b0c16]/80 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/25 pointer-events-none" />
+
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 w-full flex-1 flex flex-col items-center justify-center text-center relative z-10 py-12">
           
-          {/* Left Column: Editorial Headline & Copy */}
-          <div className="lg:col-span-7 space-y-8 text-left">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#123C32]/20 bg-[#123C32]/5 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#123C32]">
-              <Leaf size={14} className="text-[#123C32]" />
-              <span>CRAFTED FOR YOUR EVERYDAY RITUAL</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[#123C32] leading-[1.06]">
-              Drinks made to feel as good as they taste.
-            </h1>
-
-            <p className="text-[#17201C]/80 text-base sm:text-xl font-normal max-w-xl leading-relaxed">
-              Thoughtfully crafted drinks with refreshing flavors, quality ingredients, and a modern approach to everyday refreshment.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link
-                href="#shop"
-                className="inline-flex items-center gap-3 rounded-full bg-[#123C32] hover:bg-[#0c2b24] px-8 py-4 text-sm font-bold text-[#F6F3EA] shadow-md transition hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <span>Explore Drinks</span>
-                <ArrowRight size={17} />
-              </Link>
-              
-              <Link
-                href="#story"
-                className="inline-flex items-center gap-2 rounded-full border border-[#123C32]/30 px-8 py-4 text-sm font-bold text-[#123C32] hover:bg-[#123C32]/5 transition"
-              >
-                <span>Discover Our Story</span>
-              </Link>
-            </div>
+          {/* Top Eyebrow Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-purple-400/40 bg-purple-900/60 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-purple-200 backdrop-blur-md shadow-lg mb-6">
+            <Sparkles size={15} className="text-[#ff5b00]" />
+            <span>NEPAL&apos;S #1 FASTEST DELIVERY PLATFORM</span>
           </div>
 
-          {/* Right Column: Premium Botanical Bottle Imagery */}
-          <div className="lg:col-span-5 relative flex justify-center">
-            <div className="relative w-full max-w-[440px] aspect-3/4 rounded-3xl overflow-hidden shadow-2xl border border-[#123C32]/10 bg-gradient-to-b from-[#A8B89A]/30 to-[#123C32]/10 group">
-              <Image
-                src={IMAGES.heroProduct}
-                alt="Jade Crafted Beverage"
-                fill
-                priority
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                unoptimized
+          {/* MAIN HERO HEADING */}
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight uppercase leading-tight drop-shadow-2xl">
+            <span className="text-[#ff5b00]">FOOD &amp; </span>
+            <span className="text-[#00e5ff]">DRINKS </span>
+            <span className="text-white">DELIVERY</span>
+          </h1>
+
+          <p className="mt-3 text-sm sm:text-base font-bold tracking-widest text-slate-200 uppercase drop-shadow">
+            EASY, FAST &amp; CONVENIENT
+          </p>
+
+          {/* LARGE ACCESSIBLE SEARCH BAR */}
+          <div className="mt-8 w-full max-w-2xl">
+            <div className="relative flex items-center rounded-full border border-white/30 bg-white p-2 shadow-2xl backdrop-blur-md transition-all focus-within:border-[#ff5b00] focus-within:ring-4 focus-within:ring-orange-500/30">
+              <Search size={22} className="ml-3.5 text-slate-400 shrink-0" />
+              <input
+                type="text"
+                value={location}
+                onChange={e => setLocation(e.target.value)}
+                placeholder="Search for food or drinks (beer, whisky, momo, pizza, snacks...)"
+                className="w-full bg-transparent px-3 py-2.5 text-sm sm:text-base font-semibold text-slate-900 outline-none placeholder:text-slate-400"
               />
-              {/* Subtle Botanical Badge */}
-              <div className="absolute bottom-6 left-6 right-6 bg-[#F6F3EA]/90 backdrop-blur-md p-4 rounded-2xl border border-[#123C32]/10 flex items-center justify-between shadow-lg">
-                <div>
-                  <span className="text-xs font-bold text-[#123C32] block">Organic Botanical Blend</span>
-                  <span className="text-[11px] text-[#17201C]/70">Zero Preservatives • 100% Natural</span>
-                </div>
-                <div className="h-8 w-8 rounded-full bg-[#D7E85A] text-[#123C32] flex items-center justify-center font-bold text-xs shrink-0">
-                  🌱
-                </div>
-              </div>
+              <Link
+                href="/customer"
+                className="flex items-center gap-2 rounded-full bg-[#ff5b00] px-6 py-3 text-xs sm:text-sm font-bold text-white shadow-lg hover:bg-[#e05000] transition shrink-0"
+              >
+                <span>SEARCH</span>
+                <ArrowRight size={16} />
+              </Link>
             </div>
           </div>
 
+          <p className="mt-5 text-xs sm:text-sm font-bold tracking-widest text-cyan-300 uppercase drop-shadow-sm">
+            ALCOHOL, BEVERAGES &amp; FOOD DELIVERY WITHIN 45 MINS
+          </p>
+
+          {/* 5-SECOND SLIDER DOTS INDICATOR */}
+          <div className="mt-8 flex items-center gap-3">
+            {HERO_SLIDES.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentSlide(idx)}
+                className={`h-3 rounded-full transition-all duration-300 ${
+                  idx === currentSlide
+                    ? 'w-10 bg-[#ff5b00] shadow-md shadow-orange-500/50'
+                    : 'w-3 bg-white/40 hover:bg-white'
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+
+        </div>
+
+        {/* BOTTOM GUARANTEES STRIP */}
+        <div className="relative z-20 border-t border-white/15 bg-black/60 backdrop-blur-md py-4 text-xs sm:text-sm font-bold text-slate-200">
+          <div className="mx-auto flex max-w-7xl items-center justify-around px-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={18} className="text-[#ff5b00]" />
+              <span>100% Genuine Quality</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock size={18} className="text-cyan-400" />
+              <span>45 Min Express Delivery</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Award size={18} className="text-[#ff5b00]" />
+              <span>24/7 Late-Night Delivery</span>
+            </div>
+          </div>
         </div>
       </section>
 
 
       {/* ================================================== */}
-      {/* 3. BENEFITS STRIP */}
+      {/* 5. SHOP BY CATEGORY (MATCHING REFERENCE CARD GRID) */}
       {/* ================================================== */}
-      <section className="border-y border-[#123C32]/10 bg-[#F6F3EA] py-10">
-        <div className="mx-auto max-w-[1280px] px-6 sm:px-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center md:text-left">
+      <section id="categories" className="py-20 lg:py-28 bg-[#0b0c0e] relative">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
           
-          <div className="flex items-center gap-4 justify-center md:justify-start">
-            <div className="h-11 w-11 rounded-2xl bg-[#123C32]/10 text-[#123C32] flex items-center justify-center shrink-0">
-              <Leaf size={20} />
-            </div>
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
             <div>
-              <h4 className="text-sm font-bold text-[#123C32]">Natural Ingredients</h4>
-              <p className="text-xs text-[#17201C]/70">Pure organic botanicals</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 justify-center md:justify-start">
-            <div className="h-11 w-11 rounded-2xl bg-[#123C32]/10 text-[#123C32] flex items-center justify-center shrink-0">
-              <Droplet size={20} />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-[#123C32]">Low Sugar</h4>
-              <p className="text-xs text-[#17201C]/70">Naturally sweetened</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 justify-center md:justify-start">
-            <div className="h-11 w-11 rounded-2xl bg-[#123C32]/10 text-[#123C32] flex items-center justify-center shrink-0">
-              <Shield size={20} />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-[#123C32]">No Artificial Colors</h4>
-              <p className="text-xs text-[#17201C]/70">Clean &amp; honest recipes</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 justify-center md:justify-start">
-            <div className="h-11 w-11 rounded-2xl bg-[#123C32]/10 text-[#123C32] flex items-center justify-center shrink-0">
-              <Sparkles size={20} />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-[#123C32]">Made With Care</h4>
-              <p className="text-xs text-[#17201C]/70">Thoughtfully produced</p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      {/* ================================================== */}
-      {/* 4. FEATURED DRINKS (Editorial Product Showcase) */}
-      {/* ================================================== */}
-      <section id="shop" className="py-24 lg:py-32 bg-[#F6F3EA]">
-        <div className="mx-auto max-w-[1280px] px-6 sm:px-10">
-          
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
-            <div>
-              <span className="text-xs font-bold tracking-widest text-[#123C32]/70 uppercase block mb-1">
-                OUR COLLECTION
+              <span className="text-xs font-bold tracking-widest text-[#ff5b00] uppercase block mb-1">
+                WHAT ARE YOU CRAVING?
               </span>
-              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#123C32]">
-                Meet your new favorites
+              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+                Shop by <span className="text-[#ff5b00]">Category</span>
               </h2>
+              <p className="text-slate-300 text-sm sm:text-base font-normal mt-2">
+                Explore our delicious food &amp; drinks categories
+              </p>
             </div>
+
             <Link
-              href="#shop"
-              className="inline-flex items-center gap-2 text-sm font-bold text-[#123C32] hover:opacity-80 transition group"
+              href="#menu"
+              className="inline-flex items-center gap-2 text-sm font-bold text-[#ff5b00] hover:text-[#e05000] transition group shrink-0"
             >
-              <span>Explore All Drinks</span>
+              <span>View All</span>
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          {/* Product Showcase Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {(dbProducts.length > 0 ? dbProducts.slice(0, 4) : FEATURED_PRODUCTS).map((item: any, idx) => (
-              <div
-                key={item.id || idx}
-                className="group rounded-3xl bg-white p-6 border border-[#123C32]/10 shadow-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-[#123C32]/20"
-              >
-                <div>
-                  {/* Product Image */}
-                  <div className="relative aspect-3/4 rounded-2xl overflow-hidden mb-6 bg-[#F6F3EA]">
-                    <Image
-                      src={item.image || item.imageUrl || IMAGES.drinkJadeMatcha}
-                      alt={item.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      unoptimized
-                    />
-                  </div>
+          {/* CATEGORY GRID: ROW 1 (3 Prominent Cards), ROW 2 (4 Compact Cards) */}
+          <div className="space-y-6">
+            
+            {/* ROW 1: 3 Larger Prominent Category Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              
+              {/* Card 1: Pizza (Warm Yellow/Orange) */}
+              <div className="group relative rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#e58a00] to-[#c86e00] text-white flex flex-col justify-between overflow-hidden min-h-[260px] sm:min-h-[290px] shadow-2xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-orange-950/50">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight drop-shadow-md">Pizza</h3>
+                  <p className="text-xs sm:text-sm font-semibold text-amber-100 drop-shadow-xs">Fresh &amp; Tasty</p>
+                </div>
 
-                  {/* Drink Info */}
-                  <h3 className="text-xl font-bold text-[#123C32] group-hover:text-[#123C32] transition">
-                    {item.name}
-                  </h3>
-                  
-                  <p className="text-xs text-[#17201C]/70 mt-2 font-medium leading-relaxed">
-                    {item.flavor || item.size || 'Organic Refreshment'}
-                  </p>
-
-                  {/* Ingredient Tags */}
-                  <div className="flex flex-wrap gap-1.5 mt-4">
-                    {(item.tags || ['Organic', 'Clean Taste']).map((tag: string, tIdx: number) => (
-                      <span
-                        key={tIdx}
-                        className="rounded-full bg-[#123C32]/5 px-2.5 py-1 text-[10px] font-semibold text-[#123C32]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                <div className="relative z-10 flex items-center justify-between mt-8">
+                  <div className="h-11 w-11 rounded-full bg-white text-[#c86e00] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition duration-300">
+                    <ArrowRight size={20} />
                   </div>
                 </div>
 
-                {/* Price & Shop CTA */}
-                <div className="mt-8 pt-4 border-t border-[#123C32]/10 flex items-center justify-between">
-                  <span className="text-lg font-bold text-[#123C32]">
-                    {item.price ? (typeof item.price === 'number' ? `Rs. ${item.price}` : item.price) : 'Rs. 420'}
-                  </span>
+                {/* Card Image - Bigger & More Prominent */}
+                <div className="absolute right-[-8%] bottom-[-8%] w-[75%] sm:w-[72%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
+                  <Image
+                    src={IMAGES.catPizza}
+                    alt="Fresh Tasty Pizza"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
 
+              {/* Card 2: Burgers (Vibrant Orange) */}
+              <div className="group relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-[#ff5b00] to-[#d64100] text-white flex flex-col justify-between overflow-hidden min-h-[300px] sm:min-h-[340px] shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-orange-950/50">
+                <div className="relative z-10 space-y-1.5">
+                  <h3 className="text-3xl sm:text-4xl font-black tracking-tight drop-shadow-md">Burgers</h3>
+                  <p className="text-sm sm:text-base font-bold text-orange-100 drop-shadow-xs">Juicy &amp; Delicious</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-8">
+                  <div className="h-11 w-11 rounded-full bg-white text-[#d64100] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition duration-300">
+                    <ArrowRight size={20} />
+                  </div>
+                </div>
+
+                {/* Card Image - Bigger & More Prominent */}
+                <div className="absolute right-[-8%] bottom-[-8%] w-[75%] sm:w-[72%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
+                  <Image
+                    src={IMAGES.catBurger}
+                    alt="Juicy Gourmet Burger"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+              {/* Card 3: Chicken (Bold Crimson Red) */}
+              <div className="group relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-[#dc2626] to-[#991b1b] text-white flex flex-col justify-between overflow-hidden min-h-[300px] sm:min-h-[340px] shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-red-950/50">
+                <div className="relative z-10 space-y-1.5">
+                  <h3 className="text-3xl sm:text-4xl font-black tracking-tight drop-shadow-md">Chicken</h3>
+                  <p className="text-sm sm:text-base font-bold text-red-100 drop-shadow-xs">Crispy &amp; Spicy</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-8">
+                  <div className="h-11 w-11 rounded-full bg-white text-[#991b1b] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition duration-300">
+                    <ArrowRight size={20} />
+                  </div>
+                </div>
+
+                {/* Card Image - Bigger & More Prominent */}
+                <div className="absolute right-[-8%] bottom-[-8%] w-[75%] sm:w-[72%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
+                  <Image
+                    src={IMAGES.catChicken}
+                    alt="Crispy Fried Chicken"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            {/* ROW 2: 4 Smaller Category Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              
+              {/* Card 4: Asian Food (Deep Teal / Green) */}
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#0d9488] to-[#0f766e] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl font-black tracking-tight">Asian Food</h3>
+                  <p className="text-xs sm:text-sm font-bold text-teal-100">Authentic Taste</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-6">
+                  <div className="h-10 w-10 rounded-full bg-white text-[#0f766e] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
+                  </div>
+                </div>
+
+                <div className="absolute right-[-8%] bottom-[-8%] w-[68%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 shadow-2xl">
+                  <Image
+                    src={IMAGES.catAsian}
+                    alt="Authentic Asian Food"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+              {/* Card 5: Drinks (Bright Cyan / Teal) */}
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#06b6d4] to-[#0891b2] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl font-black tracking-tight">Drinks</h3>
+                  <p className="text-xs sm:text-sm font-bold text-cyan-100">Cool &amp; Refreshing</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-6">
+                  <div className="h-10 w-10 rounded-full bg-white text-[#0891b2] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
+                  </div>
+                </div>
+
+                <div className="absolute right-[-8%] bottom-[-8%] w-[68%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 shadow-2xl">
+                  <Image
+                    src={IMAGES.catDrinks}
+                    alt="Cool Refreshing Drinks"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+              {/* Card 6: Desserts (Vibrant Pink) */}
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#ec4899] to-[#be185d] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl font-black tracking-tight">Desserts</h3>
+                  <p className="text-xs sm:text-sm font-bold text-pink-100">Sweet Moments</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-6">
+                  <div className="h-10 w-10 rounded-full bg-white text-[#be185d] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
+                  </div>
+                </div>
+
+                <div className="absolute right-[-8%] bottom-[-8%] w-[68%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 shadow-2xl">
+                  <Image
+                    src={IMAGES.catDesserts}
+                    alt="Sweet Moments Desserts"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+              {/* Card 7: Coffee & Mocktails (Rich Purple) */}
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl font-black tracking-tight">Coffee &amp; Mocktails</h3>
+                  <p className="text-xs sm:text-sm font-bold text-purple-100">Relax &amp; Refresh</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-6">
+                  <div className="h-9 w-9 rounded-full bg-white text-[#6d28d9] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={16} />
+                  </div>
+                </div>
+
+                <div className="absolute right-[-10%] bottom-[-10%] w-[55%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110">
+                  <Image
+                    src={IMAGES.catCoffee}
+                    alt="Coffee and Mocktails"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      {/* ================================================== */}
+      {/* 6. SIGNATURE DRINK EXPERIENCE (Scroll Pouring 3D effect) */}
+      {/* ================================================== */}
+      <section className="py-24 bg-gradient-to-b from-[#090a0c] via-[#0f1217] to-[#090a0c] relative overflow-hidden border-y border-white/5">
+        {/* Background glow behind glass */}
+        <div className="absolute right-1/4 top-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-amber-500/10 rounded-full blur-[130px] pointer-events-none" />
+
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+          
+          {/* Left Text Column */}
+          <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
+            <span className="text-xs font-extrabold tracking-widest text-[#06b6d4] uppercase block">
+              SIGNATURE DRINKS
+            </span>
+
+            <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+              Cool Drinks <br />
+              for <span className="text-[#ff5b00]">Hot Days</span>
+            </h2>
+
+            <p className="text-slate-300 text-base sm:text-lg max-w-lg mx-auto lg:mx-0 leading-relaxed">
+              Chill, sip, repeat. Enjoy our refreshing drinks made with the best ingredients.
+            </p>
+
+            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              <Link
+                href="#menu"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-[#ff5b00] hover:bg-[#e05000] px-8 py-4 text-sm font-bold text-white shadow-xl shadow-orange-600/30 transition hover:scale-105"
+              >
+                <span>Explore Drinks</span>
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+
+            {/* Trust points */}
+            <div className="pt-8 flex items-center justify-center lg:justify-start gap-8 border-t border-white/10 text-xs font-semibold text-slate-400">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span>100% Fresh Ingredients</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-cyan-400" />
+                <span>No Added Preservatives</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Interactive Canvas Pouring Column */}
+          <div className="lg:col-span-6 relative flex justify-center">
+            <SignatureDrinkCanvas />
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ================================================== */}
+      {/* 7. POPULAR FOOD SECTION (Warm Cream Background) */}
+      {/* ================================================== */}
+      <section id="menu" className="py-20 lg:py-28 bg-[#f5f2eb] text-slate-900 relative">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
+          
+          {/* Section Header with Category Filter Tabs */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+              <span className="text-xs font-black tracking-widest text-[#ff5b00] uppercase block mb-1">
+                POPULAR THIS WEEK
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900">
+                Our Popular Food &amp; Drinks
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-3 shrink-0 overflow-x-auto pb-1">
+              <Link
+                href="/customer"
+                className="inline-flex items-center gap-2 text-sm font-extrabold text-[#ff5b00] hover:text-[#e05000] transition group"
+              >
+                <span>View Full Catalog</span>
+                <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Product Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {(dbProducts.length > 0 ? dbProducts.slice(0, 8) : [
+              { id: '1', name: 'Margherita Pizza', price: 450, imageUrl: IMAGES.prodMargherita, brand: 'Classic Italian', size: '12 inch' },
+              { id: '2', name: 'Chicken Burger', price: 320, imageUrl: IMAGES.prodBurger, brand: 'Gourmet', size: 'Double Patty' },
+              { id: '3', name: 'Spicy Chicken Wings', price: 280, imageUrl: IMAGES.prodWings, brand: 'Crispy', size: '6 pcs' },
+              { id: '4', name: 'Chilled Cold Coffee', price: 180, imageUrl: IMAGES.prodCoffee, brand: 'Brewed', size: '350 ml' },
+            ]).map((prod: any) => (
+              <div
+                key={prod.id}
+                className="group rounded-3xl bg-white p-5 shadow-lg border border-slate-200/80 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-[#ff5b00]/40 relative"
+              >
+                <div>
+                  {/* Image Wrap */}
+                  <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-4 bg-slate-100">
+                    <Image
+                      src={prod.imageUrl || IMAGES.prodBurger}
+                      alt={prod.name}
+                      fill
+                      className="object-cover group-hover:scale-108 transition-transform duration-500"
+                      unoptimized
+                    />
+                    <button
+                      onClick={() => toggleFavorite(prod.id)}
+                      className="absolute top-3 right-3 h-9 w-9 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-700 hover:text-red-500 transition shadow-md z-10"
+                      aria-label="Add to Favorites"
+                    >
+                      <Heart size={18} className={favorites[prod.id] ? 'fill-red-500 text-red-500' : ''} />
+                    </button>
+                    <span className="absolute top-3 left-3 bg-[#ff5b00] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm">
+                      Express
+                    </span>
+                  </div>
+
+                  {/* Product Details */}
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                    {prod.brand || 'Foodies Special'}
+                  </span>
+                  <h3 className="text-lg font-black text-slate-900 group-hover:text-[#ff5b00] transition line-clamp-1 mt-0.5">
+                    {prod.name}
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1 line-clamp-1 font-medium">
+                    {prod.size || 'Standard Portion'}
+                  </p>
+                  <div className="flex items-center gap-1 mt-2 text-amber-500 font-extrabold text-xs">
+                    <Star size={15} className="fill-amber-400 text-amber-400" />
+                    <span>4.8</span>
+                    <span className="text-slate-400 font-semibold text-[11px] ml-1">(120+ reviews)</span>
+                  </div>
+                </div>
+
+                {/* Price & Add Button */}
+                <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between">
+                  <div>
+                    <span className="block text-[10px] font-bold text-slate-400 uppercase">Price</span>
+                    <span className="text-xl font-black text-slate-900">
+                      Rs. {Number(prod.price).toLocaleString('en-NP')}
+                    </span>
+                  </div>
                   <button
-                    onClick={() => handleAddToCart(item.id)}
-                    className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-xs font-bold transition-all ${
-                      addedItems[item.id]
-                        ? 'bg-[#123C32] text-[#D7E85A]'
-                        : 'bg-[#123C32] text-[#F6F3EA] hover:bg-[#0c2b24] shadow-sm'
+                    onClick={() => handleAddToCart(prod.id)}
+                    className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-xs font-black transition-all duration-200 ${
+                      addedItems[prod.id]
+                        ? 'bg-emerald-600 text-white shadow-md'
+                        : 'bg-[#ff5b00] text-white hover:bg-[#e05000] shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95'
                     }`}
                   >
-                    {addedItems[item.id] ? (
+                    {addedItems[prod.id] ? (
                       <>
-                        <Check size={14} /> Added
+                        <Check size={15} /> Added
                       </>
                     ) : (
                       <>
-                        <Plus size={14} /> Shop Now
+                        <Plus size={15} /> Add
                       </>
                     )}
                   </button>
@@ -449,52 +757,97 @@ export default function HomeLanding() {
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
 
       {/* ================================================== */}
-      {/* 5. BRAND STORY (Asymmetric Two-Column) */}
+      {/* 8. APP PROMOTION (Dark Cinematic) */}
       {/* ================================================== */}
-      <section id="story" className="py-24 lg:py-32 bg-[#F6F3EA] border-t border-[#123C32]/10">
-        <div className="mx-auto max-w-[1280px] px-6 sm:px-10 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+      <section className="py-20 lg:py-28 bg-[#090a0c] text-white relative overflow-hidden border-t border-white/10">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Left: Lifestyle Photograph */}
-          <div className="lg:col-span-6 relative">
-            <div className="relative aspect-4/3 sm:aspect-square rounded-3xl overflow-hidden shadow-2xl border border-[#123C32]/10">
-              <Image
-                src={IMAGES.storyCraft}
-                alt="Crafting Jade Beverages"
-                fill
-                className="object-cover"
-                unoptimized
-              />
+          {/* Left Column: Phone Mockups */}
+          <div className="lg:col-span-6 relative flex justify-center order-2 lg:order-1">
+            <div className="relative w-full max-w-[420px] aspect-3/4">
+              {/* Phone Mockup 1 */}
+              <div className="absolute left-0 top-6 w-[70%] aspect-[9/18] rounded-[36px] bg-slate-900 border-4 border-slate-700 shadow-2xl overflow-hidden -rotate-6 transition-transform duration-500 hover:rotate-0">
+                <Image
+                  src={IMAGES.heroBurger}
+                  alt="Foodies Mobile App"
+                  fill
+                  className="object-cover opacity-90"
+                  unoptimized
+                />
+              </div>
+
+              {/* Phone Mockup 2 */}
+              <div className="absolute right-0 top-0 w-[75%] aspect-[9/18] rounded-[40px] bg-slate-950 border-4 border-slate-800 shadow-2xl overflow-hidden rotate-6 transition-transform duration-500 hover:rotate-0">
+                <Image
+                  src={IMAGES.catPizza}
+                  alt="Foodies App Interface"
+                  fill
+                  className="object-cover opacity-95"
+                  unoptimized
+                />
+              </div>
             </div>
           </div>
 
-          {/* Right: Brand Story Copy */}
-          <div className="lg:col-span-6 space-y-6 text-left">
-            <span className="text-xs font-bold tracking-widest text-[#123C32]/70 uppercase block">
-              THE JADE APPROACH
+          {/* Right Column: Copy & App Download Buttons */}
+          <div className="lg:col-span-6 space-y-6 text-center lg:text-left order-1 lg:order-2">
+            <span className="text-xs font-extrabold tracking-widest text-[#ff5b00] uppercase block">
+              GET THE APP
             </span>
 
-            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#123C32] leading-tight">
-              Simple ingredients. Thoughtful craft. Better moments.
+            <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+              Order Faster <br />
+              <span className="text-[#ff5b00]">On Mobile</span>
             </h2>
 
-            <p className="text-[#17201C]/80 text-base sm:text-lg leading-relaxed font-normal">
-              We believe everyday drinks should nourish your spirit without sacrificing flavor. Jade Drinks was born out of a desire to create clean, botanical-infused beverages that elevate your daily routine into a mindful ritual.
+            <p className="text-slate-300 text-base sm:text-lg max-w-lg mx-auto lg:mx-0 leading-relaxed">
+              Download our app and enjoy exclusive offers, quick ordering and real-time tracking.
             </p>
 
-            <div className="pt-2">
-              <Link
-                href="#ingredients"
-                className="inline-flex items-center gap-2 text-sm font-bold text-[#123C32] hover:opacity-80 transition group border-b border-[#123C32]/30 pb-1"
+            {/* Store Buttons */}
+            <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+              <button
+                className="h-14 px-6 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 flex items-center gap-3 transition"
               >
-                <span>Learn Our Story</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
+                <div className="text-left">
+                  <span className="block text-[10px] text-slate-400 font-semibold uppercase">Download on the</span>
+                  <span className="text-sm font-bold text-white">App Store</span>
+                </div>
+              </button>
+
+              <button
+                className="h-14 px-6 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 flex items-center gap-3 transition"
+              >
+                <div className="text-left">
+                  <span className="block text-[10px] text-slate-400 font-semibold uppercase">Get it on</span>
+                  <span className="text-sm font-bold text-white">Google Play</span>
+                </div>
+              </button>
+            </div>
+
+            {/* App Benefits List */}
+            <div className="pt-6 grid grid-cols-2 gap-4 max-w-md mx-auto lg:mx-0 text-left border-t border-white/10 text-xs font-semibold text-slate-300">
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#ff5b00]" />
+                <span>Exclusive Offers</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#ff5b00]" />
+                <span>Easy Ordering</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#ff5b00]" />
+                <span>Live Tracking</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#ff5b00]" />
+                <span>Hassle Free</span>
+              </div>
             </div>
           </div>
 
@@ -503,194 +856,108 @@ export default function HomeLanding() {
 
 
       {/* ================================================== */}
-      {/* 6. INGREDIENTS SECTION (Dark Jade Green) */}
+      {/* 9. CUSTOMER TESTIMONIALS */}
       {/* ================================================== */}
-      <section id="ingredients" className="py-24 lg:py-32 bg-[#123C32] text-[#F6F3EA] relative overflow-hidden">
-        {/* Soft Background Accent */}
-        <div className="absolute right-0 top-0 w-[400px] h-[400px] bg-[#A8B89A]/10 rounded-full blur-[140px] pointer-events-none" />
-
-        <div className="mx-auto max-w-[1280px] px-6 sm:px-10 relative z-10">
+      <section className="py-20 lg:py-28 bg-[#f5f2eb] text-slate-900">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
           
-          <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-            <span className="text-xs font-bold tracking-widest text-[#D7E85A] uppercase block">
-              PURE &amp; PURPOSEFUL
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-xs font-extrabold tracking-widest text-[#ff5b00] uppercase block mb-1">
+              REAL STORIES
             </span>
-            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-              What&apos;s inside matters.
-            </h2>
-            <p className="text-[#F6F3EA]/70 text-sm sm:text-base">
-              Every botanical, fruit press, and leaf is selected for its clean taste and natural benefits.
-            </p>
-          </div>
-
-          {/* 4 Interactive Botanical Ingredient Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-sm text-left hover:bg-white/10 transition">
-              <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
-                <Image
-                  src={IMAGES.ingMatcha}
-                  alt="Green Tea & Matcha"
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-              <h3 className="text-xl font-bold text-white">Green Tea &amp; Matcha</h3>
-              <p className="text-xs text-[#F6F3EA]/70 mt-2 leading-relaxed">
-                Ceremonial grade green tea packed with L-theanine for sustained, jitters-free energy.
-              </p>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-sm text-left hover:bg-white/10 transition">
-              <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
-                <Image
-                  src={IMAGES.ingGinger}
-                  alt="Fresh Ginger Root"
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-              <h3 className="text-xl font-bold text-white">Fresh Ginger</h3>
-              <p className="text-xs text-[#F6F3EA]/70 mt-2 leading-relaxed">
-                Real pressed ginger root bringing a refreshing spice and digestive wellness support.
-              </p>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-sm text-left hover:bg-white/10 transition">
-              <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
-                <Image
-                  src={IMAGES.ingCitrus}
-                  alt="Meyer Lemon & Yuzu"
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-              <h3 className="text-xl font-bold text-white">Citrus &amp; Yuzu</h3>
-              <p className="text-xs text-[#F6F3EA]/70 mt-2 leading-relaxed">
-                Sun-ripened citrus fruit pressed for vibrant vitamin C and natural brightness.
-              </p>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-sm text-left hover:bg-white/10 transition">
-              <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
-                <Image
-                  src={IMAGES.ingBotanicals}
-                  alt="Botanical Extracts"
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-              <h3 className="text-xl font-bold text-white">Botanical Extracts</h3>
-              <p className="text-xs text-[#F6F3EA]/70 mt-2 leading-relaxed">
-                Infusions of rose petal, lemon balm, and adaptogens for soothing harmony.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      {/* ================================================== */}
-      {/* 7. LIFESTYLE SECTION (Cinematic Parallax Overlay) */}
-      {/* ================================================== */}
-      <section className="relative min-h-[500px] lg:min-h-[600px] flex items-center justify-center overflow-hidden">
-        <Image
-          src={IMAGES.lifestyleBanner}
-          alt="Enjoying Jade Drinks"
-          fill
-          className="object-cover object-center filter brightness-75"
-          unoptimized
-        />
-        
-        <div className="relative z-10 max-w-2xl mx-auto text-center px-6 py-16 space-y-6">
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight drop-shadow-lg">
-            Made for slow mornings. <br />
-            Busy afternoons. <br />
-            Everything in between.
-          </h2>
-
-          <div className="pt-2">
-            <Link
-              href="#shop"
-              className="inline-flex items-center gap-3 rounded-full bg-[#F6F3EA] hover:bg-white px-8 py-4 text-xs sm:text-sm font-bold text-[#123C32] shadow-2xl transition hover:scale-105"
-            >
-              <span>Find Your Flavor</span>
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ================================================== */}
-      {/* 8. SOCIAL PROOF (Refined Testimonials) */}
-      {/* ================================================== */}
-      <section className="py-24 lg:py-32 bg-[#F6F3EA]">
-        <div className="mx-auto max-w-[1280px] px-6 sm:px-10">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold tracking-widest text-[#123C32]/70 uppercase block mb-1">
-              COMMUNITY
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#123C32]">
-              Loved by people who care about what they drink.
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900">
+              What Our Customers Say
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
             {/* Testimonial 1 */}
-            <div className="bg-white rounded-3xl p-8 border border-[#123C32]/10 shadow-sm flex flex-col justify-between space-y-6 text-left">
-              <p className="text-[#17201C]/80 text-sm sm:text-base leading-relaxed font-normal">
-                &ldquo;Finally a drink that tastes fresh without being loaded with sugar. The Sparkling Matcha is my daily ritual.&rdquo;
-              </p>
+            <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-200/80 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-1 text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} className="fill-amber-400" />
+                  ))}
+                </div>
+                <p className="text-slate-700 text-sm sm:text-base leading-relaxed italic">
+                  &ldquo;Amazing food and super fast delivery! The pizza was perfectly made.&rdquo;
+                </p>
+              </div>
 
-              <div className="flex items-center gap-4 pt-4 border-t border-[#123C32]/10">
-                <div className="relative h-11 w-11 rounded-full overflow-hidden border border-[#123C32]/20">
-                  <Image src={IMAGES.avatar1} alt="Elena Rostova" fill className="object-cover" unoptimized />
+              <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
+                <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-[#ff5b00]">
+                  <Image
+                    src={IMAGES.avatar1}
+                    alt="Samiksha Shrestha"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-[#123C32]">Elena Rostova</h4>
-                  <p className="text-xs text-[#17201C]/60 font-medium">Verified Customer</p>
+                  <h4 className="text-sm font-black text-slate-900">Samiksha Shrestha</h4>
+                  <p className="text-xs text-slate-500">Verified Customer</p>
                 </div>
               </div>
             </div>
 
             {/* Testimonial 2 */}
-            <div className="bg-white rounded-3xl p-8 border border-[#123C32]/10 shadow-sm flex flex-col justify-between space-y-6 text-left">
-              <p className="text-[#17201C]/80 text-sm sm:text-base leading-relaxed font-normal">
-                &ldquo;Clean ingredients, amazing natural botanical flavor, and gorgeous packaging. Highly recommended.&rdquo;
-              </p>
+            <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-200/80 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-1 text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} className="fill-amber-400" />
+                  ))}
+                </div>
+                <p className="text-slate-700 text-sm sm:text-base leading-relaxed italic">
+                  &ldquo;Best food delivery service in town. Everything arrived fresh.&rdquo;
+                </p>
+              </div>
 
-              <div className="flex items-center gap-4 pt-4 border-t border-[#123C32]/10">
-                <div className="relative h-11 w-11 rounded-full overflow-hidden border border-[#123C32]/20">
-                  <Image src={IMAGES.avatar2} alt="Marcus Vance" fill className="object-cover" unoptimized />
+              <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
+                <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-[#ff5b00]">
+                  <Image
+                    src={IMAGES.avatar2}
+                    alt="Rohan Thapa"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-[#123C32]">Marcus Vance</h4>
-                  <p className="text-xs text-[#17201C]/60 font-medium">Verified Customer</p>
+                  <h4 className="text-sm font-black text-slate-900">Rohan Thapa</h4>
+                  <p className="text-xs text-slate-500">Verified Customer</p>
                 </div>
               </div>
             </div>
 
             {/* Testimonial 3 */}
-            <div className="bg-white rounded-3xl p-8 border border-[#123C32]/10 shadow-sm flex flex-col justify-between space-y-6 text-left">
-              <p className="text-[#17201C]/80 text-sm sm:text-base leading-relaxed font-normal">
-                &ldquo;The Citrus Ginger Elixir has replaced my afternoon coffee. Refreshing and makes me feel great.&rdquo;
-              </p>
+            <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-200/80 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-1 text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} className="fill-amber-400" />
+                  ))}
+                </div>
+                <p className="text-slate-700 text-sm sm:text-base leading-relaxed italic">
+                  &ldquo;The drinks are refreshing and the app is very easy to use.&rdquo;
+                </p>
+              </div>
 
-              <div className="flex items-center gap-4 pt-4 border-t border-[#123C32]/10">
-                <div className="relative h-11 w-11 rounded-full overflow-hidden border border-[#123C32]/20">
-                  <Image src={IMAGES.avatar3} alt="Sarah Jenkins" fill className="object-cover" unoptimized />
+              <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
+                <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-[#ff5b00]">
+                  <Image
+                    src={IMAGES.avatar3}
+                    alt="Aayush KC"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-[#123C32]">Sarah Jenkins</h4>
-                  <p className="text-xs text-[#17201C]/60 font-medium">Verified Customer</p>
+                  <h4 className="text-sm font-black text-slate-900">Aayush KC</h4>
+                  <p className="text-xs text-slate-500">Verified Customer</p>
                 </div>
               </div>
             </div>
@@ -701,95 +968,91 @@ export default function HomeLanding() {
 
 
       {/* ================================================== */}
-      {/* 9. FINAL CTA SECTION (Dark Jade Green) */}
+      {/* 10. FOOTER */}
       {/* ================================================== */}
-      <section className="py-24 bg-[#123C32] text-[#F6F3EA] text-center relative overflow-hidden">
-        <div className="mx-auto max-w-[1280px] px-6 sm:px-10 relative z-10 space-y-6">
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Ready to find your favorite?
-          </h2>
-          
-          <p className="text-[#F6F3EA]/80 text-sm sm:text-lg max-w-lg mx-auto font-normal">
-            Explore the collection and discover your next everyday drink.
-          </p>
-
-          <div className="pt-4">
-            <Link
-              href="#shop"
-              className="inline-flex items-center justify-center rounded-full bg-[#D7E85A] hover:bg-[#c9dc4b] px-9 py-4 text-sm font-bold text-[#123C32] shadow-xl transition hover:scale-105"
-            >
-              Shop All Drinks
-            </Link>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ================================================== */}
-      {/* 10. MINIMAL FOOTER */}
-      {/* ================================================== */}
-      <footer id="contact" className="bg-[#17201C] text-[#F6F3EA] pt-16 pb-12">
-        <div className="mx-auto max-w-[1280px] px-6 sm:px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+      <footer id="contact" className="bg-[#08090b] text-white pt-16 pb-12 border-t border-white/10">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           
           {/* Brand Col */}
-          <div className="lg:col-span-2 space-y-4 text-left">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="h-8 w-8 rounded-full bg-[#D7E85A] text-[#123C32] flex items-center justify-center font-bold text-base">
-                J
+          <div className="lg:col-span-2 space-y-4">
+            <Link href="/" className="flex items-center gap-2.5">
+              <div className="h-9 w-9 rounded-full bg-[#ff5b00] flex items-center justify-center text-white">
+                <Flame size={20} className="fill-white" />
               </div>
-              <span className="text-xl font-bold text-white">Jade Drinks</span>
+              <span className="text-2xl font-extrabold tracking-tight text-white">
+                Foodies
+              </span>
             </Link>
-            <p className="text-[#F6F3EA]/70 text-xs sm:text-sm max-w-sm leading-relaxed">
-              Crafted for your everyday ritual. Refreshing botanical drinks made with clean, organic ingredients.
+            <p className="text-slate-400 text-xs sm:text-sm max-w-sm leading-relaxed">
+              &ldquo;Good Food. Great Moments.&rdquo; Delivering your favorite food &amp; drinks fresh to your doorstep within 30 minutes.
             </p>
+
+            <div className="flex items-center gap-3 pt-2">
+              <a href="#" aria-label="Facebook" className="h-9 w-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#ff5b00] transition">
+                <Facebook size={16} />
+              </a>
+              <a href="#" aria-label="Instagram" className="h-9 w-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#ff5b00] transition">
+                <Instagram size={16} />
+              </a>
+              <a href="#" aria-label="Twitter" className="h-9 w-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#ff5b00] transition">
+                <Twitter size={16} />
+              </a>
+              <a href="#" aria-label="YouTube" className="h-9 w-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#ff5b00] transition">
+                <Youtube size={16} />
+              </a>
+            </div>
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-3 text-left">
-            <h4 className="text-xs font-bold text-[#D7E85A] uppercase tracking-wider">Explore</h4>
-            <ul className="space-y-2 text-xs font-semibold text-[#F6F3EA]/70">
-              <li><Link href="#shop" className="hover:text-white transition">Shop</Link></li>
-              <li><Link href="#story" className="hover:text-white transition">Our Story</Link></li>
-              <li><Link href="#ingredients" className="hover:text-white transition">Ingredients</Link></li>
-              <li><Link href="#journal" className="hover:text-white transition">Journal</Link></li>
+          <div className="space-y-3">
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider">Quick Links</h4>
+            <ul className="space-y-2 text-xs font-semibold text-slate-400">
+              <li><Link href="/" className="hover:text-white transition">Home</Link></li>
+              <li><Link href="#menu" className="hover:text-white transition">Menu</Link></li>
+              <li><Link href="#about" className="hover:text-white transition">About Us</Link></li>
+              <li><Link href="#offers" className="hover:text-white transition">Offers</Link></li>
               <li><Link href="#contact" className="hover:text-white transition">Contact</Link></li>
             </ul>
           </div>
 
-          {/* Legal / Social */}
-          <div className="space-y-3 text-left">
-            <h4 className="text-xs font-bold text-[#D7E85A] uppercase tracking-wider">Social</h4>
-            <ul className="space-y-2 text-xs font-semibold text-[#F6F3EA]/70">
-              <li><a href="#" className="hover:text-white transition flex items-center gap-1.5"><Instagram size={14} /> Instagram</a></li>
-              <li><Link href="#" className="hover:text-white transition">Privacy Policy</Link></li>
-              <li><Link href="#" className="hover:text-white transition">Terms &amp; Conditions</Link></li>
+          {/* Categories */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider">Categories</h4>
+            <ul className="space-y-2 text-xs font-semibold text-slate-400">
+              <li><Link href="#categories" className="hover:text-white transition">Pizza</Link></li>
+              <li><Link href="#categories" className="hover:text-white transition">Burgers</Link></li>
+              <li><Link href="#categories" className="hover:text-white transition">Chicken</Link></li>
+              <li><Link href="#categories" className="hover:text-white transition">Asian Food</Link></li>
+              <li><Link href="#categories" className="hover:text-white transition">Drinks</Link></li>
+              <li><Link href="#categories" className="hover:text-white transition">Coffee / Mocktails</Link></li>
             </ul>
           </div>
 
-          {/* Newsletter Signup */}
-          <div className="space-y-3 text-left">
-            <h4 className="text-xs font-bold text-[#D7E85A] uppercase tracking-wider">Newsletter</h4>
-            <p className="text-xs text-[#F6F3EA]/70">Get occasional notes from Jade.</p>
+          {/* Subscribe */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider">Subscribe</h4>
+            <p className="text-xs text-slate-400">Get exclusive offers and updates.</p>
 
             <form onSubmit={handleSubscribe} className="space-y-2">
-              <div className="relative flex items-center rounded-full bg-white/10 border border-white/20 p-1">
+              <div className="relative flex items-center rounded-2xl bg-white/10 border border-white/20 p-1">
                 <input
                   type="email"
                   required
                   value={newsletterEmail}
                   onChange={e => setNewsletterEmail(e.target.value)}
-                  placeholder="Your email"
-                  className="w-full bg-transparent px-3 py-2 text-xs text-white placeholder-[#F6F3EA]/50 outline-none"
+                  placeholder="Your email address"
+                  className="w-full bg-transparent px-3 py-2 text-xs text-white placeholder-slate-400 outline-none"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-full bg-[#D7E85A] text-[#123C32] text-xs font-bold shrink-0 hover:bg-[#c9dc4b] transition"
+                  aria-label="Subscribe to newsletter"
+                  className="h-8 w-8 rounded-xl bg-[#ff5b00] hover:bg-[#e05000] text-white flex items-center justify-center shrink-0 transition"
                 >
-                  Subscribe
+                  <Send size={14} />
                 </button>
               </div>
               {subscribed && (
-                <p className="text-[11px] text-[#D7E85A] font-semibold">
+                <p className="text-[11px] text-emerald-400 font-semibold">
                   Thank you for subscribing!
                 </p>
               )}
@@ -798,9 +1061,13 @@ export default function HomeLanding() {
 
         </div>
 
-        <div className="mx-auto max-w-[1280px] px-6 sm:px-10 mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-[#F6F3EA]/50 font-medium gap-4">
-          <p>© 2026 Jade Drinks. All rights reserved.</p>
-          <p>Thoughtfully Crafted Everyday Beverages</p>
+        {/* Bottom copyright */}
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-semibold gap-4">
+          <p>© 2026 Foodies. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <Link href="#" className="hover:text-slate-300 transition">Privacy Policy</Link>
+            <Link href="#" className="hover:text-slate-300 transition">Terms &amp; Conditions</Link>
+          </div>
         </div>
       </footer>
 
