@@ -66,8 +66,14 @@ export default function HomeLanding() {
   const [subscribed, setSubscribed] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Live Database Catalog state
+  // Live Database Catalog & Settings state
   const [dbProducts, setDbProducts] = useState<any[]>([]);
+  const [siteSettings, setSiteSettings] = useState<any>({
+    system_name: 'Foodies',
+    tagline: 'GOOD FOOD. GREAT MOMENTS.',
+    logo_text: 'Foodies',
+    footer_text: '© 2026 Foodies. All rights reserved.',
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,20 +91,31 @@ export default function HomeLanding() {
   }, []);
 
   useEffect(() => {
-    async function loadCatalog() {
+    async function loadCatalogAndSettings() {
       try {
-        const res = await fetch('/api/catalog');
-        if (res.ok) {
-          const json = await res.json();
+        const [catRes, setRes] = await Promise.all([
+          fetch('/api/catalog'),
+          fetch('/api/settings'),
+        ]);
+
+        if (catRes.ok) {
+          const json = await catRes.json();
           if (json.products && json.products.length > 0) {
             setDbProducts(json.products);
           }
         }
+
+        if (setRes.ok) {
+          const sJson = await setRes.json();
+          if (sJson.settings) {
+            setSiteSettings(sJson.settings);
+          }
+        }
       } catch (err) {
-        console.error('Catalog fetch note:', err);
+        console.error('Catalog/Settings fetch note:', err);
       }
     }
-    loadCatalog();
+    loadCatalogAndSettings();
   }, []);
 
   const handleAddToCart = (id: string) => {
@@ -135,11 +152,23 @@ export default function HomeLanding() {
       >
         <div className="mx-auto max-w-[1440px] px-4 sm:px-8 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="h-10 w-10 rounded-full bg-white text-[#ff3b00] flex items-center justify-center font-black shadow-md group-hover:scale-105 transition-transform duration-200">
-              <Flame size={22} className="fill-[#ff3b00]" />
-            </div>
+            {siteSettings.logo_url ? (
+              <div className="relative h-10 w-10 overflow-hidden rounded-full border border-white/20 bg-white p-0.5 shadow-md">
+                <Image
+                  src={siteSettings.logo_url}
+                  alt={siteSettings.system_name || 'Foodies'}
+                  fill
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+            ) : (
+              <div className="h-10 w-10 rounded-full bg-white text-[#ff3b00] flex items-center justify-center font-black shadow-md group-hover:scale-105 transition-transform duration-200">
+                <Flame size={22} className="fill-[#ff3b00]" />
+              </div>
+            )}
             <span className="text-2xl font-black tracking-tight text-white drop-shadow-sm">
-              Foodies
+              {siteSettings.system_name || 'Foodies'}
             </span>
           </Link>
 
@@ -991,7 +1020,7 @@ export default function HomeLanding() {
         </div>
 
         <div className="mx-auto max-w-[1440px] px-4 sm:px-8 mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-semibold gap-4">
-          <p>© 2026 Foodies. All rights reserved.</p>
+          <p>{siteSettings.footer_text || `© ${new Date().getFullYear()} ${siteSettings.system_name || 'Foodies'}. All rights reserved.`}</p>
           <div className="flex items-center gap-6">
             <Link href="#" className="hover:text-slate-300 transition">Privacy Policy</Link>
             <Link href="#" className="hover:text-slate-300 transition">Terms &amp; Conditions</Link>
