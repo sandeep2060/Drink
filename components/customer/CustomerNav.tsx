@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Beer,
@@ -46,6 +47,28 @@ export function CustomerNav({
   branchMode = 'LIQUOR',
   setBranchMode,
 }: CustomerNavProps) {
+  const [siteSettings, setSiteSettings] = useState<{ system_name?: string; logo_text?: string; logo_url?: string }>({
+    system_name: 'Drinks & Grocery Delivery',
+    logo_text: 'DD',
+  });
+
+  useEffect(() => {
+    async function fetchSettings() {
+      try {
+        const res = await fetch('/api/settings');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.settings) {
+            setSiteSettings(json.settings);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching settings for CustomerNav:', err);
+      }
+    }
+    fetchSettings();
+  }, []);
+
   return (
     <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0d0f12]/95 backdrop-blur-md text-white">
       {/* Top micro banner */}
@@ -53,7 +76,7 @@ export function CustomerNav({
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div className="flex items-center gap-2 font-bold">
             <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-white" />
-            <span>Foodies & Cheers E-Commerce Butwal</span>
+            <span>{siteSettings.system_name || 'Drinks & Grocery Delivery'} Express</span>
             <span className="hidden text-orange-100 sm:inline">· Instant 30-45 min delivery</span>
           </div>
           <div className="flex items-center gap-4 text-[11px] font-bold">
@@ -73,11 +96,15 @@ export function CustomerNav({
           {/* Logo & Brand + Branch Switcher */}
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="h-9 w-9 rounded-full bg-[#ff5b00] text-white flex items-center justify-center font-black shadow-lg shadow-orange-600/30 group-hover:scale-105 transition duration-200">
-                <Flame size={20} className="fill-white" />
+              <div className="h-9 w-9 rounded-full bg-[#ff5b00] text-white flex items-center justify-center font-black shadow-lg shadow-orange-600/30 group-hover:scale-105 transition duration-200 overflow-hidden">
+                {siteSettings.logo_url ? (
+                  <img src={siteSettings.logo_url} alt="Logo" className="h-full w-full object-cover" />
+                ) : (
+                  <Flame size={20} className="fill-white" />
+                )}
               </div>
-              <span className="text-xl font-black tracking-tight text-white drop-shadow-sm">
-                Foodies
+              <span className="text-xl font-black tracking-tight text-white drop-shadow-sm truncate max-w-[180px]">
+                {siteSettings.system_name || 'Drinks Delivery'}
               </span>
             </Link>
 
