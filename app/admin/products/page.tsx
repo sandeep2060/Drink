@@ -181,11 +181,32 @@ export default function AdminProductsPage() {
     loadProducts();
   }
 
-  function handleDelete(id: string, productName: string) {
+  async function handleDelete(id: string, productName: string) {
     if (confirm(`Are you sure you want to remove "${productName}" from the catalog?`)) {
+      try {
+        await fetch(`/api/products?id=${id}`, { method: 'DELETE' });
+      } catch (err) {
+        console.error('Database delete failed:', err);
+      }
       deleteCatalogProduct(id);
-      loadProducts();
+      await loadProducts();
       showToast(`Removed ${productName}`);
+    }
+  }
+
+  async function handleClearAllBulkProducts() {
+    if (confirm('⚠️ Are you sure you want to DELETE ALL PRODUCTS? This action will clear all catalog items from the database.')) {
+      try {
+        await fetch('/api/products?all=true', { method: 'DELETE' });
+      } catch (err) {
+        console.error('Database purge failed:', err);
+      }
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('drinkdrop_products_catalog_v1', JSON.stringify([]));
+        window.dispatchEvent(new Event('drinkdrop_storage_update'));
+      }
+      setProducts([]);
+      showToast('All bulk products removed successfully!');
     }
   }
 
@@ -247,14 +268,26 @@ export default function AdminProductsPage() {
           </select>
         </div>
 
-        {/* Add Product Button */}
-        <button
-          type="button"
-          onClick={handleOpenCreate}
-          className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-blue-700 transition"
-        >
-          <Plus size={16} /> Add Drink Product
-        </button>
+        {/* Buttons */}
+        <div className="flex items-center gap-2">
+          {products.length > 0 && (
+            <button
+              type="button"
+              onClick={handleClearAllBulkProducts}
+              className="flex items-center gap-1.5 rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-bold text-red-600 shadow-xs hover:bg-red-100 transition"
+              title="Remove all products from catalog and database"
+            >
+              <Trash2 size={15} /> Remove Bulk Products
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={handleOpenCreate}
+            className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-blue-700 transition"
+          >
+            <Plus size={16} /> Add Drink Product
+          </button>
+        </div>
       </div>
 
       {/* Catalog Table */}

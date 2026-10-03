@@ -144,3 +144,34 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: err.message || 'Failed to update product' }, { status: 500 });
   }
 }
+
+// DELETE product or clear all products from Database
+export async function DELETE(request: NextRequest) {
+  const supabase = await getSupabaseServerClient();
+  if (!supabase) {
+    return NextResponse.json({ error: 'Supabase configuration missing.' }, { status: 500 });
+  }
+
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    const all = searchParams.get('all');
+
+    if (all === 'true') {
+      const { error } = await supabase.from('products').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+      return NextResponse.json({ success: true, message: 'All products removed' });
+    }
+
+    if (!id) {
+      return NextResponse.json({ error: 'Product ID required' }, { status: 400 });
+    }
+
+    const { error } = await supabase.from('products').delete().eq('id', id);
+    if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+
+    return NextResponse.json({ success: true });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || 'Failed to delete product' }, { status: 500 });
+  }
+}
