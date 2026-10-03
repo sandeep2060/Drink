@@ -524,12 +524,6 @@ export default function HomeLanding() {
                   />
                 </div>
               </div>
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
-                </div>
-              </div>
 
             </div>
 
