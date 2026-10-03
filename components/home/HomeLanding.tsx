@@ -6,13 +6,11 @@ import Link from 'next/link';
 import {
   Search,
   ShoppingBag,
-  User,
   Menu,
   X,
   Star,
   Heart,
   ArrowRight,
-  ChevronRight,
   Clock,
   ShieldCheck,
   Award,
@@ -22,76 +20,66 @@ import {
   Plus,
   Check,
   Flame,
+  ArrowDown,
   Instagram,
   Facebook,
   Twitter,
-  Youtube,
-  Smartphone,
-  Truck,
-  Zap,
-  Leaf,
-  Smile,
-  RefreshCw
+  Youtube
 } from 'lucide-react';
 import SignatureDrinkCanvas from './SignatureDrinkCanvas';
 
-// High resolution commercial beverage photography assets
 const IMAGES = {
-  // Hero Composition Drinks
-  heroDrinkMain: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1000&auto=format&fit=crop',
-  heroDrinkSec: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop',
-  heroDrinkTert: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?q=80&w=800&auto=format&fit=crop',
-  // Category Display Cards
-  catSparkling: 'https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=800&auto=format&fit=crop',
-  catJuice: 'https://images.unsplash.com/photo-1621263764928-df1444c5e859?q=80&w=800&auto=format&fit=crop',
-  catEnergy: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=800&auto=format&fit=crop',
-  catTea: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=800&auto=format&fit=crop',
-  catMocktail: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop',
-  catHydration: 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?q=80&w=800&auto=format&fit=crop',
-  catSpirits: 'https://images.unsplash.com/photo-1527281400683-1aae777175f8?q=80&w=800&auto=format&fit=crop',
-  // Popular Products
-  prodMatcha: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?q=80&w=800&auto=format&fit=crop',
-  prodYuzu: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop',
-  prodBerry: 'https://images.unsplash.com/photo-1546171753-97d7676e4602?q=80&w=800&auto=format&fit=crop',
-  prodGinger: 'https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=800&auto=format&fit=crop',
-  // Brand Story & Lifestyle
-  storyCraft: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=1000&auto=format&fit=crop',
-  appMockup: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop',
-  // Testimonial Avatars
+  heroBurger: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1200&auto=format&fit=crop',
+  catPizza: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop',
+  catBurger: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?q=80&w=800&auto=format&fit=crop',
+  catChicken: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=800&auto=format&fit=crop',
+  catAsian: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=800&auto=format&fit=crop',
+  catDrinks: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop',
+  catDesserts: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop',
+  catCoffee: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=800&auto=format&fit=crop',
+  prodMargherita: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=800&auto=format&fit=crop',
+  prodBurger: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop',
+  prodWings: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?q=80&w=800&auto=format&fit=crop',
+  prodCoffee: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=800&auto=format&fit=crop',
   avatar1: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&auto=format&fit=crop',
   avatar2: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300&auto=format&fit=crop',
   avatar3: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop',
 };
 
-const CATEGORIES = [
-  { id: 'sparkling', name: 'Sparkling Botanicals', desc: 'Light & Effervescent', bg: 'from-[#0E3B2E] to-[#174e3e]', image: IMAGES.catSparkling, color: '#B8D94E' },
-  { id: 'juices', name: 'Cold-Pressed Juices', desc: '100% Real Fruit', bg: 'from-[#2d5740] to-[#1e402e]', image: IMAGES.catJuice, color: '#FFFFFF' },
-  { id: 'energy', name: 'Natural Energy', desc: 'Plant-Based Boost', bg: 'from-[#47765B] to-[#2d523d]', image: IMAGES.catEnergy, color: '#B8D94E' },
-  { id: 'teas', name: 'Artisanal Teas & Matcha', desc: 'Ceremonial Grade', bg: 'from-[#173026] to-[#0b1f18]', image: IMAGES.catTea, color: '#FFFFFF' },
-  { id: 'mocktails', name: 'Craft Mocktails', desc: 'Zero Alcohol Refreshment', bg: 'from-[#1e4638] to-[#113127]', image: IMAGES.catMocktail, color: '#B8D94E' },
-  { id: 'hydration', name: 'Electrolyte Hydration', desc: 'Essential Minerals', bg: 'from-[#2d5d48] to-[#1c4233]', image: IMAGES.catHydration, color: '#FFFFFF' },
-  { id: 'spirits', name: 'Premium Craft Beverages', desc: 'Curated Cellar', bg: 'from-[#0E3B2E] to-[#08261e]', image: IMAGES.catSpirits, color: '#B8D94E' },
+const HERO_SLIDES = [
+  'https://instagram.fktm17-1.fna.fbcdn.net/v/t51.82787-15/581956763_18102710806677653_9099968982455809756_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=Mzc2NzUwODg2NjAxNjU4OTkxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=k7YA3rnb0twQ7kNvwEdbAUa&_nc_oc=AdqY6_DRoz03CrBgHHSoZhstQ_MS9afeJmWNNP3Cfqj3cClZD0BtTQ2sdbC9RXS_azqhV7TSjJX9a7YkUb2wpsr-&_nc_zt=23&_nc_ht=instagram.fktm17-1.fna&_nc_gid=MqaJlvmwprD7HuVrvCJLcA&_nc_ss=7b689&oh=00_AQOMni4P6DXqlrOgEc7FLyhh2p0-CTDhxKSN9s0XA6HHpg&oe=6AC6BDAD',
+  'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1600&auto=format&fit=crop',
 ];
 
 export default function HomeLanding() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+  const [cartCount, setCartCount] = useState(2);
   const [addedItems, setAddedItems] = useState<{ [key: string]: boolean }>({});
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
-  const [searchQuery, setSearchQuery] = useState('');
+  const [location, setLocation] = useState('');
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   // Live Database Catalog state
   const [dbProducts, setDbProducts] = useState<any[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+      setScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide(prev => (prev + 1) % HERO_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -133,114 +121,94 @@ export default function HomeLanding() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F5ED] text-[#17211D] font-sans antialiased overflow-x-hidden selection:bg-[#0E3B2E] selection:text-[#B8D94E]">
+    <div className="min-h-screen bg-[#0d0f12] text-white font-sans antialiased overflow-x-hidden">
       
       {/* ================================================== */}
-      {/* 1. HEADER / NAVIGATION */}
+      {/* 3. HEADER / NAVIGATION */}
       {/* ================================================== */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-[#F8F5ED]/90 backdrop-blur-md border-b border-[#0E3B2E]/10 py-3.5 shadow-sm'
-            : 'bg-transparent py-5'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-gradient-to-r from-[#ff3b00] via-[#ff4d00] to-[#ff5b00] text-white shadow-xl ${
+          scrolled ? 'py-3 border-b border-orange-700/40 shadow-2xl backdrop-blur-md' : 'py-4.5'
         }`}
       >
-        <div className="mx-auto max-w-[1360px] px-5 sm:px-8 flex items-center justify-between">
-          
-          {/* Left: JADE Logo */}
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="h-10 w-10 rounded-2xl bg-[#0E3B2E] flex items-center justify-center text-[#B8D94E] font-black text-xl shadow-md group-hover:scale-105 transition-transform">
-              J
+            <div className="h-10 w-10 rounded-full bg-white text-[#ff3b00] flex items-center justify-center font-black shadow-md group-hover:scale-105 transition-transform duration-200">
+              <Flame size={22} className="fill-[#ff3b00]" />
             </div>
-            <span className="text-2xl font-black tracking-tight text-[#0E3B2E]">
-              JADE <span className="text-xs font-bold uppercase tracking-widest text-[#47765B] block -mt-1">DRINKS</span>
+            <span className="text-2xl font-black tracking-tight text-white drop-shadow-sm">
+              Foodies
             </span>
           </Link>
 
-          {/* Center: Clean Compact Navigation */}
-          <nav className="hidden md:flex items-center gap-9 text-sm font-bold text-[#17211D]/80">
-            <Link href="/" className="text-[#0E3B2E] font-extrabold relative py-1 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[#0E3B2E]">
+          <nav className="hidden md:flex items-center gap-9 text-base font-extrabold text-white/90 tracking-wide">
+            <Link
+              href="/"
+              className="text-white relative py-1 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-white after:rounded-full"
+            >
               Home
             </Link>
-            <Link href="#shop" className="hover:text-[#0E3B2E] transition-colors">
-              Shop
+            <Link href="#menu" className="hover:text-white transition-colors">
+              Menu
             </Link>
-            <Link href="#categories" className="hover:text-[#0E3B2E] transition-colors">
-              Categories
-            </Link>
-            <Link href="#about" className="hover:text-[#0E3B2E] transition-colors">
+            <Link href="#about" className="hover:text-white transition-colors">
               About
             </Link>
-            <Link href="#contact" className="hover:text-[#0E3B2E] transition-colors">
+            <Link href="#offers" className="hover:text-white transition-colors">
+              Offers
+            </Link>
+            <Link href="#contact" className="hover:text-white transition-colors">
               Contact
             </Link>
           </nav>
 
-          {/* Right: Search, Account, Cart & "Order Now" Button */}
           <div className="flex items-center gap-4 sm:gap-5">
             <button
-              aria-label="Search"
-              className="p-2 rounded-full text-[#0E3B2E] hover:bg-[#0E3B2E]/5 transition"
+              aria-label="Search food"
+              className="p-2.5 rounded-full text-white hover:bg-white/20 transition"
             >
-              <Search size={20} />
+              <Search size={22} />
             </button>
 
             <Link
-              href="/login"
-              aria-label="Account"
-              className="p-2 rounded-full text-[#0E3B2E] hover:bg-[#0E3B2E]/5 transition hidden sm:flex"
+              href="/customer"
+              aria-label="View Shopping Cart"
+              className="relative p-2.5 rounded-full text-white hover:bg-white/20 transition"
             >
-              <User size={20} />
-            </Link>
-
-            <Link
-              href="#shop"
-              aria-label="Cart"
-              className="relative p-2 rounded-full text-[#0E3B2E] hover:bg-[#0E3B2E]/5 transition"
-            >
-              <ShoppingBag size={20} />
+              <ShoppingBag size={22} />
               {cartCount > 0 && (
-                <span className="absolute top-0.5 right-0.5 h-4.5 w-4.5 rounded-full bg-[#0E3B2E] text-[10px] font-black text-[#B8D94E] flex items-center justify-center">
+                <span className="absolute top-1 right-1 h-5 w-5 rounded-full bg-white text-xs font-black text-[#ff3b00] flex items-center justify-center ring-2 ring-[#ff3b00] shadow-sm">
                   {cartCount}
                 </span>
               )}
             </Link>
 
-            <Link
-              href="#shop"
-              className="hidden sm:inline-flex items-center justify-center rounded-full bg-[#0E3B2E] hover:bg-[#09281f] px-6 py-2.5 text-xs font-black text-[#F8F5ED] shadow-sm transition hover:scale-[1.02] active:scale-[0.98]"
-            >
-              Order Now
-            </Link>
-
-            {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-[#0E3B2E]"
-              aria-label="Toggle Menu"
+              className="md:hidden p-2 rounded-lg text-white hover:bg-white/20 transition"
+              aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#F8F5ED] border-b border-[#0E3B2E]/10 px-6 py-6 space-y-4 animate-in slide-in-from-top-4">
-            <nav className="flex flex-col gap-4 text-base font-extrabold text-[#0E3B2E]">
-              <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+          <div className="md:hidden bg-[#ff3b00] border-t border-white/20 px-6 py-6 space-y-4 animate-in slide-in-from-top-4 duration-200">
+            <nav className="flex flex-col gap-4 text-lg font-extrabold text-white">
+              <Link href="/" onClick={() => setMobileMenuOpen(false)} className="underline underline-offset-4">
                 Home
               </Link>
-              <Link href="#shop" onClick={() => setMobileMenuOpen(false)}>
-                Shop
+              <Link href="#menu" onClick={() => setMobileMenuOpen(false)} className="hover:text-white/80">
+                Menu
               </Link>
-              <Link href="#categories" onClick={() => setMobileMenuOpen(false)}>
-                Categories
-              </Link>
-              <Link href="#about" onClick={() => setMobileMenuOpen(false)}>
+              <Link href="#about" onClick={() => setMobileMenuOpen(false)} className="hover:text-white/80">
                 About
               </Link>
-              <Link href="#contact" onClick={() => setMobileMenuOpen(false)}>
+              <Link href="#offers" onClick={() => setMobileMenuOpen(false)} className="hover:text-white/80">
+                Offers
+              </Link>
+              <Link href="#contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-white/80">
                 Contact
               </Link>
             </nav>
@@ -250,255 +218,415 @@ export default function HomeLanding() {
 
 
       {/* ================================================== */}
-      {/* 2. HERO SECTION */}
+      {/* 4. HERO SECTION WITH 5-SECOND AUTO BACKGROUND SLIDER */}
       {/* ================================================== */}
-      <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-28 overflow-hidden bg-[#F8F5ED]">
-        {/* Abstract Soft Organic Backdrop Accent */}
-        <div className="absolute top-10 right-10 w-[580px] h-[580px] bg-[#47765B]/15 rounded-full blur-[130px] pointer-events-none" />
+      <section className="relative min-h-[90vh] pt-28 pb-16 lg:pt-36 lg:pb-24 flex flex-col justify-between overflow-hidden bg-[#18092b]">
+        
+        {HERO_SLIDES.map((slideImg, idx) => (
+          <div
+            key={idx}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              idx === currentSlide
+                ? 'opacity-85 scale-105 transition-transform duration-10000'
+                : 'opacity-0 pointer-events-none'
+            }`}
+          >
+            <Image
+              src={slideImg}
+              alt="Food & Drinks Delivery Background"
+              fill
+              priority={idx === 0}
+              className="object-cover object-center"
+              unoptimized
+            />
+          </div>
+        ))}
 
-        <div className="mx-auto max-w-[1360px] px-5 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#190a36]/65 via-[#260e4e]/50 to-[#0b0c16]/80 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/25 pointer-events-none" />
+
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 w-full flex-1 flex flex-col items-center justify-center text-center relative z-10 py-12">
           
-          {/* Left Column: Headlines & Action CTAs */}
-          <div className="lg:col-span-6 space-y-7 text-left">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#0E3B2E]/20 bg-[#0E3B2E]/5 px-4 py-1.5 text-xs font-black uppercase tracking-widest text-[#0E3B2E]">
-              <Sparkles size={14} className="text-[#0E3B2E]" />
-              <span>REFRESH YOUR EVERYDAY</span>
-            </div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-purple-400/40 bg-purple-900/60 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-purple-200 backdrop-blur-md shadow-lg mb-6">
+            <Sparkles size={15} className="text-[#ff5b00]" />
+            <span>NEPAL&apos;S #1 FASTEST DELIVERY PLATFORM</span>
+          </div>
 
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-[#0E3B2E] leading-[0.98]">
-              GOOD DRINKS. <br />
-              <span className="text-[#47765B]">BETTER MOMENTS.</span>
-            </h1>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight uppercase leading-tight drop-shadow-2xl">
+            <span className="text-[#ff5b00]">FOOD &amp; </span>
+            <span className="text-[#00e5ff]">DRINKS </span>
+            <span className="text-white">DELIVERY</span>
+          </h1>
 
-            <p className="text-[#66716B] text-base sm:text-xl font-medium max-w-lg leading-relaxed">
-              Discover refreshing drinks made for every mood, every moment, and every gathering. Fast delivery across Nepal.
-            </p>
+          <p className="mt-3 text-sm sm:text-base font-bold tracking-widest text-slate-200 uppercase drop-shadow">
+            EASY, FAST &amp; CONVENIENT
+          </p>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+          <div className="mt-8 w-full max-w-2xl">
+            <div className="relative flex items-center rounded-full border border-white/30 bg-white p-2 shadow-2xl backdrop-blur-md transition-all focus-within:border-[#ff5b00] focus-within:ring-4 focus-within:ring-orange-500/30">
+              <Search size={22} className="ml-3.5 text-slate-400 shrink-0" />
+              <input
+                type="text"
+                value={location}
+                onChange={e => setLocation(e.target.value)}
+                placeholder="Search for food or drinks (beer, whisky, momo, pizza, snacks...)"
+                className="w-full bg-transparent px-3 py-2.5 text-sm sm:text-base font-semibold text-slate-900 outline-none placeholder:text-slate-400"
+              />
               <Link
-                href="#shop"
-                className="inline-flex items-center gap-2.5 rounded-full bg-[#0E3B2E] hover:bg-[#09281f] px-8 py-4 text-sm font-black text-[#F8F5ED] shadow-md transition hover:scale-[1.02] active:scale-[0.98]"
+                href="/customer"
+                className="flex items-center gap-2 rounded-full bg-[#ff5b00] px-6 py-3 text-xs sm:text-sm font-bold text-white shadow-lg hover:bg-[#e05000] transition shrink-0"
               >
-                <span>Shop Drinks</span>
-                <ArrowRight size={17} />
-              </Link>
-              
-              <Link
-                href="#categories"
-                className="inline-flex items-center gap-2 rounded-full border-2 border-[#0E3B2E] px-8 py-4 text-sm font-black text-[#0E3B2E] hover:bg-[#0E3B2E]/5 transition"
-              >
-                <span>Explore Categories</span>
+                <span>SEARCH</span>
+                <ArrowRight size={16} />
               </Link>
             </div>
           </div>
 
-          {/* Right Column: Multi-Product Composition */}
-          <div className="lg:col-span-6 relative flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[560px] aspect-4/3 sm:aspect-square flex items-center justify-center">
-              
-              {/* Organic Soft Abstract Backdrop */}
-              <div className="absolute inset-4 rounded-[48px] bg-gradient-to-br from-[#47765B]/20 via-[#0E3B2E]/10 to-transparent border border-[#0E3B2E]/10 shadow-xl" />
+          <p className="mt-5 text-xs sm:text-sm font-bold tracking-widest text-cyan-300 uppercase drop-shadow-sm">
+            ALCOHOL, BEVERAGES &amp; FOOD DELIVERY WITHIN 45 MINS
+          </p>
 
-              {/* Main Product Bottle */}
-              <div className="relative z-20 w-[55%] aspect-3/4 rounded-3xl overflow-hidden shadow-2xl border-2 border-white/60 transform -rotate-3 transition duration-500 hover:rotate-0 hover:scale-105">
-                <Image
-                  src={IMAGES.heroDrinkMain}
-                  alt="JADE Premium Beverage"
-                  fill
-                  priority
-                  className="object-cover"
-                  unoptimized
-                />
-                <span className="absolute top-3 left-3 bg-[#B8D94E] text-[#0E3B2E] text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm">
-                  Best Seller
-                </span>
-              </div>
-
-              {/* Secondary Product Bottle */}
-              <div className="absolute left-2 bottom-4 z-10 w-[42%] aspect-3/4 rounded-3xl overflow-hidden shadow-xl border-2 border-white/60 transform rotate-6 transition duration-500 hover:rotate-0">
-                <Image
-                  src={IMAGES.heroDrinkSec}
-                  alt="JADE Botanical Drink"
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-                <span className="absolute top-3 left-3 bg-[#0E3B2E] text-[#F8F5ED] text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm">
-                  Fresh
-                </span>
-              </div>
-
-              {/* Tertiary Product Bottle */}
-              <div className="absolute right-2 top-4 z-30 w-[38%] aspect-3/4 rounded-3xl overflow-hidden shadow-2xl border-2 border-white/60 transform rotate-12 transition duration-500 hover:rotate-0">
-                <Image
-                  src={IMAGES.heroDrinkTert}
-                  alt="JADE Sparkling Tea"
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-                <span className="absolute top-3 right-3 bg-[#47765B] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm">
-                  New
-                </span>
-              </div>
-
-            </div>
+          <div className="mt-7 flex items-center gap-2.5">
+            {HERO_SLIDES.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentSlide(idx)}
+                className={`h-2.5 rounded-full transition-all duration-300 ${
+                  idx === currentSlide
+                    ? 'w-8 bg-[#ff5b00] shadow-md shadow-orange-500/50'
+                    : 'w-2.5 bg-white/40 hover:bg-white'
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
           </div>
 
         </div>
-      </section>
 
-
-      {/* ================================================== */}
-      {/* 3. SEARCH & EXPRESS BAR (BARMANDOO UX INSPIRED) */}
-      {/* ================================================== */}
-      <section className="bg-[#0E3B2E] py-8 text-[#F8F5ED] shadow-xl">
-        <div className="mx-auto max-w-[1360px] px-5 sm:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            
-            <div className="text-center md:text-left space-y-1">
-              <span className="text-xs font-black uppercase tracking-widest text-[#B8D94E]">
-                EXPRESS DELIVERY ACROSS KATHMANDU &amp; BUTWAL
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black text-white">Find Your Drink in Seconds</h3>
+        <div className="relative z-20 border-t border-white/15 bg-black/60 backdrop-blur-md py-3.5 text-xs font-semibold text-slate-200">
+          <div className="mx-auto flex max-w-7xl items-center justify-around px-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={16} className="text-[#ff5b00]" />
+              <span>100% Genuine Quality</span>
             </div>
-
-            {/* Quick Search Bar */}
-            <div className="w-full md:max-w-xl">
-              <div className="relative flex items-center rounded-full bg-white p-1.5 shadow-lg">
-                <Search size={20} className="ml-3.5 text-slate-400 shrink-0" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  placeholder="Search drinks (sparkling, juice, matcha, tea, mocktails...)"
-                  className="w-full bg-transparent px-3 py-2 text-sm font-bold text-[#17211D] outline-none placeholder:text-slate-400"
-                />
-                <Link
-                  href="#shop"
-                  className="flex items-center gap-2 rounded-full bg-[#0E3B2E] px-6 py-2.5 text-xs font-black text-[#F8F5ED] hover:bg-[#09281f] transition shrink-0"
-                >
-                  <span>SEARCH</span>
-                  <ArrowRight size={15} />
-                </Link>
-              </div>
+            <div className="flex items-center gap-2">
+              <Clock size={16} className="text-cyan-400" />
+              <span>45 Min Express Delivery</span>
             </div>
-
+            <div className="flex items-center gap-2">
+              <Award size={16} className="text-[#ff5b00]" />
+              <span>24/7 Late-Night Delivery</span>
+            </div>
           </div>
         </div>
       </section>
 
 
       {/* ================================================== */}
-      {/* 4. VISUAL SHOP BY CATEGORY */}
+      {/* 5. SHOP BY CATEGORY (MATCHING REFERENCE CARD GRID) */}
       {/* ================================================== */}
-      <section id="categories" className="py-20 lg:py-28 bg-[#F8F5ED]">
-        <div className="mx-auto max-w-[1360px] px-5 sm:px-8">
+      <section id="categories" className="py-16 lg:py-24 bg-[#0b0c0e] relative">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
             <div>
-              <span className="text-xs font-black tracking-widest text-[#47765B] uppercase block mb-1">
-                EXPLORE CATALOG
+              <span className="text-xs font-bold tracking-widest text-[#ff5b00] uppercase block mb-1">
+                WHAT ARE YOU CRAVING?
               </span>
-              <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[#0E3B2E]">
-                Shop by <span className="text-[#47765B]">Category</span>
+              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+                Shop by <span className="text-[#ff5b00]">Category</span>
               </h2>
-              <p className="text-[#66716B] text-sm sm:text-base font-medium mt-2">
-                Discover curated beverages for every occasion
+              <p className="text-slate-300 text-sm sm:text-base font-normal mt-2">
+                Explore our delicious food &amp; drinks categories
               </p>
             </div>
 
             <Link
-              href="#shop"
-              className="inline-flex items-center gap-2 text-sm font-black text-[#0E3B2E] hover:text-[#47765B] transition group shrink-0"
+              href="#menu"
+              className="inline-flex items-center gap-2 text-sm font-bold text-[#ff5b00] hover:text-[#e05000] transition group shrink-0"
             >
-              <span>View All Categories</span>
+              <span>View All</span>
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          {/* Category Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {CATEGORIES.map(cat => (
-              <Link
-                key={cat.id}
-                href="#shop"
-                className={`group relative rounded-3xl p-6 bg-gradient-to-br ${cat.bg} text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl`}
-              >
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              
+              {/* Card 1: Pizza */}
+              <div className="group relative rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#e58a00] to-[#c86e00] text-white flex flex-col justify-between overflow-hidden min-h-[260px] sm:min-h-[290px] shadow-2xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-orange-950/50">
                 <div className="relative z-10 space-y-1">
-                  <h3 className="text-2xl font-black tracking-tight drop-shadow-sm">{cat.name}</h3>
-                  <p className="text-xs font-bold text-white/80">{cat.desc}</p>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight drop-shadow-md">Pizza</h3>
+                  <p className="text-xs sm:text-sm font-semibold text-amber-100 drop-shadow-xs">Fresh &amp; Tasty</p>
                 </div>
 
-                <div className="relative z-10 flex items-center justify-between mt-6">
-                  <div className="h-10 w-10 rounded-full bg-white text-[#0E3B2E] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                <div className="relative z-10 flex items-center justify-between mt-8">
+                  <div className="h-10 w-10 rounded-full bg-white text-[#c86e00] flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-300">
                     <ArrowRight size={18} />
                   </div>
                 </div>
 
-                {/* Category Image */}
-                <div className="absolute right-[-8%] bottom-[-8%] w-[62%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-105 shadow-2xl opacity-90">
+                <div className="absolute right-[-8%] bottom-[-8%] w-[75%] sm:w-[72%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
                   <Image
-                    src={cat.image}
-                    alt={cat.name}
+                    src={IMAGES.catPizza}
+                    alt="Fresh Tasty Pizza"
                     fill
                     className="object-cover"
                     unoptimized
                   />
                 </div>
-              </Link>
-            ))}
-          </div>
+              </div>
 
+              {/* Card 2: Burgers */}
+              <div className="group relative rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#ff5b00] to-[#d64100] text-white flex flex-col justify-between overflow-hidden min-h-[260px] sm:min-h-[290px] shadow-2xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-orange-950/50">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight drop-shadow-md">Burgers</h3>
+                  <p className="text-xs sm:text-sm font-semibold text-orange-100 drop-shadow-xs">Juicy &amp; Delicious</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-8">
+                  <div className="h-10 w-10 rounded-full bg-white text-[#d64100] flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
+                  </div>
+                </div>
+
+                <div className="absolute right-[-8%] bottom-[-8%] w-[75%] sm:w-[72%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
+                  <Image
+                    src={IMAGES.catBurger}
+                    alt="Juicy Gourmet Burger"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+              {/* Card 3: Chicken */}
+              <div className="group relative rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#dc2626] to-[#991b1b] text-white flex flex-col justify-between overflow-hidden min-h-[260px] sm:min-h-[290px] shadow-2xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-red-950/50">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight drop-shadow-md">Chicken</h3>
+                  <p className="text-xs sm:text-sm font-semibold text-red-100 drop-shadow-xs">Crispy &amp; Spicy</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-8">
+                  <div className="h-10 w-10 rounded-full bg-white text-[#991b1b] flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
+                  </div>
+                </div>
+
+                <div className="absolute right-[-8%] bottom-[-8%] w-[75%] sm:w-[72%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
+                  <Image
+                    src={IMAGES.catChicken}
+                    alt="Crispy Fried Chicken"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              
+              {/* Card 4: Asian Food */}
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#0d9488] to-[#0f766e] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl font-black tracking-tight">Asian Food</h3>
+                  <p className="text-xs sm:text-sm font-bold text-teal-100">Authentic Taste</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-6">
+                  <div className="h-10 w-10 rounded-full bg-white text-[#0f766e] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
+                  </div>
+                </div>
+
+                <div className="absolute right-[-8%] bottom-[-8%] w-[68%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 shadow-2xl">
+                  <Image
+                    src={IMAGES.catAsian}
+                    alt="Authentic Asian Food"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+              {/* Card 5: Drinks */}
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#06b6d4] to-[#0891b2] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl font-black tracking-tight">Drinks</h3>
+                  <p className="text-xs sm:text-sm font-bold text-cyan-100">Cool &amp; Refreshing</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-6">
+                  <div className="h-10 w-10 rounded-full bg-white text-[#0891b2] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
+                  </div>
+                </div>
+
+                <div className="absolute right-[-8%] bottom-[-8%] w-[68%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 shadow-2xl">
+                  <Image
+                    src={IMAGES.catDrinks}
+                    alt="Cool Refreshing Drinks"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+              {/* Card 6: Desserts */}
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#ec4899] to-[#be185d] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl font-black tracking-tight">Desserts</h3>
+                  <p className="text-xs sm:text-sm font-bold text-pink-100">Sweet Moments</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-6">
+                  <div className="h-10 w-10 rounded-full bg-white text-[#be185d] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
+                  </div>
+                </div>
+
+                <div className="absolute right-[-8%] bottom-[-8%] w-[68%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 shadow-2xl">
+                  <Image
+                    src={IMAGES.catDesserts}
+                    alt="Sweet Moments Desserts"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+              {/* Card 7: Coffee & Mocktails */}
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl font-black tracking-tight">Coffee &amp; Mocktails</h3>
+                  <p className="text-xs sm:text-sm font-bold text-purple-100">Relax &amp; Refresh</p>
+                </div>
+
+                <div className="relative z-10 flex items-center justify-between mt-6">
+                  <div className="h-10 w-10 rounded-full bg-white text-[#6d28d9] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
+                  </div>
+                </div>
+
+                <div className="absolute right-[-8%] bottom-[-8%] w-[68%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 shadow-2xl">
+                  <Image
+                    src={IMAGES.catCoffee}
+                    alt="Coffee and Mocktails"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+              </div>
+
+            </div>
+
+          </div>
         </div>
       </section>
 
 
       {/* ================================================== */}
-      {/* 5. POPULAR PRODUCTS (DATABASE INTEGRATED) */}
+      {/* 6. SIGNATURE DRINK EXPERIENCE (Scroll Pouring 3D effect) */}
       {/* ================================================== */}
-      <section id="shop" className="py-20 lg:py-28 bg-white border-y border-[#0E3B2E]/10">
-        <div className="mx-auto max-w-[1360px] px-5 sm:px-8">
+      <section className="py-24 bg-gradient-to-b from-[#090a0c] via-[#0f1217] to-[#090a0c] relative overflow-hidden border-y border-white/5">
+        <div className="absolute right-1/4 top-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-amber-500/10 rounded-full blur-[130px] pointer-events-none" />
+
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+          <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
+            <span className="text-xs font-extrabold tracking-widest text-[#06b6d4] uppercase block">
+              SIGNATURE DRINKS
+            </span>
+
+            <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+              Cool Drinks <br />
+              for <span className="text-[#ff5b00]">Hot Days</span>
+            </h2>
+
+            <p className="text-slate-300 text-base sm:text-lg max-w-lg mx-auto lg:mx-0 leading-relaxed">
+              Chill, sip, repeat. Enjoy our refreshing drinks made with the best ingredients.
+            </p>
+
+            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              <Link
+                href="#menu"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-[#ff5b00] hover:bg-[#e05000] px-8 py-4 text-sm font-bold text-white shadow-xl shadow-orange-600/30 transition hover:scale-105"
+              >
+                <span>Explore Drinks</span>
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+
+            <div className="pt-8 flex items-center justify-center lg:justify-start gap-8 border-t border-white/10 text-xs font-semibold text-slate-400">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span>100% Fresh Ingredients</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-cyan-400" />
+                <span>No Added Preservatives</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-6 relative flex justify-center">
+            <SignatureDrinkCanvas />
+          </div>
+        </div>
+      </section>
+
+
+      {/* ================================================== */}
+      {/* 7. POPULAR FOOD SECTION */}
+      {/* ================================================== */}
+      <section id="menu" className="py-16 lg:py-24 bg-[#f5f2eb] text-slate-900 relative">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div>
-              <span className="text-xs font-black tracking-widest text-[#0E3B2E] uppercase block mb-1">
-                TOP PICKS THIS WEEK
+              <span className="text-xs font-bold tracking-widest text-[#ff5b00] uppercase block mb-1">
+                POPULAR THIS WEEK
               </span>
-              <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[#0E3B2E]">
-                Popular JADE Drinks
+              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900">
+                Our Popular Food &amp; Drinks
               </h2>
             </div>
 
-            <Link
-              href="/customer"
-              className="inline-flex items-center gap-2 text-sm font-extrabold text-[#0E3B2E] hover:text-[#47765B] transition group shrink-0"
-            >
-              <span>View Full Store Catalog</span>
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
+            <div className="flex items-center gap-3 shrink-0 overflow-x-auto pb-1">
+              <Link
+                href="/customer"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[#ff5b00] hover:text-[#e05000] transition group"
+              >
+                <span>View Full Catalog</span>
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
           </div>
 
-          {/* Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {(dbProducts.length > 0 ? dbProducts.slice(0, 8) : [
-              { id: '1', name: 'Jade Sparkling Matcha', price: 420, imageUrl: IMAGES.prodMatcha, brand: 'Organic Matcha', size: '330 ml' },
-              { id: '2', name: 'Citrus Yuzu Refresh', price: 380, imageUrl: IMAGES.prodYuzu, brand: 'Cold Pressed', size: '350 ml' },
-              { id: '3', name: 'Wild Berry Adaptogen', price: 450, imageUrl: IMAGES.prodBerry, brand: 'Botanical Elixir', size: '330 ml' },
-              { id: '4', name: 'Spiced Ginger Tonic', price: 360, imageUrl: IMAGES.prodGinger, brand: 'Real Pressed', size: '300 ml' },
+              { id: '1', name: 'Margherita Pizza', price: 450, imageUrl: IMAGES.prodMargherita, brand: 'Classic Italian', size: '12 inch' },
+              { id: '2', name: 'Chicken Burger', price: 320, imageUrl: IMAGES.prodBurger, brand: 'Gourmet', size: 'Double Patty' },
+              { id: '3', name: 'Spicy Chicken Wings', price: 280, imageUrl: IMAGES.prodWings, brand: 'Crispy', size: '6 pcs' },
+              { id: '4', name: 'Chilled Cold Coffee', price: 180, imageUrl: IMAGES.prodCoffee, brand: 'Brewed', size: '350 ml' },
             ]).map((prod: any) => (
               <div
                 key={prod.id}
-                className="group rounded-3xl bg-[#F8F5ED] p-5 shadow-sm border border-[#0E3B2E]/10 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-[#0E3B2E]/30 relative"
+                className="group rounded-3xl bg-white p-5 shadow-lg border border-slate-200/80 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-[#ff5b00]/40 relative"
               >
                 <div>
-                  {/* Image Container */}
-                  <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-4 bg-white shadow-xs">
+                  <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-4 bg-slate-100">
                     <Image
-                      src={prod.imageUrl || IMAGES.prodMatcha}
+                      src={prod.imageUrl || IMAGES.prodBurger}
                       alt={prod.name}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover group-hover:scale-108 transition-transform duration-500"
                       unoptimized
                     />
                     <button
@@ -508,33 +636,31 @@ export default function HomeLanding() {
                     >
                       <Heart size={18} className={favorites[prod.id] ? 'fill-red-500 text-red-500' : ''} />
                     </button>
-                    <span className="absolute top-3 left-3 bg-[#B8D94E] text-[#0E3B2E] text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow-xs">
-                      Express 45m
+                    <span className="absolute top-3 left-3 bg-[#ff5b00] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm">
+                      Express
                     </span>
                   </div>
 
-                  {/* Product Details */}
-                  <span className="text-[11px] font-bold text-[#66716B] uppercase tracking-wider block">
-                    {prod.brand || 'JADE Craft'}
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                    {prod.brand || 'Foodies Special'}
                   </span>
-                  <h3 className="text-lg font-black text-[#0E3B2E] group-hover:text-[#47765B] transition line-clamp-1 mt-0.5">
+                  <h3 className="text-lg font-black text-slate-900 group-hover:text-[#ff5b00] transition line-clamp-1 mt-0.5">
                     {prod.name}
                   </h3>
-                  <p className="text-xs text-[#66716B] mt-1 line-clamp-1 font-medium">
-                    {prod.size || 'Standard Bottle'}
+                  <p className="text-xs text-slate-500 mt-1 line-clamp-1 font-medium">
+                    {prod.size || 'Standard Portion'}
                   </p>
                   <div className="flex items-center gap-1 mt-2 text-amber-500 font-extrabold text-xs">
                     <Star size={15} className="fill-amber-400 text-amber-400" />
-                    <span>4.9</span>
-                    <span className="text-[#66716B] font-semibold text-[11px] ml-1">(150+ reviews)</span>
+                    <span>4.8</span>
+                    <span className="text-slate-400 font-semibold text-[11px] ml-1">(120+ reviews)</span>
                   </div>
                 </div>
 
-                {/* Price & Add Button */}
-                <div className="mt-5 pt-3.5 border-t border-[#0E3B2E]/10 flex items-center justify-between">
+                <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between">
                   <div>
-                    <span className="block text-[10px] font-bold text-[#66716B] uppercase">Price</span>
-                    <span className="text-xl font-black text-[#0E3B2E]">
+                    <span className="block text-[10px] font-bold text-slate-400 uppercase">Price</span>
+                    <span className="text-xl font-black text-slate-900">
                       Rs. {Number(prod.price).toLocaleString('en-NP')}
                     </span>
                   </div>
@@ -543,7 +669,7 @@ export default function HomeLanding() {
                     className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-xs font-black transition-all duration-200 ${
                       addedItems[prod.id]
                         ? 'bg-emerald-600 text-white shadow-md'
-                        : 'bg-[#0E3B2E] text-[#F8F5ED] hover:bg-[#09281f] shadow-md shadow-emerald-950/20 hover:scale-105 active:scale-95'
+                        : 'bg-[#ff5b00] text-white hover:bg-[#e05000] shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95'
                     }`}
                   >
                     {addedItems[prod.id] ? (
@@ -560,263 +686,273 @@ export default function HomeLanding() {
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
 
       {/* ================================================== */}
-      {/* 6. SIGNATURE INTERACTIVE DRINK CANVAS */}
+      {/* 8. APP PROMOTION */}
       {/* ================================================== */}
-      <section className="py-24 bg-[#0E3B2E] text-white relative overflow-hidden">
-        <div className="mx-auto max-w-[1360px] px-5 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-          
-          <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
-            <span className="text-xs font-black tracking-widest text-[#B8D94E] uppercase block">
-              SIGNATURE EXPERIENCE
-            </span>
-
-            <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
-              Pouring Perfection <br />
-              Into Every <span className="text-[#B8D94E]">Glass.</span>
-            </h2>
-
-            <p className="text-slate-200 text-base sm:text-lg max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
-              Enjoy our signature botanical drinks served chilled. Made with 100% natural juices and organic green tea extracts.
-            </p>
-
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <Link
-                href="#shop"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-[#B8D94E] hover:bg-[#a6c73c] px-8 py-4 text-sm font-black text-[#0E3B2E] shadow-xl transition hover:scale-105"
-              >
-                <span>Order Signature Drinks</span>
-                <ArrowRight size={18} />
-              </Link>
-            </div>
-          </div>
-
-          <div className="lg:col-span-6 relative flex justify-center">
-            <SignatureDrinkCanvas />
-          </div>
-
-        </div>
-      </section>
-
-
-      {/* ================================================== */}
-      {/* 7. APP & EXPRESS PROMOTION */}
-      {/* ================================================== */}
-      <section className="py-20 lg:py-28 bg-[#F8F5ED]">
-        <div className="mx-auto max-w-[1360px] px-5 sm:px-8">
-          <div className="rounded-[40px] bg-[#0E3B2E] p-8 sm:p-14 text-white shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-center border border-[#47765B]/30">
-            
-            <div className="lg:col-span-7 space-y-4 text-center lg:text-left">
-              <span className="inline-block rounded-full bg-[#B8D94E] px-4 py-1 text-xs font-black text-[#0E3B2E]">
-                24/7 LATE-NIGHT &amp; DAYTIME DELIVERY
-              </span>
-              <h3 className="text-3xl sm:text-5xl font-black tracking-tight">Order Faster on Mobile</h3>
-              <p className="text-slate-200 text-sm sm:text-base max-w-xl leading-relaxed">
-                Download the JADE app to unlock exclusive discounts, real-time live order tracking, and instant 45-minute delivery across Kathmandu &amp; Butwal.
-              </p>
-
-              <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-4">
-                <Link
-                  href="#shop"
-                  className="flex items-center gap-2 rounded-2xl bg-[#B8D94E] px-8 py-4 text-sm font-black text-[#0E3B2E] hover:bg-[#a6c73c] transition shadow-xl"
-                >
-                  <span>ORDER ON APP</span>
-                  <ArrowRight size={18} />
-                </Link>
-              </div>
-            </div>
-
-            <div className="lg:col-span-5 relative flex justify-center">
-              <div className="relative w-full max-w-[320px] aspect-4/5 rounded-3xl overflow-hidden shadow-2xl border-4 border-[#47765B]">
+      <section className="py-20 lg:py-28 bg-[#090a0c] text-white relative overflow-hidden border-t border-white/10">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-6 relative flex justify-center order-2 lg:order-1">
+            <div className="relative w-full max-w-[420px] aspect-3/4">
+              <div className="absolute left-0 top-6 w-[70%] aspect-[9/18] rounded-[36px] bg-slate-900 border-4 border-slate-700 shadow-2xl overflow-hidden -rotate-6 transition-transform duration-500 hover:rotate-0">
                 <Image
-                  src={IMAGES.appMockup}
-                  alt="JADE Mobile App"
+                  src={IMAGES.heroBurger}
+                  alt="Foodies Mobile App"
                   fill
-                  className="object-cover"
+                  className="object-cover opacity-90"
+                  unoptimized
+                />
+              </div>
+
+              <div className="absolute right-0 top-0 w-[75%] aspect-[9/18] rounded-[40px] bg-slate-950 border-4 border-slate-800 shadow-2xl overflow-hidden rotate-6 transition-transform duration-500 hover:rotate-0">
+                <Image
+                  src={IMAGES.catPizza}
+                  alt="Foodies App Interface"
+                  fill
+                  className="object-cover opacity-95"
                   unoptimized
                 />
               </div>
             </div>
+          </div>
 
+          <div className="lg:col-span-6 space-y-6 text-center lg:text-left order-1 lg:order-2">
+            <span className="text-xs font-extrabold tracking-widest text-[#ff5b00] uppercase block">
+              GET THE APP
+            </span>
+
+            <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+              Order Faster <br />
+              <span className="text-[#ff5b00]">On Mobile</span>
+            </h2>
+
+            <p className="text-slate-300 text-base sm:text-lg max-w-lg mx-auto lg:mx-0 leading-relaxed">
+              Download our app and enjoy exclusive offers, quick ordering and real-time tracking.
+            </p>
+
+            <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+              <button className="h-14 px-6 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 flex items-center gap-3 transition">
+                <div className="text-left">
+                  <span className="block text-[10px] text-slate-400 font-semibold uppercase">Download on the</span>
+                  <span className="text-sm font-bold text-white">App Store</span>
+                </div>
+              </button>
+
+              <button className="h-14 px-6 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 flex items-center gap-3 transition">
+                <div className="text-left">
+                  <span className="block text-[10px] text-slate-400 font-semibold uppercase">Get it on</span>
+                  <span className="text-sm font-bold text-white">Google Play</span>
+                </div>
+              </button>
+            </div>
+
+            <div className="pt-6 grid grid-cols-2 gap-4 max-w-md mx-auto lg:mx-0 text-left border-t border-white/10 text-xs font-semibold text-slate-300">
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#ff5b00]" />
+                <span>Exclusive Offers</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#ff5b00]" />
+                <span>Easy Ordering</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#ff5b00]" />
+                <span>Live Tracking</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#ff5b00]" />
+                <span>Hassle Free</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
 
       {/* ================================================== */}
-      {/* 8. CUSTOMER REVIEWS */}
+      {/* 9. CUSTOMER TESTIMONIALS */}
       {/* ================================================== */}
-      <section className="py-20 lg:py-28 bg-white border-t border-[#0E3B2E]/10">
-        <div className="mx-auto max-w-[1360px] px-5 sm:px-8">
-          
+      <section className="py-20 lg:py-28 bg-[#f5f2eb] text-slate-900">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-xs font-black tracking-widest text-[#47765B] uppercase block mb-1">
-              REAL CUSTOMER FEEDBACK
+            <span className="text-xs font-extrabold tracking-widest text-[#ff5b00] uppercase block mb-1">
+              REAL STORIES
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[#0E3B2E]">
-              What People Are Saying
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900">
+              What Our Customers Say
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-[#F8F5ED] rounded-3xl p-8 border border-[#0E3B2E]/10 shadow-sm space-y-4">
-              <div className="flex items-center gap-1 text-amber-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} className="fill-amber-400" />
-                ))}
+            <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-200/80 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-1 text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} className="fill-amber-400" />
+                  ))}
+                </div>
+                <p className="text-slate-700 text-sm sm:text-base leading-relaxed italic">
+                  &ldquo;Amazing food and super fast delivery! The pizza was perfectly made.&rdquo;
+                </p>
               </div>
-              <p className="text-[#17211D] text-sm sm:text-base leading-relaxed font-medium italic">
-                &ldquo;Super fast delivery in Kathmandu! The Jade Sparkling Matcha is insanely refreshing.&rdquo;
-              </p>
-              <div className="flex items-center gap-3 pt-3 border-t border-[#0E3B2E]/10">
-                <div className="relative h-10 w-10 rounded-full overflow-hidden border border-[#0E3B2E]">
-                  <Image src={IMAGES.avatar1} alt="Samiksha" fill className="object-cover" unoptimized />
+
+              <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
+                <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-[#ff5b00]">
+                  <Image src={IMAGES.avatar1} alt="Samiksha Shrestha" fill className="object-cover" unoptimized />
                 </div>
                 <div>
-                  <h4 className="text-sm font-black text-[#0E3B2E]">Samiksha Shrestha</h4>
-                  <p className="text-xs text-[#66716B]">Verified Buyer</p>
+                  <h4 className="text-sm font-black text-slate-900">Samiksha Shrestha</h4>
+                  <p className="text-xs text-slate-500">Verified Customer</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-[#F8F5ED] rounded-3xl p-8 border border-[#0E3B2E]/10 shadow-sm space-y-4">
-              <div className="flex items-center gap-1 text-amber-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} className="fill-amber-400" />
-                ))}
+            <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-200/80 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-1 text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} className="fill-amber-400" />
+                  ))}
+                </div>
+                <p className="text-slate-700 text-sm sm:text-base leading-relaxed italic">
+                  &ldquo;Best food delivery service in town. Everything arrived fresh.&rdquo;
+                </p>
               </div>
-              <p className="text-[#17211D] text-sm sm:text-base leading-relaxed font-medium italic">
-                &ldquo;Best late-night drinks delivery app. Arrived cold in under 35 minutes!&rdquo;
-              </p>
-              <div className="flex items-center gap-3 pt-3 border-t border-[#0E3B2E]/10">
-                <div className="relative h-10 w-10 rounded-full overflow-hidden border border-[#0E3B2E]">
-                  <Image src={IMAGES.avatar2} alt="Rohan" fill className="object-cover" unoptimized />
+
+              <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
+                <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-[#ff5b00]">
+                  <Image src={IMAGES.avatar2} alt="Rohan Thapa" fill className="object-cover" unoptimized />
                 </div>
                 <div>
-                  <h4 className="text-sm font-black text-[#0E3B2E]">Rohan Thapa</h4>
-                  <p className="text-xs text-[#66716B]">Verified Buyer</p>
+                  <h4 className="text-sm font-black text-slate-900">Rohan Thapa</h4>
+                  <p className="text-xs text-slate-500">Verified Customer</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-[#F8F5ED] rounded-3xl p-8 border border-[#0E3B2E]/10 shadow-sm space-y-4">
-              <div className="flex items-center gap-1 text-amber-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} className="fill-amber-400" />
-                ))}
+            <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-200/80 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-1 text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} className="fill-amber-400" />
+                  ))}
+                </div>
+                <p className="text-slate-700 text-sm sm:text-base leading-relaxed italic">
+                  &ldquo;The drinks are refreshing and the app is very easy to use.&rdquo;
+                </p>
               </div>
-              <p className="text-[#17211D] text-sm sm:text-base leading-relaxed font-medium italic">
-                &ldquo;High quality organic ingredients. The Yuzu Refresh is my absolute favorite.&rdquo;
-              </p>
-              <div className="flex items-center gap-3 pt-3 border-t border-[#0E3B2E]/10">
-                <div className="relative h-10 w-10 rounded-full overflow-hidden border border-[#0E3B2E]">
-                  <Image src={IMAGES.avatar3} alt="Aayush" fill className="object-cover" unoptimized />
+
+              <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
+                <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-[#ff5b00]">
+                  <Image src={IMAGES.avatar3} alt="Aayush KC" fill className="object-cover" unoptimized />
                 </div>
                 <div>
-                  <h4 className="text-sm font-black text-[#0E3B2E]">Aayush KC</h4>
-                  <p className="text-xs text-[#66716B]">Verified Buyer</p>
+                  <h4 className="text-sm font-black text-slate-900">Aayush KC</h4>
+                  <p className="text-xs text-slate-500">Verified Customer</p>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
 
       {/* ================================================== */}
-      {/* 9. FOOTER */}
+      {/* 10. FOOTER */}
       {/* ================================================== */}
-      <footer id="contact" className="bg-[#0E3B2E] text-[#F8F5ED] pt-16 pb-12 border-t border-[#47765B]/30">
-        <div className="mx-auto max-w-[1360px] px-5 sm:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          
+      <footer id="contact" className="bg-[#08090b] text-white pt-16 pb-12 border-t border-white/10">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="h-9 w-9 rounded-2xl bg-[#B8D94E] text-[#0E3B2E] flex items-center justify-center font-black text-xl">
-                J
+              <div className="h-9 w-9 rounded-full bg-[#ff5b00] flex items-center justify-center text-white">
+                <Flame size={20} className="fill-white" />
               </div>
-              <span className="text-2xl font-black text-white">JADE DRINKS</span>
+              <span className="text-2xl font-extrabold tracking-tight text-white">
+                Foodies
+              </span>
             </Link>
-            <p className="text-slate-300 text-xs sm:text-sm max-w-sm leading-relaxed">
-              Nepal&apos;s premier commercial beverage delivery brand. Delivering cold drinks, sparkling teas, and natural refreshments right to your door.
+            <p className="text-slate-400 text-xs sm:text-sm max-w-sm leading-relaxed">
+              &ldquo;Good Food. Great Moments.&rdquo; Delivering your favorite food &amp; drinks fresh to your doorstep within 30 minutes.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
-              <a href="#" className="h-9 w-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#B8D94E] hover:text-[#0E3B2E] transition">
+              <a href="#" aria-label="Facebook" className="h-9 w-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#ff5b00] transition">
                 <Facebook size={16} />
               </a>
-              <a href="#" className="h-9 w-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#B8D94E] hover:text-[#0E3B2E] transition">
+              <a href="#" aria-label="Instagram" className="h-9 w-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#ff5b00] transition">
                 <Instagram size={16} />
               </a>
-              <a href="#" className="h-9 w-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#B8D94E] hover:text-[#0E3B2E] transition">
+              <a href="#" aria-label="Twitter" className="h-9 w-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#ff5b00] transition">
                 <Twitter size={16} />
+              </a>
+              <a href="#" aria-label="YouTube" className="h-9 w-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#ff5b00] transition">
+                <Youtube size={16} />
               </a>
             </div>
           </div>
 
           <div className="space-y-3">
-            <h4 className="text-sm font-black text-[#B8D94E] uppercase tracking-wider">Quick Links</h4>
-            <ul className="space-y-2 text-xs font-bold text-slate-300">
-              <li><Link href="/" className="hover:text-white">Home</Link></li>
-              <li><Link href="#shop" className="hover:text-white">Shop Drinks</Link></li>
-              <li><Link href="#categories" className="hover:text-white">Categories</Link></li>
-              <li><Link href="#about" className="hover:text-white">About Us</Link></li>
-              <li><Link href="#contact" className="hover:text-white">Contact</Link></li>
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider">Quick Links</h4>
+            <ul className="space-y-2 text-xs font-semibold text-slate-400">
+              <li><Link href="/" className="hover:text-white transition">Home</Link></li>
+              <li><Link href="#menu" className="hover:text-white transition">Menu</Link></li>
+              <li><Link href="#about" className="hover:text-white transition">About Us</Link></li>
+              <li><Link href="#offers" className="hover:text-white transition">Offers</Link></li>
+              <li><Link href="#contact" className="hover:text-white transition">Contact</Link></li>
             </ul>
           </div>
 
           <div className="space-y-3">
-            <h4 className="text-sm font-black text-[#B8D94E] uppercase tracking-wider">Categories</h4>
-            <ul className="space-y-2 text-xs font-bold text-slate-300">
-              <li><Link href="#categories" className="hover:text-white">Sparkling Botanicals</Link></li>
-              <li><Link href="#categories" className="hover:text-white">Cold-Pressed Juices</Link></li>
-              <li><Link href="#categories" className="hover:text-white">Natural Energy</Link></li>
-              <li><Link href="#categories" className="hover:text-white">Artisanal Teas</Link></li>
-              <li><Link href="#categories" className="hover:text-white">Craft Mocktails</Link></li>
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider">Categories</h4>
+            <ul className="space-y-2 text-xs font-semibold text-slate-400">
+              <li><Link href="#categories" className="hover:text-white transition">Pizza</Link></li>
+              <li><Link href="#categories" className="hover:text-white transition">Burgers</Link></li>
+              <li><Link href="#categories" className="hover:text-white transition">Chicken</Link></li>
+              <li><Link href="#categories" className="hover:text-white transition">Asian Food</Link></li>
+              <li><Link href="#categories" className="hover:text-white transition">Drinks</Link></li>
+              <li><Link href="#categories" className="hover:text-white transition">Coffee / Mocktails</Link></li>
             </ul>
           </div>
 
           <div className="space-y-3">
-            <h4 className="text-sm font-black text-[#B8D94E] uppercase tracking-wider">Subscribe</h4>
-            <p className="text-xs text-slate-300">Get exclusive offers &amp; updates.</p>
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider">Subscribe</h4>
+            <p className="text-xs text-slate-400">Get exclusive offers and updates.</p>
 
             <form onSubmit={handleSubscribe} className="space-y-2">
-              <div className="relative flex items-center rounded-full bg-white/10 border border-white/20 p-1">
+              <div className="relative flex items-center rounded-2xl bg-white/10 border border-white/20 p-1">
                 <input
                   type="email"
                   required
                   value={newsletterEmail}
                   onChange={e => setNewsletterEmail(e.target.value)}
-                  placeholder="Your email"
+                  placeholder="Your email address"
                   className="w-full bg-transparent px-3 py-2 text-xs text-white placeholder-slate-400 outline-none"
                 />
                 <button
                   type="submit"
-                  className="h-8 px-4 rounded-full bg-[#B8D94E] text-[#0E3B2E] font-black text-xs hover:bg-white transition"
+                  aria-label="Subscribe to newsletter"
+                  className="h-8 w-8 rounded-xl bg-[#ff5b00] hover:bg-[#e05000] text-white flex items-center justify-center shrink-0 transition"
                 >
-                  Send
+                  <Send size={14} />
                 </button>
               </div>
               {subscribed && (
-                <p className="text-[11px] text-[#B8D94E] font-bold">
-                  Subscribed successfully!
+                <p className="text-[11px] text-emerald-400 font-semibold">
+                  Thank you for subscribing!
                 </p>
               )}
             </form>
           </div>
-
         </div>
 
-        <div className="mx-auto max-w-[1360px] px-5 sm:px-8 mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 font-bold gap-4">
-          <p>© 2026 JADE Drinks. All rights reserved.</p>
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-semibold gap-4">
+          <p>© 2026 Foodies. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <Link href="#" className="hover:text-white">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white">Terms of Service</Link>
+            <Link href="#" className="hover:text-slate-300 transition">Privacy Policy</Link>
+            <Link href="#" className="hover:text-slate-300 transition">Terms &amp; Conditions</Link>
           </div>
         </div>
       </footer>
