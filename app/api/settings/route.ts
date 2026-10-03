@@ -135,10 +135,9 @@ export async function PUT(request: NextRequest) {
         .from('system_settings')
         .update({
           ...settings,
-          updated_by: user.id,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', true);
+        .eq('id', 1);
 
       if (settingsErr) {
         return NextResponse.json({ error: settingsErr.message }, { status: 400 });
