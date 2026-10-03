@@ -20,6 +20,8 @@ import {
   Plus,
   Check,
   Flame,
+  LogIn,
+  UserPlus,
   ArrowDown,
   Instagram,
   Facebook,
@@ -162,30 +164,26 @@ export default function HomeLanding() {
             </Link>
           </nav>
 
-          <div className="flex items-center gap-4 sm:gap-5">
-            <button
-              aria-label="Search food"
-              className="p-2.5 rounded-full text-white hover:bg-white/20 transition"
+          <div className="flex items-center gap-3 sm:gap-4">
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 rounded-full bg-white/15 hover:bg-white/25 px-4 py-2 text-xs sm:text-sm font-extrabold text-white transition backdrop-blur-md shadow-xs border border-white/20"
             >
-              <Search size={22} />
-            </button>
+              <LogIn size={16} />
+              <span>Login</span>
+            </Link>
 
             <Link
-              href="/customer"
-              aria-label="View Shopping Cart"
-              className="relative p-2.5 rounded-full text-white hover:bg-white/20 transition"
+              href="/signup"
+              className="inline-flex items-center gap-2 rounded-full bg-white text-[#ff3b00] hover:bg-amber-100 px-4 sm:px-5 py-2 text-xs sm:text-sm font-black transition shadow-md hover:scale-105"
             >
-              <ShoppingBag size={22} />
-              {cartCount > 0 && (
-                <span className="absolute top-1 right-1 h-5 w-5 rounded-full bg-white text-xs font-black text-[#ff3b00] flex items-center justify-center ring-2 ring-[#ff3b00] shadow-sm">
-                  {cartCount}
-                </span>
-              )}
+              <UserPlus size={16} />
+              <span>Sign Up</span>
             </Link>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-white hover:bg-white/20 transition"
+              className="md:hidden p-2 rounded-lg text-white hover:bg-white/20 transition ml-1"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
@@ -211,6 +209,24 @@ export default function HomeLanding() {
               <Link href="#contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-white/80">
                 Contact
               </Link>
+              <div className="pt-2 border-t border-white/20 flex flex-col gap-3">
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white/20 px-4 py-2.5 text-base font-bold text-white"
+                >
+                  <LogIn size={18} />
+                  <span>Login</span>
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#ff3b00] px-4 py-2.5 text-base font-black"
+                >
+                  <UserPlus size={18} />
+                  <span>Sign Up</span>
+                </Link>
+              </div>
             </nav>
           </div>
         )}
