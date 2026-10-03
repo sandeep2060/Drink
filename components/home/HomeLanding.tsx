@@ -58,6 +58,13 @@ const IMAGES = {
   avatar3: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop',
 };
 
+const HERO_SLIDES = [
+  'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1600&auto=format&fit=crop', // Burger & fries
+  'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1600&auto=format&fit=crop', // Pizza
+  'https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1600&auto=format&fit=crop', // Refreshing drinks
+  'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?q=80&w=1600&auto=format&fit=crop', // Crispy wings
+];
+
 export default function HomeLanding() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -68,12 +75,23 @@ export default function HomeLanding() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
+  // 5-second auto background slider state
+  const [currentSlide, setCurrentSlide] = useState(0);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 5 SECONDS BACKGROUND AUTO SLIDER
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide(prev => (prev + 1) % HERO_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleAddToCart = (id: number) => {
@@ -220,118 +238,114 @@ export default function HomeLanding() {
 
 
       {/* ================================================== */}
-      {/* 4. HERO SECTION (Cinematic Dark Photography) */}
+      {/* 4. HERO SECTION WITH 5-SECOND AUTO BACKGROUND SLIDER */}
       {/* ================================================== */}
-      <section className="relative min-h-screen pt-28 pb-16 lg:pt-36 lg:pb-24 flex items-center overflow-hidden bg-gradient-to-b from-[#090a0c] via-[#0d0f12] to-[#121418]">
-        {/* Background Subtle Ambient Glow */}
-        <div className="absolute top-1/4 right-10 w-[500px] h-[500px] bg-[#ff5b00]/15 rounded-full blur-[140px] pointer-events-none" />
+      <section className="relative min-h-[90vh] pt-28 pb-16 lg:pt-36 lg:pb-24 flex flex-col justify-between overflow-hidden bg-[#18092b]">
+        
+        {/* 5-SECOND AUTO SLIDING BACKGROUND IMAGES */}
+        {HERO_SLIDES.map((slideImg, idx) => (
+          <div
+            key={idx}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              idx === currentSlide
+                ? 'opacity-40 scale-105 transition-transform duration-10000'
+                : 'opacity-0 pointer-events-none'
+            }`}
+          >
+            <Image
+              src={slideImg}
+              alt="Food & Drinks Delivery Background"
+              fill
+              priority={idx === 0}
+              className="object-cover object-center"
+              unoptimized
+            />
+          </div>
+        ))}
 
-        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
+        {/* OVERLAY DEEP VIBRANT PURPLE/BLUE GRADIENT MATCHING BARMANDOO BANNER */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#190a36]/90 via-[#260e4e]/85 to-[#0b0c16]/95 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-600/20 via-transparent to-transparent pointer-events-none" />
+
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 w-full flex-1 flex flex-col items-center justify-center text-center relative z-10 py-12">
           
-          {/* Left Column: Copy & Search */}
-          <div className="lg:col-span-6 space-y-8 text-center lg:text-left">
-            
-            {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/40 bg-orange-500/15 px-5 py-2 text-xs sm:text-sm font-black uppercase tracking-widest text-[#ff7728] shadow-md">
-              <Sparkles size={16} className="text-[#ff5b00]" />
-              <span>FRESH FOOD • FAST DELIVERY</span>
-            </div>
+          {/* Top Eyebrow Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-purple-400/40 bg-purple-900/60 px-5 py-2 text-xs sm:text-sm font-black uppercase tracking-widest text-purple-200 backdrop-blur-md shadow-lg mb-6">
+            <Sparkles size={16} className="text-[#ff5b00]" />
+            <span>NEPAL&apos;S #1 FASTEST DELIVERY PLATFORM</span>
+          </div>
 
-            {/* Main Headline */}
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight leading-[1.02] text-white">
-              Good Food <br />
-              <span className="text-[#ff5b00]">Great Moments</span>
-            </h1>
+          {/* MAIN BIG CLEAR HEADING (BARMANDOO DESIGN) */}
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight uppercase leading-none drop-shadow-2xl">
+            <span className="text-[#ff5b00]">FOOD &amp; </span>
+            <span className="text-[#00e5ff]">DRINKS </span>
+            <span className="text-white">DELIVERY</span>
+          </h1>
 
-            {/* Supporting Copy */}
-            <p className="text-slate-200 text-lg sm:text-2xl font-medium max-w-xl mx-auto lg:mx-0 leading-relaxed drop-shadow-sm">
-              Your favorite food and drinks, delivered fresh to your doorstep.
-            </p>
+          <p className="mt-3 text-base sm:text-xl font-black tracking-widest text-slate-200 uppercase drop-shadow">
+            EASY, FAST &amp; CONVENIENT
+          </p>
 
-            {/* Location / Search Field */}
-            <div className="pt-2 max-w-md mx-auto lg:mx-0">
-              <div className="relative flex items-center rounded-full bg-white/10 border border-white/20 p-2 shadow-2xl backdrop-blur-lg focus-within:border-[#ff5b00] focus-within:ring-2 focus-within:ring-[#ff5b00]/40 transition">
-                <MapPin className="ml-3.5 text-slate-400 shrink-0" size={20} />
-                <input
-                  type="text"
-                  value={location}
-                  onChange={e => setLocation(e.target.value)}
-                  placeholder="Enter your delivery location"
-                  className="w-full bg-transparent px-3 py-3 text-sm sm:text-base text-white placeholder-slate-400 outline-none"
-                />
-                <button
-                  aria-label="Search Delivery"
-                  className="h-11 w-11 rounded-full bg-[#ff5b00] hover:bg-[#e05000] text-white flex items-center justify-center shrink-0 shadow-lg shadow-orange-600/40 transition hover:scale-105 active:scale-95"
-                >
-                  <ArrowRight size={20} />
-                </button>
-              </div>
-            </div>
-
-            {/* 3 Trust Indicators */}
-            <div className="pt-6 grid grid-cols-3 gap-4 border-t border-white/10 max-w-lg mx-auto lg:mx-0 text-left">
-              <div className="flex items-start gap-3">
-                <div className="p-2 rounded-xl bg-white/5 border border-white/10 text-[#ff5b00]">
-                  <Clock size={18} />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-white">Fast Delivery</h4>
-                  <p className="text-[11px] text-slate-400">Within 30 mins</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="p-2 rounded-xl bg-white/5 border border-white/10 text-[#ff5b00]">
-                  <Award size={18} />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-white">Fresh &amp; Quality</h4>
-                  <p className="text-[11px] text-slate-400">Food</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="p-2 rounded-xl bg-white/5 border border-white/10 text-[#ff5b00]">
-                  <ShieldCheck size={18} />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-white">Secure Payment</h4>
-                  <p className="text-[11px] text-slate-400">Cash / Online</p>
-                </div>
-              </div>
+          {/* LARGE ACCESSIBLE SEARCH BAR */}
+          <div className="mt-10 w-full max-w-3xl">
+            <div className="relative flex items-center rounded-full border-2 border-white/40 bg-white p-2 shadow-2xl backdrop-blur-md transition-all focus-within:border-[#ff5b00] focus-within:ring-4 focus-within:ring-orange-500/30">
+              <Search size={24} className="ml-4 text-slate-400 shrink-0" />
+              <input
+                type="text"
+                value={location}
+                onChange={e => setLocation(e.target.value)}
+                placeholder="Search for food or drinks (beer, whisky, momo, pizza, snacks...)"
+                className="w-full bg-transparent px-4 py-3 text-base font-bold text-slate-900 outline-none placeholder:text-slate-400"
+              />
+              <Link
+                href="/customer"
+                className="flex items-center gap-2 rounded-full bg-[#ff5b00] px-8 py-3.5 text-sm font-black text-white shadow-lg hover:bg-[#e05000] transition shrink-0"
+              >
+                <span>SEARCH</span>
+                <ArrowRight size={18} />
+              </Link>
             </div>
           </div>
 
-          {/* Right Column: Hero Cinematic Photography */}
-          <div className="lg:col-span-6 relative flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[620px] aspect-4/3 lg:aspect-square rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
-              <Image
-                src={IMAGES.heroBurger}
-                alt="Delicious Gourmet Burger and Fries"
-                fill
-                priority
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                unoptimized
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0f12] via-transparent to-transparent opacity-60" />
+          <p className="mt-6 text-xs sm:text-sm font-black tracking-widest text-cyan-300 uppercase drop-shadow-sm">
+            ALCOHOL, BEVERAGES &amp; FOOD DELIVERY WITHIN 45 MINS
+          </p>
 
-              {/* Floating Badge */}
-              <div className="absolute top-6 right-6 bg-black/60 backdrop-blur-md border border-white/15 px-4 py-2 rounded-full flex items-center gap-2 text-xs font-bold text-white shadow-xl">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#ff5b00] animate-ping" />
-                <span>Fresh Food Always</span>
-              </div>
+          {/* 5-SECOND SLIDER DOTS INDICATOR */}
+          <div className="mt-8 flex items-center gap-3">
+            {HERO_SLIDES.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentSlide(idx)}
+                className={`h-3 rounded-full transition-all duration-300 ${
+                  idx === currentSlide
+                    ? 'w-10 bg-[#ff5b00] shadow-md shadow-orange-500/50'
+                    : 'w-3 bg-white/40 hover:bg-white'
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+
+        </div>
+
+        {/* BOTTOM GUARANTEES STRIP */}
+        <div className="relative z-20 border-t border-white/15 bg-black/60 backdrop-blur-md py-4 text-xs sm:text-sm font-bold text-slate-200">
+          <div className="mx-auto flex max-w-7xl items-center justify-around px-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={18} className="text-[#ff5b00]" />
+              <span>100% Genuine Quality</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock size={18} className="text-cyan-400" />
+              <span>45 Min Express Delivery</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Award size={18} className="text-[#ff5b00]" />
+              <span>24/7 Late-Night Delivery</span>
             </div>
           </div>
         </div>
-
-        {/* Subtle Scroll Down Prompt */}
-        <a
-          href="#categories"
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition"
-        >
-          <span>Scroll Down</span>
-          <ArrowDown size={14} className="animate-bounce text-[#ff5b00]" />
-        </a>
       </section>
 
 
