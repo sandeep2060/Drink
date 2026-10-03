@@ -59,10 +59,10 @@ const IMAGES = {
 };
 
 const HERO_SLIDES = [
-  'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1600&auto=format&fit=crop', // Burger & fries
-  'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1600&auto=format&fit=crop', // Pizza
-  'https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1600&auto=format&fit=crop', // Refreshing drinks
-  'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?q=80&w=1600&auto=format&fit=crop', // Crispy wings
+  'https://instagram.fktm17-1.fna.fbcdn.net/v/t51.82787-15/581956763_18102710806677653_9099968982455809756_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=Mzc2NzUwODg2NjAxNjU4OTkxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=k7YA3rnb0twQ7kNvwEdbAUa&_nc_oc=AdqY6_DRoz03CrBgHHSoZhstQ_MS9afeJmWNNP3Cfqj3cClZD0BtTQ2sdbC9RXS_azqhV7TSjJX9a7YkUb2wpsr-&_nc_zt=23&_nc_ht=instagram.fktm17-1.fna&_nc_gid=MqaJlvmwprD7HuVrvCJLcA&_nc_ss=7b689&oh=00_AQOMni4P6DXqlrOgEc7FLyhh2p0-CTDhxKSN9s0XA6HHpg&oe=6AC6BDAD',
+  'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1600&auto=format&fit=crop',
 ];
 
 export default function HomeLanding() {
