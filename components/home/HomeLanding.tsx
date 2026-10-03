@@ -68,12 +68,17 @@ const HERO_SLIDES = [
 export default function HomeLanding() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(2);
-  const [addedItems, setAddedItems] = useState<{ [key: number]: boolean }>({});
-  const [favorites, setFavorites] = useState<{ [key: number]: boolean }>({});
+  const [cartCount, setCartCount] = useState(0);
+  const [addedItems, setAddedItems] = useState<{ [key: string]: boolean }>({});
+  const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
   const [location, setLocation] = useState('');
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+
+  // Live Database State
+  const [dbCategories, setDbCategories] = useState<any[]>([]);
+  const [dbProducts, setDbProducts] = useState<any[]>([]);
+  const [loadingDb, setLoadingDb] = useState(true);
 
   // 5-second auto background slider state
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -94,7 +99,27 @@ export default function HomeLanding() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleAddToCart = (id: number) => {
+  // FETCH LIVE DATA FROM DATABASE
+  useEffect(() => {
+    async function loadLiveData() {
+      setLoadingDb(true);
+      try {
+        const res = await fetch('/api/catalog');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.categories) setDbCategories(json.categories);
+          if (json.products) setDbProducts(json.products);
+        }
+      } catch (err) {
+        console.error('Failed to load database catalog:', err);
+      } finally {
+        setLoadingDb(false);
+      }
+    }
+    loadLiveData();
+  }, []);
+
+  const handleAddToCart = (id: string) => {
     setAddedItems(prev => ({ ...prev, [id]: true }));
     setCartCount(prev => prev + 1);
     setTimeout(() => {
@@ -102,7 +127,7 @@ export default function HomeLanding() {
     }, 2000);
   };
 
-  const toggleFavorite = (id: number) => {
+  const toggleFavorite = (id: string) => {
     setFavorites(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
