@@ -104,28 +104,26 @@ export default function HomeLanding() {
       {/* 3. HEADER / NAVIGATION */}
       {/* ================================================== */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-[#0b0c0e]/90 backdrop-blur-md border-b border-white/10 py-3.5 shadow-2xl'
-            : 'bg-transparent py-5'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-gradient-to-r from-[#ff3b00] via-[#ff4d00] to-[#ff5b00] text-white shadow-xl ${
+          scrolled ? 'py-3 border-b border-orange-700/40 shadow-2xl backdrop-blur-md' : 'py-4.5'
         }`}
       >
         <div className="mx-auto max-w-[1440px] px-4 sm:px-8 flex items-center justify-between">
           {/* Left: Foodies Brand Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="h-10 w-10 rounded-full bg-[#ff5b00] flex items-center justify-center text-white shadow-lg shadow-orange-600/30 group-hover:scale-105 transition-transform duration-200">
-              <Flame size={22} className="fill-white" />
+            <div className="h-10 w-10 rounded-full bg-white text-[#ff3b00] flex items-center justify-center font-black shadow-md group-hover:scale-105 transition-transform duration-200">
+              <Flame size={22} className="fill-[#ff3b00]" />
             </div>
-            <span className="text-2xl font-extrabold tracking-tight text-white">
+            <span className="text-2xl font-black tracking-tight text-white drop-shadow-sm">
               Foodies
             </span>
           </Link>
 
           {/* Center Navigation Links (Desktop) */}
-          <nav className="hidden md:flex items-center gap-9 text-base font-bold text-slate-200 tracking-wide">
+          <nav className="hidden md:flex items-center gap-9 text-base font-extrabold text-white/90 tracking-wide">
             <Link
               href="/"
-              className="text-white relative py-1 transition-colors after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[#ff5b00] after:rounded-full"
+              className="text-white relative py-1 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-white after:rounded-full"
             >
               Home
             </Link>
@@ -147,7 +145,7 @@ export default function HomeLanding() {
           <div className="flex items-center gap-4 sm:gap-5">
             <button
               aria-label="Search food"
-              className="p-2.5 rounded-full text-slate-200 hover:text-white hover:bg-white/10 transition"
+              className="p-2.5 rounded-full text-white hover:bg-white/20 transition"
             >
               <Search size={22} />
             </button>
@@ -155,11 +153,11 @@ export default function HomeLanding() {
             <Link
               href="/customer"
               aria-label="View Shopping Cart"
-              className="relative p-2.5 rounded-full text-slate-200 hover:text-white hover:bg-white/10 transition"
+              className="relative p-2.5 rounded-full text-white hover:bg-white/20 transition"
             >
               <ShoppingBag size={22} />
               {cartCount > 0 && (
-                <span className="absolute top-1 right-1 h-5 w-5 rounded-full bg-[#ff5b00] text-xs font-black text-white flex items-center justify-center ring-2 ring-[#0d0f12]">
+                <span className="absolute top-1 right-1 h-5 w-5 rounded-full bg-white text-xs font-black text-[#ff3b00] flex items-center justify-center ring-2 ring-[#ff3b00] shadow-sm">
                   {cartCount}
                 </span>
               )}
@@ -168,7 +166,7 @@ export default function HomeLanding() {
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-slate-200 hover:text-white hover:bg-white/10 transition"
+              className="md:hidden p-2 rounded-lg text-white hover:bg-white/20 transition"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
@@ -178,40 +176,40 @@ export default function HomeLanding() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#0d0f12]/98 border-b border-white/10 px-6 py-6 space-y-4 animate-in slide-in-from-top-4 duration-200">
-            <nav className="flex flex-col gap-4 text-lg font-extrabold">
+          <div className="md:hidden bg-[#ff3b00] border-t border-white/20 px-6 py-6 space-y-4 animate-in slide-in-from-top-4 duration-200">
+            <nav className="flex flex-col gap-4 text-lg font-extrabold text-white">
               <Link
                 href="/"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-[#ff5b00]"
+                className="underline underline-offset-4"
               >
                 Home
               </Link>
               <Link
                 href="#menu"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-100 hover:text-white"
+                className="hover:text-white/80"
               >
                 Menu
               </Link>
               <Link
                 href="#about"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-100 hover:text-white"
+                className="hover:text-white/80"
               >
                 About
               </Link>
               <Link
                 href="#offers"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-100 hover:text-white"
+                className="hover:text-white/80"
               >
                 Offers
               </Link>
               <Link
                 href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-100 hover:text-white"
+                className="hover:text-white/80"
               >
                 Contact
               </Link>
