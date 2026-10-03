@@ -273,7 +273,7 @@ export default function HomeLanding() {
             key={idx}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
               idx === currentSlide
-                ? 'opacity-40 scale-105 transition-transform duration-10000'
+                ? 'opacity-85 scale-105 transition-transform duration-10000'
                 : 'opacity-0 pointer-events-none'
             }`}
           >
@@ -288,9 +288,9 @@ export default function HomeLanding() {
           </div>
         ))}
 
-        {/* OVERLAY DEEP VIBRANT PURPLE/BLUE GRADIENT MATCHING BARMANDOO BANNER */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#190a36]/90 via-[#260e4e]/85 to-[#0b0c16]/95 pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-600/20 via-transparent to-transparent pointer-events-none" />
+        {/* SOFTENED OVERLAY FOR MAXIMUM BACKGROUND VISIBILITY & READABILITY */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#190a36]/65 via-[#260e4e]/50 to-[#0b0c16]/80 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/25 pointer-events-none" />
 
         <div className="mx-auto max-w-[1440px] px-4 sm:px-8 w-full flex-1 flex flex-col items-center justify-center text-center relative z-10 py-12">
           
