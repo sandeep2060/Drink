@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { bsToAd } from '@sbmdkl/nepali-date-converter';
 import { getSupabaseBrowserClient, getSupabaseBrowserConfigError } from '@/lib/supabase';
+import { MapPin, ShieldCheck, User, Mail, Phone, Calendar, Lock, CheckCircle2, Navigation } from 'lucide-react';
 
 type SignupLocation = {
   latitude: number;
@@ -134,57 +135,236 @@ export function SignupForm() {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-4">
-      <label className="block space-y-1.5 text-sm font-medium text-slate-700">
-        Full name
-        <input className="input" type="text" autoComplete="name" value={fullName} onChange={e => setFullName(e.target.value)} required />
-      </label>
-      <label className="block space-y-1.5 text-sm font-medium text-slate-700">
-        Email
-        <input className="input" type="email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} required />
-      </label>
-      <label className="block space-y-1.5 text-sm font-medium text-slate-700">
-        Nepali mobile number
-        <input className="input" type="tel" autoComplete="tel" placeholder="98XXXXXXXX or +977 98XXXXXXXX" value={phone} onChange={e => setPhone(e.target.value)} required />
-      </label>
-      <label className="block space-y-1.5 text-sm font-medium text-slate-700">
-        Gender
-        <select className="input" value={gender} onChange={e => setGender(e.target.value)} required>
-          <option value="" disabled>Select gender</option>
-          <option value="FEMALE">Female</option>
-          <option value="MALE">Male</option>
-          <option value="NON_BINARY">Non-binary</option>
-          <option value="OTHER">Other</option>
-          <option value="PREFER_NOT_TO_SAY">Prefer not to say</option>
-        </select>
-      </label>
-      <label className="block space-y-1.5 text-sm font-medium text-slate-700">
-        Date of birth (Bikram Sambat)
-        <input className="input" type="text" inputMode="numeric" autoComplete="bday" placeholder="YYYY-MM-DD (e.g. 2063-05-12)" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value={dateOfBirthBs} onChange={e => setDateOfBirthBs(e.target.value)} required />
-      </label>
-      <div className="space-y-2">
-        <div className="text-sm font-medium text-slate-700">Sign-up location</div>
-        <button type="button" className="btn-secondary w-full" onClick={captureLocation} disabled={busy || capturingLocation}>
-          {capturingLocation ? 'Getting your location...' : location ? 'Refresh current location' : 'Share current location'}
-        </button>
-        <p className="text-xs leading-5 text-slate-500">
-          Your browser will ask permission. Coordinates are saved with your account; location access is required to sign up.
-          {location && ` Location captured (about ${Math.round(location.accuracy)} m accuracy).`}
-        </p>
+    <form onSubmit={submit} className="space-y-6">
+      
+      {/* SECTION 1: Personal & Contact Information */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-2 pb-2 border-b border-white/10 text-xs font-black uppercase tracking-wider text-[#ff5b00]">
+          <User size={16} />
+          <span>1. Personal &amp; Contact Details</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-1.5">
+              Full Name
+            </label>
+            <div className="relative">
+              <input
+                className="w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#ff5b00] focus:bg-white/10 transition"
+                type="text"
+                placeholder="e.g. Ramesh Thapa"
+                autoComplete="name"
+                value={fullName}
+                onChange={e => setFullName(e.target.value)}
+                required
+              />
+              <User size={16} className="absolute left-3.5 top-3.5 text-slate-500" />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-1.5">
+              Email Address
+            </label>
+            <div className="relative">
+              <input
+                className="w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#ff5b00] focus:bg-white/10 transition"
+                type="email"
+                placeholder="ramesh@example.com"
+                autoComplete="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+              />
+              <Mail size={16} className="absolute left-3.5 top-3.5 text-slate-500" />
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-1.5">
+              Nepali Mobile Number
+            </label>
+            <div className="relative">
+              <input
+                className="w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#ff5b00] focus:bg-white/10 transition"
+                type="tel"
+                autoComplete="tel"
+                placeholder="98XXXXXXXX or +977 98XXXXXXXX"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+                required
+              />
+              <Phone size={16} className="absolute left-3.5 top-3.5 text-slate-500" />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-1.5">
+              Gender
+            </label>
+            <select
+              className="w-full rounded-xl border border-white/10 bg-[#1e222b] px-4 py-3 text-sm text-white outline-none focus:border-[#ff5b00] transition"
+              value={gender}
+              onChange={e => setGender(e.target.value)}
+              required
+            >
+              <option value="" disabled>Select gender</option>
+              <option value="FEMALE">Female</option>
+              <option value="MALE">Male</option>
+              <option value="NON_BINARY">Non-binary</option>
+              <option value="OTHER">Other</option>
+              <option value="PREFER_NOT_TO_SAY">Prefer not to say</option>
+            </select>
+          </div>
+        </div>
       </div>
-      <label className="block space-y-1.5 text-sm font-medium text-slate-700">
-        Password
-        <input className="input" type="password" autoComplete="new-password" value={password} onChange={e => setPassword(e.target.value)} minLength={6} required />
-      </label>
-      <label className="block space-y-1.5 text-sm font-medium text-slate-700">
-        Confirm password
-        <input className="input" type="password" autoComplete="new-password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} minLength={6} required />
-      </label>
-      <button disabled={busy || capturingLocation} className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50">
-        {busy ? 'Creating account...' : 'Create customer account'}
+
+
+      {/* SECTION 2: Age & Identity Verification */}
+      <div className="space-y-4 pt-2">
+        <div className="flex items-center gap-2 pb-2 border-b border-white/10 text-xs font-black uppercase tracking-wider text-[#ff5b00]">
+          <Calendar size={16} />
+          <span>2. Age &amp; Identity Verification</span>
+        </div>
+
+        <div>
+          <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-1.5">
+            Date of Birth (Bikram Sambat BS)
+          </label>
+          <div className="relative">
+            <input
+              className="w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#ff5b00] focus:bg-white/10 transition"
+              type="text"
+              inputMode="numeric"
+              autoComplete="bday"
+              placeholder="YYYY-MM-DD (e.g. 2063-05-12)"
+              pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+              value={dateOfBirthBs}
+              onChange={e => setDateOfBirthBs(e.target.value)}
+              required
+            />
+            <Calendar size={16} className="absolute left-3.5 top-3.5 text-slate-500" />
+          </div>
+          <p className="mt-1.5 text-[11px] font-medium text-slate-400 flex items-center gap-1.5">
+            <ShieldCheck size={14} className="text-[#ff5b00]" />
+            <span>Age must be at least 18 years old for alcohol &amp; express delivery services.</span>
+          </p>
+        </div>
+      </div>
+
+
+      {/* SECTION 3: Sign-Up GPS Location */}
+      <div className="space-y-4 pt-2">
+        <div className="flex items-center gap-2 pb-2 border-b border-white/10 text-xs font-black uppercase tracking-wider text-[#ff5b00]">
+          <MapPin size={16} />
+          <span>3. Official Sign-Up GPS Location</span>
+        </div>
+
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="text-xs font-extrabold text-slate-300 uppercase">Current Delivery Pin</div>
+            {location && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                <CheckCircle2 size={13} />
+                Captured ({Math.round(location.accuracy)}m)
+              </span>
+            )}
+          </div>
+
+          <button
+            type="button"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 px-4 py-3 text-xs font-black text-white transition backdrop-blur-md active:scale-[0.99] disabled:opacity-50"
+            onClick={captureLocation}
+            disabled={busy || capturingLocation}
+          >
+            <Navigation size={16} className={capturingLocation ? 'animate-spin' : ''} />
+            <span>
+              {capturingLocation
+                ? 'Acquiring GPS Signal...'
+                : location
+                ? 'Refresh GPS Delivery Coordinates'
+                : 'Share Current GPS Location'}
+            </span>
+          </button>
+
+          <p className="text-[11px] text-slate-400 leading-normal">
+            Location permission is required to confirm exact delivery outlet coverage in your region.
+          </p>
+        </div>
+      </div>
+
+
+      {/* SECTION 4: Security Credentials */}
+      <div className="space-y-4 pt-2">
+        <div className="flex items-center gap-2 pb-2 border-b border-white/10 text-xs font-black uppercase tracking-wider text-[#ff5b00]">
+          <Lock size={16} />
+          <span>4. Account Credentials</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-1.5">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                className="w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#ff5b00] focus:bg-white/10 transition"
+                type="password"
+                placeholder="••••••••"
+                autoComplete="new-password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                minLength={6}
+                required
+              />
+              <Lock size={16} className="absolute left-3.5 top-3.5 text-slate-500" />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-1.5">
+              Confirm Password
+            </label>
+            <div className="relative">
+              <input
+                className="w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#ff5b00] focus:bg-white/10 transition"
+                type="password"
+                placeholder="••••••••"
+                autoComplete="new-password"
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+                minLength={6}
+                required
+              />
+              <Lock size={16} className="absolute left-3.5 top-3.5 text-slate-500" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/* Submit Button */}
+      <button
+        disabled={busy || capturingLocation}
+        className="w-full rounded-xl bg-gradient-to-r from-[#ff5b00] to-[#ff3b00] py-4 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-orange-600/30 transition hover:bg-[#e05000] hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 mt-4"
+      >
+        {busy ? 'Processing Registration...' : 'Complete Official Registration'}
       </button>
-      {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
-      {message && <p role="status" className="text-sm text-green-700">{message}</p>}
+
+      {error && (
+        <div role="alert" className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-xs font-bold text-red-400 text-center">
+          {error}
+        </div>
+      )}
+
+      {message && (
+        <div role="status" className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-400 text-center">
+          {message}
+        </div>
+      )}
     </form>
   );
 }

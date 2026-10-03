@@ -57,13 +57,15 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-3">
+    <form onSubmit={submit} className="space-y-4">
       <div>
-        <label className="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
+        <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-1.5">
+          Email Address
+        </label>
         <input
-          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm outline-none focus:border-blue-500 focus:bg-white"
+          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#ff5b00] focus:bg-white/10 transition"
           type="email"
-          placeholder="e.g. rider@drinkdrop.com or admin@drinkdrop.com"
+          placeholder="e.g. rider@foodies.com or admin@foodies.com"
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
@@ -71,9 +73,11 @@ export function LoginForm() {
       </div>
 
       <div>
-        <label className="block text-xs font-bold text-slate-700 mb-1">Password</label>
+        <label className="block text-xs font-extrabold text-slate-300 uppercase tracking-wider mb-1.5">
+          Password
+        </label>
         <input
-          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm outline-none focus:border-blue-500 focus:bg-white"
+          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#ff5b00] focus:bg-white/10 transition"
           type="password"
           placeholder="••••••••"
           value={password}
@@ -85,12 +89,16 @@ export function LoginForm() {
       <button
         disabled={busy}
         type="submit"
-        className="w-full rounded-xl bg-blue-600 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-xl bg-gradient-to-r from-[#ff5b00] to-[#ff3b00] py-3.5 text-xs font-black uppercase tracking-wider text-white shadow-lg shadow-orange-600/30 transition hover:bg-[#e05000] hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 mt-2"
       >
-        {busy ? 'Signing in...' : 'Sign In to Account'}
+        {busy ? 'Authenticating...' : 'Sign In to Account'}
       </button>
 
-      {error && <p className="text-xs font-bold text-red-600 text-center">{error}</p>}
+      {error && (
+        <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-xs font-bold text-red-400 text-center">
+          {error}
+        </div>
+      )}
     </form>
   );
 }
