@@ -1,29 +1,29 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 
-const poppins = Poppins({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
-  variable: '--font-poppins',
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-jakarta',
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: 'Foodies — Good Food. Great Moments.',
+  title: 'JADE — Good Drinks. Better Moments.',
   description:
-    'Order delicious food and refreshing drinks with Foodies. Explore pizza, burgers, chicken, Asian food, desserts, coffee and more delivered fresh to your doorstep.',
+    'Discover refreshing drinks made for every mood, every moment, and every gathering. Fast delivery across Nepal.',
   openGraph: {
-    title: 'Foodies — Good Food. Great Moments.',
-    description: 'Your favorite food and drinks, delivered fresh to your doorstep.',
+    title: 'JADE — Good Drinks. Better Moments.',
+    description: 'Refreshing drinks made for every mood, every moment, and every gathering.',
     type: 'website',
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${poppins.variable} scroll-smooth`}>
-      <body className="font-sans antialiased bg-[#0c0d10] text-slate-100 selection:bg-[#ff5b00] selection:text-white">
+    <html lang="en" className={`${jakarta.variable} scroll-smooth`}>
+      <body className="font-sans antialiased bg-[#F8F5ED] text-[#17211D] selection:bg-[#0E3B2E] selection:text-[#B8D94E]">
         {children}
       </body>
     </html>
