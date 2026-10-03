@@ -28,6 +28,8 @@ interface CustomerNavProps {
   cartTotal: number;
   onOpenCart: () => void;
   activeOrdersCount: number;
+  branchMode?: 'LIQUOR' | 'GROCERY';
+  setBranchMode?: (mode: 'LIQUOR' | 'GROCERY') => void;
 }
 
 export function CustomerNav({
@@ -41,6 +43,8 @@ export function CustomerNav({
   cartTotal,
   onOpenCart,
   activeOrdersCount,
+  branchMode = 'LIQUOR',
+  setBranchMode,
 }: CustomerNavProps) {
   return (
     <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0d0f12]/95 backdrop-blur-md text-white">
@@ -49,7 +53,7 @@ export function CustomerNav({
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div className="flex items-center gap-2 font-bold">
             <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-white" />
-            <span>Foodies Express Delivery Butwal</span>
+            <span>Foodies & Cheers E-Commerce Butwal</span>
             <span className="hidden text-orange-100 sm:inline">· Instant 30-45 min delivery</span>
           </div>
           <div className="flex items-center gap-4 text-[11px] font-bold">
@@ -66,7 +70,7 @@ export function CustomerNav({
       {/* Main navigation header */}
       <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
         <div className="flex items-center justify-between gap-3">
-          {/* Logo & Brand */}
+          {/* Logo & Brand + Branch Switcher */}
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="h-9 w-9 rounded-full bg-[#ff5b00] text-white flex items-center justify-center font-black shadow-lg shadow-orange-600/30 group-hover:scale-105 transition duration-200">
@@ -76,6 +80,36 @@ export function CustomerNav({
                 Foodies
               </span>
             </Link>
+
+            {/* Cheers Branch Toggle (Liquor vs Grocery - cheers.com.np style) */}
+            {setBranchMode && (
+              <div className="flex items-center rounded-xl bg-white/10 p-1 border border-white/15">
+                <button
+                  type="button"
+                  onClick={() => setBranchMode('LIQUOR')}
+                  className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-black transition ${
+                    branchMode === 'LIQUOR'
+                      ? 'bg-[#ff5b00] text-white shadow-md'
+                      : 'text-slate-300 hover:text-white'
+                  }`}
+                >
+                  <Beer size={13} />
+                  <span>Liquor</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBranchMode('GROCERY')}
+                  className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-black transition ${
+                    branchMode === 'GROCERY'
+                      ? 'bg-emerald-600 text-white shadow-md'
+                      : 'text-slate-300 hover:text-white'
+                  }`}
+                >
+                  <ShoppingBag size={13} />
+                  <span>Grocery</span>
+                </button>
+              </div>
+            )}
 
             {/* Delivering To Location Pill */}
             <button

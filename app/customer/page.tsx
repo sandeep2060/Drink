@@ -61,6 +61,7 @@ const CATEGORIES: { label: ProductCategory; icon: React.ElementType }[] = [
 
 export default function CustomerDashboard() {
   const [activeTab, setActiveTab] = useState<Tab>('shop');
+  const [branchMode, setBranchMode] = useState<'LIQUOR' | 'GROCERY'>('LIQUOR');
   const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [addresses, setAddresses] = useState<DeliveryAddress[]>([]);
@@ -176,9 +177,15 @@ export default function CustomerDashboard() {
     triggerToast(`Order #${newOrder.orderNumber} placed successfully!`);
   }
 
-  // Filtered & sorted products
+  // Filtered & sorted products (By Branch Mode: LIQUOR vs GROCERY - cheers.com.np reference)
   const filteredProducts = products.filter(p => {
     if (!p.active) return false;
+
+    // Branch filtering logic
+    const isGroceryItem = !p.alcoholic || p.category.includes('Snacks') || p.category.includes('Pantry') || p.category.includes('Bakery');
+    if (branchMode === 'GROCERY' && !isGroceryItem && p.alcoholic) return false;
+    if (branchMode === 'LIQUOR' && isGroceryItem && !p.alcoholic) return false;
+
     if (selectedCategory !== 'All' && p.category !== selectedCategory) return false;
     if (chilledOnly && !p.chilled) return false;
     if (nonAlcoholicOnly && p.alcoholic) return false;
@@ -228,6 +235,8 @@ export default function CustomerDashboard() {
         cartTotal={cartTotal}
         onOpenCart={() => setIsCartOpen(true)}
         activeOrdersCount={activeOrdersCount}
+        branchMode={branchMode}
+        setBranchMode={setBranchMode}
       />
 
       {/* Main Body — bottom padding ensures content clears the mobile bottom nav */}
