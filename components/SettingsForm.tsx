@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import {
   AlertTriangle,
   Building,
@@ -530,14 +531,15 @@ export function SettingsForm() {
                 <div className="text-xs font-bold text-slate-500 mb-2">Live Logo Preview</div>
                 <div className="flex items-center gap-4">
                   {settings.logo_url ? (
-                    <img
-                      src={settings.logo_url}
-                      alt="Website Logo Preview"
-                      className="h-12 w-auto max-w-[180px] object-contain rounded-md border border-slate-200 bg-white p-1"
-                      onError={e => {
-                        (e.target as HTMLElement).style.display = 'none';
-                      }}
-                    />
+                    <div className="relative h-12 w-36 overflow-hidden rounded-md border border-slate-200 bg-white p-1">
+                      <Image
+                        src={settings.logo_url}
+                        alt="Website Logo Preview"
+                        fill
+                        className="object-contain"
+                        unoptimized
+                      />
+                    </div>
                   ) : (
                     <div
                       className="grid h-12 w-12 place-items-center rounded-xl font-black text-white shadow-xs text-base"
