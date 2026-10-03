@@ -122,7 +122,7 @@ export default function HomeLanding() {
           </Link>
 
           {/* Center Navigation Links (Desktop) */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+          <nav className="hidden md:flex items-center gap-9 text-base font-bold text-slate-200 tracking-wide">
             <Link
               href="/"
               className="text-white relative py-1 transition-colors after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[#ff5b00] after:rounded-full"
@@ -147,19 +147,19 @@ export default function HomeLanding() {
           <div className="flex items-center gap-4 sm:gap-5">
             <button
               aria-label="Search food"
-              className="p-2.5 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition"
+              className="p-2.5 rounded-full text-slate-200 hover:text-white hover:bg-white/10 transition"
             >
-              <Search size={20} />
+              <Search size={22} />
             </button>
 
             <Link
               href="/customer"
               aria-label="View Shopping Cart"
-              className="relative p-2.5 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition"
+              className="relative p-2.5 rounded-full text-slate-200 hover:text-white hover:bg-white/10 transition"
             >
-              <ShoppingBag size={20} />
+              <ShoppingBag size={22} />
               {cartCount > 0 && (
-                <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-[#ff5b00] text-[10px] font-black text-white flex items-center justify-center ring-2 ring-[#0d0f12]">
+                <span className="absolute top-1 right-1 h-5 w-5 rounded-full bg-[#ff5b00] text-xs font-black text-white flex items-center justify-center ring-2 ring-[#0d0f12]">
                   {cartCount}
                 </span>
               )}
@@ -168,10 +168,10 @@ export default function HomeLanding() {
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition"
+              className="md:hidden p-2 rounded-lg text-slate-200 hover:text-white hover:bg-white/10 transition"
               aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
@@ -179,7 +179,7 @@ export default function HomeLanding() {
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-[#0d0f12]/98 border-b border-white/10 px-6 py-6 space-y-4 animate-in slide-in-from-top-4 duration-200">
-            <nav className="flex flex-col gap-4 text-base font-semibold">
+            <nav className="flex flex-col gap-4 text-lg font-extrabold">
               <Link
                 href="/"
                 onClick={() => setMobileMenuOpen(false)}
@@ -190,28 +190,28 @@ export default function HomeLanding() {
               <Link
                 href="#menu"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-200 hover:text-white"
+                className="text-slate-100 hover:text-white"
               >
                 Menu
               </Link>
               <Link
                 href="#about"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-200 hover:text-white"
+                className="text-slate-100 hover:text-white"
               >
                 About
               </Link>
               <Link
                 href="#offers"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-200 hover:text-white"
+                className="text-slate-100 hover:text-white"
               >
                 Offers
               </Link>
               <Link
                 href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-200 hover:text-white"
+                className="text-slate-100 hover:text-white"
               >
                 Contact
               </Link>
@@ -234,19 +234,19 @@ export default function HomeLanding() {
           <div className="lg:col-span-6 space-y-8 text-center lg:text-left">
             
             {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#ff7728]">
-              <Sparkles size={14} className="text-[#ff5b00]" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/40 bg-orange-500/15 px-5 py-2 text-xs sm:text-sm font-black uppercase tracking-widest text-[#ff7728] shadow-md">
+              <Sparkles size={16} className="text-[#ff5b00]" />
               <span>FRESH FOOD • FAST DELIVERY</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[1.05]">
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight leading-[1.02] text-white">
               Good Food <br />
               <span className="text-[#ff5b00]">Great Moments</span>
             </h1>
 
             {/* Supporting Copy */}
-            <p className="text-slate-300 text-base sm:text-xl font-normal max-w-xl mx-auto lg:mx-0 leading-relaxed">
+            <p className="text-slate-200 text-lg sm:text-2xl font-medium max-w-xl mx-auto lg:mx-0 leading-relaxed drop-shadow-sm">
               Your favorite food and drinks, delivered fresh to your doorstep.
             </p>
 
@@ -344,25 +344,25 @@ export default function HomeLanding() {
         <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
           
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
             <div>
-              <span className="text-xs font-extrabold tracking-widest text-[#ff5b00] uppercase block mb-1">
+              <span className="text-sm font-black tracking-widest text-[#ff5b00] uppercase block mb-1">
                 WHAT ARE YOU CRAVING?
               </span>
-              <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white">
                 Shop by <span className="text-[#ff5b00]">Category</span>
               </h2>
-              <p className="text-slate-400 text-sm sm:text-base mt-2">
+              <p className="text-slate-300 text-base sm:text-xl font-medium mt-3">
                 Explore our delicious food &amp; drinks categories
               </p>
             </div>
 
             <Link
               href="#menu"
-              className="inline-flex items-center gap-2 text-sm font-bold text-[#ff5b00] hover:text-[#e05000] transition group shrink-0"
+              className="inline-flex items-center gap-2.5 text-base sm:text-lg font-black text-[#ff5b00] hover:text-[#e05000] transition group shrink-0"
             >
               <span>View All</span>
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform" />
             </Link>
           </div>
 
@@ -373,10 +373,10 @@ export default function HomeLanding() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
               {/* Card 1: Pizza (Warm Yellow/Orange) */}
-              <div className="group relative rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#e58a00] to-[#c86e00] text-white flex flex-col justify-between overflow-hidden min-h-[260px] sm:min-h-[290px] shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-orange-950/50">
-                <div className="relative z-10 space-y-1">
-                  <h3 className="text-2xl sm:text-3xl font-black tracking-tight">Pizza</h3>
-                  <p className="text-xs sm:text-sm font-medium text-amber-100">Fresh &amp; Tasty</p>
+              <div className="group relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-[#e58a00] to-[#c86e00] text-white flex flex-col justify-between overflow-hidden min-h-[270px] sm:min-h-[300px] shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-orange-950/50">
+                <div className="relative z-10 space-y-1.5">
+                  <h3 className="text-3xl sm:text-4xl font-black tracking-tight drop-shadow-md">Pizza</h3>
+                  <p className="text-sm sm:text-base font-bold text-amber-100 drop-shadow-xs">Fresh &amp; Tasty</p>
                 </div>
 
                 <div className="relative z-10 flex items-center justify-between mt-8">
