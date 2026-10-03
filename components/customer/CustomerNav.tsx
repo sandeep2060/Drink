@@ -180,10 +180,10 @@ export function CustomerNav({
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
-              placeholder="Search drinks, beer, whiskey, cola..."
+              placeholder="Search beer, wings, pizza, burger, cold coffee..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2 pl-9 pr-8 text-xs outline-none focus:border-blue-500 focus:bg-white"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-2 pl-9 pr-8 text-xs text-white outline-none focus:border-[#ff5b00]"
             />
             {searchQuery && (
               <button
@@ -198,13 +198,13 @@ export function CustomerNav({
           <button
             onClick={onOpenAddressSelector}
             type="button"
-            className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50/80 px-2.5 py-1.5 text-[11px] text-slate-600"
+            className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] text-slate-300"
           >
             <span className="flex items-center gap-1.5 truncate">
-              <MapPin size={13} className="text-blue-600 shrink-0" />
-              <strong className="text-slate-800">{selectedAddress.label}:</strong> {selectedAddress.zone}
+              <MapPin size={13} className="text-[#ff5b00] shrink-0" />
+              <strong className="text-white">{selectedAddress.label}:</strong> {selectedAddress.zone}
             </span>
-            <span className="text-blue-600 font-medium shrink-0 ml-1">Change</span>
+            <span className="text-[#ff5b00] font-extrabold shrink-0 ml-1">Change</span>
           </button>
         </div>
 
