@@ -295,44 +295,44 @@ export default function HomeLanding() {
         <div className="mx-auto max-w-[1440px] px-4 sm:px-8 w-full flex-1 flex flex-col items-center justify-center text-center relative z-10 py-12">
           
           {/* Top Eyebrow Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-purple-400/40 bg-purple-900/60 px-5 py-2 text-xs sm:text-sm font-black uppercase tracking-widest text-purple-200 backdrop-blur-md shadow-lg mb-6">
-            <Sparkles size={16} className="text-[#ff5b00]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-purple-400/40 bg-purple-900/60 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-purple-200 backdrop-blur-md shadow-lg mb-6">
+            <Sparkles size={15} className="text-[#ff5b00]" />
             <span>NEPAL&apos;S #1 FASTEST DELIVERY PLATFORM</span>
           </div>
 
-          {/* MAIN BIG CLEAR HEADING (BARMANDOO DESIGN) */}
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight uppercase leading-none drop-shadow-2xl">
+          {/* MAIN HERO HEADING */}
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight uppercase leading-tight drop-shadow-2xl">
             <span className="text-[#ff5b00]">FOOD &amp; </span>
             <span className="text-[#00e5ff]">DRINKS </span>
             <span className="text-white">DELIVERY</span>
           </h1>
 
-          <p className="mt-3 text-base sm:text-xl font-black tracking-widest text-slate-200 uppercase drop-shadow">
+          <p className="mt-3 text-sm sm:text-base font-bold tracking-widest text-slate-200 uppercase drop-shadow">
             EASY, FAST &amp; CONVENIENT
           </p>
 
           {/* LARGE ACCESSIBLE SEARCH BAR */}
-          <div className="mt-10 w-full max-w-3xl">
-            <div className="relative flex items-center rounded-full border-2 border-white/40 bg-white p-2 shadow-2xl backdrop-blur-md transition-all focus-within:border-[#ff5b00] focus-within:ring-4 focus-within:ring-orange-500/30">
-              <Search size={24} className="ml-4 text-slate-400 shrink-0" />
+          <div className="mt-8 w-full max-w-2xl">
+            <div className="relative flex items-center rounded-full border border-white/30 bg-white p-2 shadow-2xl backdrop-blur-md transition-all focus-within:border-[#ff5b00] focus-within:ring-4 focus-within:ring-orange-500/30">
+              <Search size={22} className="ml-3.5 text-slate-400 shrink-0" />
               <input
                 type="text"
                 value={location}
                 onChange={e => setLocation(e.target.value)}
                 placeholder="Search for food or drinks (beer, whisky, momo, pizza, snacks...)"
-                className="w-full bg-transparent px-4 py-3 text-base font-bold text-slate-900 outline-none placeholder:text-slate-400"
+                className="w-full bg-transparent px-3 py-2.5 text-sm sm:text-base font-semibold text-slate-900 outline-none placeholder:text-slate-400"
               />
               <Link
                 href="/customer"
-                className="flex items-center gap-2 rounded-full bg-[#ff5b00] px-8 py-3.5 text-sm font-black text-white shadow-lg hover:bg-[#e05000] transition shrink-0"
+                className="flex items-center gap-2 rounded-full bg-[#ff5b00] px-6 py-3 text-xs sm:text-sm font-bold text-white shadow-lg hover:bg-[#e05000] transition shrink-0"
               >
                 <span>SEARCH</span>
-                <ArrowRight size={18} />
+                <ArrowRight size={16} />
               </Link>
             </div>
           </div>
 
-          <p className="mt-6 text-xs sm:text-sm font-black tracking-widest text-cyan-300 uppercase drop-shadow-sm">
+          <p className="mt-5 text-xs sm:text-sm font-bold tracking-widest text-cyan-300 uppercase drop-shadow-sm">
             ALCOHOL, BEVERAGES &amp; FOOD DELIVERY WITHIN 45 MINS
           </p>
 
@@ -381,25 +381,25 @@ export default function HomeLanding() {
         <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
           
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
             <div>
-              <span className="text-sm font-black tracking-widest text-[#ff5b00] uppercase block mb-1">
+              <span className="text-xs font-bold tracking-widest text-[#ff5b00] uppercase block mb-1">
                 WHAT ARE YOU CRAVING?
               </span>
-              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white">
+              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
                 Shop by <span className="text-[#ff5b00]">Category</span>
               </h2>
-              <p className="text-slate-300 text-base sm:text-xl font-medium mt-3">
+              <p className="text-slate-300 text-sm sm:text-base font-normal mt-2">
                 Explore our delicious food &amp; drinks categories
               </p>
             </div>
 
             <Link
               href="#menu"
-              className="inline-flex items-center gap-2.5 text-base sm:text-lg font-black text-[#ff5b00] hover:text-[#e05000] transition group shrink-0"
+              className="inline-flex items-center gap-2 text-sm font-bold text-[#ff5b00] hover:text-[#e05000] transition group shrink-0"
             >
               <span>View All</span>
-              <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform" />
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
@@ -410,10 +410,10 @@ export default function HomeLanding() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
               {/* Card 1: Pizza (Warm Yellow/Orange) */}
-              <div className="group relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-[#e58a00] to-[#c86e00] text-white flex flex-col justify-between overflow-hidden min-h-[300px] sm:min-h-[340px] shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-orange-950/50">
-                <div className="relative z-10 space-y-1.5">
-                  <h3 className="text-3xl sm:text-4xl font-black tracking-tight drop-shadow-md">Pizza</h3>
-                  <p className="text-sm sm:text-base font-bold text-amber-100 drop-shadow-xs">Fresh &amp; Tasty</p>
+              <div className="group relative rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#e58a00] to-[#c86e00] text-white flex flex-col justify-between overflow-hidden min-h-[260px] sm:min-h-[290px] shadow-2xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-orange-950/50">
+                <div className="relative z-10 space-y-1">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight drop-shadow-md">Pizza</h3>
+                  <p className="text-xs sm:text-sm font-semibold text-amber-100 drop-shadow-xs">Fresh &amp; Tasty</p>
                 </div>
 
                 <div className="relative z-10 flex items-center justify-between mt-8">
