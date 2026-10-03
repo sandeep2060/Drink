@@ -759,8 +759,6 @@ export default function HomeLanding() {
           </div>
         </div>
       </section>
-        </div>
-      </section>
 
 
       {/* ================================================== */}
