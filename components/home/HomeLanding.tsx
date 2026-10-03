@@ -410,20 +410,20 @@ export default function HomeLanding() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
               {/* Card 1: Pizza (Warm Yellow/Orange) */}
-              <div className="group relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-[#e58a00] to-[#c86e00] text-white flex flex-col justify-between overflow-hidden min-h-[270px] sm:min-h-[300px] shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-orange-950/50">
+              <div className="group relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-[#e58a00] to-[#c86e00] text-white flex flex-col justify-between overflow-hidden min-h-[300px] sm:min-h-[340px] shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-orange-950/50">
                 <div className="relative z-10 space-y-1.5">
                   <h3 className="text-3xl sm:text-4xl font-black tracking-tight drop-shadow-md">Pizza</h3>
                   <p className="text-sm sm:text-base font-bold text-amber-100 drop-shadow-xs">Fresh &amp; Tasty</p>
                 </div>
 
                 <div className="relative z-10 flex items-center justify-between mt-8">
-                  <div className="h-10 w-10 rounded-full bg-white text-[#c86e00] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition duration-300">
-                    <ArrowRight size={18} />
+                  <div className="h-11 w-11 rounded-full bg-white text-[#c86e00] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition duration-300">
+                    <ArrowRight size={20} />
                   </div>
                 </div>
 
-                {/* Card Image */}
-                <div className="absolute right-[-10%] bottom-[-10%] w-[60%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
+                {/* Card Image - Bigger & More Prominent */}
+                <div className="absolute right-[-8%] bottom-[-8%] w-[75%] sm:w-[72%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
                   <Image
                     src={IMAGES.catPizza}
                     alt="Fresh Tasty Pizza"
@@ -435,20 +435,20 @@ export default function HomeLanding() {
               </div>
 
               {/* Card 2: Burgers (Vibrant Orange) */}
-              <div className="group relative rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#ff5b00] to-[#d64100] text-white flex flex-col justify-between overflow-hidden min-h-[260px] sm:min-h-[290px] shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-orange-950/50">
-                <div className="relative z-10 space-y-1">
-                  <h3 className="text-2xl sm:text-3xl font-black tracking-tight">Burgers</h3>
-                  <p className="text-xs sm:text-sm font-medium text-orange-100">Juicy &amp; Delicious</p>
+              <div className="group relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-[#ff5b00] to-[#d64100] text-white flex flex-col justify-between overflow-hidden min-h-[300px] sm:min-h-[340px] shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-orange-950/50">
+                <div className="relative z-10 space-y-1.5">
+                  <h3 className="text-3xl sm:text-4xl font-black tracking-tight drop-shadow-md">Burgers</h3>
+                  <p className="text-sm sm:text-base font-bold text-orange-100 drop-shadow-xs">Juicy &amp; Delicious</p>
                 </div>
 
                 <div className="relative z-10 flex items-center justify-between mt-8">
-                  <div className="h-10 w-10 rounded-full bg-white text-[#d64100] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition duration-300">
-                    <ArrowRight size={18} />
+                  <div className="h-11 w-11 rounded-full bg-white text-[#d64100] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition duration-300">
+                    <ArrowRight size={20} />
                   </div>
                 </div>
 
-                {/* Card Image */}
-                <div className="absolute right-[-10%] bottom-[-10%] w-[60%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
+                {/* Card Image - Bigger & More Prominent */}
+                <div className="absolute right-[-8%] bottom-[-8%] w-[75%] sm:w-[72%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
                   <Image
                     src={IMAGES.catBurger}
                     alt="Juicy Gourmet Burger"
@@ -460,20 +460,20 @@ export default function HomeLanding() {
               </div>
 
               {/* Card 3: Chicken (Bold Crimson Red) */}
-              <div className="group relative rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#dc2626] to-[#991b1b] text-white flex flex-col justify-between overflow-hidden min-h-[260px] sm:min-h-[290px] shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-red-950/50">
-                <div className="relative z-10 space-y-1">
-                  <h3 className="text-2xl sm:text-3xl font-black tracking-tight">Chicken</h3>
-                  <p className="text-xs sm:text-sm font-medium text-red-100">Crispy &amp; Spicy</p>
+              <div className="group relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-[#dc2626] to-[#991b1b] text-white flex flex-col justify-between overflow-hidden min-h-[300px] sm:min-h-[340px] shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-red-950/50">
+                <div className="relative z-10 space-y-1.5">
+                  <h3 className="text-3xl sm:text-4xl font-black tracking-tight drop-shadow-md">Chicken</h3>
+                  <p className="text-sm sm:text-base font-bold text-red-100 drop-shadow-xs">Crispy &amp; Spicy</p>
                 </div>
 
                 <div className="relative z-10 flex items-center justify-between mt-8">
-                  <div className="h-10 w-10 rounded-full bg-white text-[#991b1b] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition duration-300">
-                    <ArrowRight size={18} />
+                  <div className="h-11 w-11 rounded-full bg-white text-[#991b1b] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition duration-300">
+                    <ArrowRight size={20} />
                   </div>
                 </div>
 
-                {/* Card Image */}
-                <div className="absolute right-[-10%] bottom-[-10%] w-[60%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
+                {/* Card Image - Bigger & More Prominent */}
+                <div className="absolute right-[-8%] bottom-[-8%] w-[75%] sm:w-[72%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 drop-shadow-2xl">
                   <Image
                     src={IMAGES.catChicken}
                     alt="Crispy Fried Chicken"
@@ -490,19 +490,19 @@ export default function HomeLanding() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               
               {/* Card 4: Asian Food (Deep Teal / Green) */}
-              <div className="group relative rounded-3xl p-6 bg-gradient-to-br from-[#0d9488] to-[#0f766e] text-white flex flex-col justify-between overflow-hidden min-h-[220px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#0d9488] to-[#0f766e] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
                 <div className="relative z-10 space-y-1">
-                  <h3 className="text-xl font-black tracking-tight">Asian Food</h3>
-                  <p className="text-xs font-medium text-teal-100">Authentic Taste</p>
+                  <h3 className="text-2xl font-black tracking-tight">Asian Food</h3>
+                  <p className="text-xs sm:text-sm font-bold text-teal-100">Authentic Taste</p>
                 </div>
 
                 <div className="relative z-10 flex items-center justify-between mt-6">
-                  <div className="h-9 w-9 rounded-full bg-white text-[#0f766e] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
-                    <ArrowRight size={16} />
+                  <div className="h-10 w-10 rounded-full bg-white text-[#0f766e] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
                   </div>
                 </div>
 
-                <div className="absolute right-[-10%] bottom-[-10%] w-[55%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110">
+                <div className="absolute right-[-8%] bottom-[-8%] w-[68%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 shadow-2xl">
                   <Image
                     src={IMAGES.catAsian}
                     alt="Authentic Asian Food"
@@ -514,19 +514,19 @@ export default function HomeLanding() {
               </div>
 
               {/* Card 5: Drinks (Bright Cyan / Teal) */}
-              <div className="group relative rounded-3xl p-6 bg-gradient-to-br from-[#06b6d4] to-[#0891b2] text-white flex flex-col justify-between overflow-hidden min-h-[220px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#06b6d4] to-[#0891b2] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
                 <div className="relative z-10 space-y-1">
-                  <h3 className="text-xl font-black tracking-tight">Drinks</h3>
-                  <p className="text-xs font-medium text-cyan-100">Cool &amp; Refreshing</p>
+                  <h3 className="text-2xl font-black tracking-tight">Drinks</h3>
+                  <p className="text-xs sm:text-sm font-bold text-cyan-100">Cool &amp; Refreshing</p>
                 </div>
 
                 <div className="relative z-10 flex items-center justify-between mt-6">
-                  <div className="h-9 w-9 rounded-full bg-white text-[#0891b2] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
-                    <ArrowRight size={16} />
+                  <div className="h-10 w-10 rounded-full bg-white text-[#0891b2] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
                   </div>
                 </div>
 
-                <div className="absolute right-[-10%] bottom-[-10%] w-[55%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110">
+                <div className="absolute right-[-8%] bottom-[-8%] w-[68%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 shadow-2xl">
                   <Image
                     src={IMAGES.catDrinks}
                     alt="Cool Refreshing Drinks"
@@ -538,19 +538,19 @@ export default function HomeLanding() {
               </div>
 
               {/* Card 6: Desserts (Vibrant Pink) */}
-              <div className="group relative rounded-3xl p-6 bg-gradient-to-br from-[#ec4899] to-[#be185d] text-white flex flex-col justify-between overflow-hidden min-h-[220px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#ec4899] to-[#be185d] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
                 <div className="relative z-10 space-y-1">
-                  <h3 className="text-xl font-black tracking-tight">Desserts</h3>
-                  <p className="text-xs font-medium text-pink-100">Sweet Moments</p>
+                  <h3 className="text-2xl font-black tracking-tight">Desserts</h3>
+                  <p className="text-xs sm:text-sm font-bold text-pink-100">Sweet Moments</p>
                 </div>
 
                 <div className="relative z-10 flex items-center justify-between mt-6">
-                  <div className="h-9 w-9 rounded-full bg-white text-[#be185d] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
-                    <ArrowRight size={16} />
+                  <div className="h-10 w-10 rounded-full bg-white text-[#be185d] flex items-center justify-center shadow-md group-hover:scale-110 transition duration-300">
+                    <ArrowRight size={18} />
                   </div>
                 </div>
 
-                <div className="absolute right-[-10%] bottom-[-10%] w-[55%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110">
+                <div className="absolute right-[-8%] bottom-[-8%] w-[68%] aspect-square rounded-full overflow-hidden transition-transform duration-500 group-hover:scale-110 shadow-2xl">
                   <Image
                     src={IMAGES.catDesserts}
                     alt="Sweet Moments Desserts"
@@ -562,10 +562,10 @@ export default function HomeLanding() {
               </div>
 
               {/* Card 7: Coffee & Mocktails (Rich Purple) */}
-              <div className="group relative rounded-3xl p-6 bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] text-white flex flex-col justify-between overflow-hidden min-h-[220px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+              <div className="group relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] text-white flex flex-col justify-between overflow-hidden min-h-[250px] shadow-xl transition-all duration-300 hover:-translate-y-1.5">
                 <div className="relative z-10 space-y-1">
-                  <h3 className="text-xl font-black tracking-tight">Coffee &amp; Mocktails</h3>
-                  <p className="text-xs font-medium text-purple-100">Relax &amp; Refresh</p>
+                  <h3 className="text-2xl font-black tracking-tight">Coffee &amp; Mocktails</h3>
+                  <p className="text-xs sm:text-sm font-bold text-purple-100">Relax &amp; Refresh</p>
                 </div>
 
                 <div className="relative z-10 flex items-center justify-between mt-6">
