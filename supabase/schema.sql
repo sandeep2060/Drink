@@ -105,6 +105,7 @@ CREATE TABLE public.system_settings (
   privacy_text TEXT DEFAULT 'Standard Privacy Policy for Drinks & Grocery Delivery Platform.',
   cancellation_policy TEXT DEFAULT 'Orders can be cancelled before dispatch.',
   delivery_policy TEXT DEFAULT 'Fast local delivery within 30-45 minutes in Butwal.',
+  hero_bg_images TEXT[] DEFAULT ARRAY['https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1600&auto=format&fit=crop'],
   updated_at TIMESTAMPTZ DEFAULT NOW(),
   CONSTRAINT single_row CHECK (id = 1)
 );
