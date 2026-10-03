@@ -35,6 +35,27 @@ export function Sidebar({ role = 'ADMIN' }: { role?: string }) {
   const path = usePathname();
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
+  const [siteSettings, setSiteSettings] = useState<{ system_name?: string; logo_text?: string; logo_url?: string }>({
+    system_name: 'Drinks & Grocery Delivery',
+    logo_text: 'DD',
+  });
+
+  useEffect(() => {
+    async function fetchSettings() {
+      try {
+        const res = await fetch('/api/settings');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.settings) {
+            setSiteSettings(json.settings);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching settings for Sidebar:', err);
+      }
+    }
+    fetchSettings();
+  }, []);
 
   async function handleLogout() {
     setLoggingOut(true);
@@ -52,12 +73,16 @@ export function Sidebar({ role = 'ADMIN' }: { role?: string }) {
         {/* Logo & Header */}
         <div className="mb-7 flex items-center gap-3 px-2">
           <Link href="/" className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-blue-600 font-bold">
-              DD
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-blue-600 font-bold overflow-hidden">
+              {siteSettings.logo_url ? (
+                <img src={siteSettings.logo_url} alt="Logo" className="h-full w-full object-cover" />
+              ) : (
+                siteSettings.logo_text || 'DD'
+              )}
             </div>
             <div>
-              <div className="font-bold">DrinkDrop</div>
-              <div className="text-xs text-slate-400">{role} PANEL</div>
+              <div className="font-bold text-sm truncate max-w-[140px]">{siteSettings.system_name || 'Drinks Delivery'}</div>
+              <div className="text-[10px] tracking-wider text-slate-400 font-bold uppercase">{role} PANEL</div>
             </div>
           </Link>
         </div>

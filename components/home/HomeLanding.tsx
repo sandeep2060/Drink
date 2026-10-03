@@ -69,10 +69,10 @@ export default function HomeLanding() {
   // Live Database Catalog & Settings state
   const [dbProducts, setDbProducts] = useState<any[]>([]);
   const [siteSettings, setSiteSettings] = useState<any>({
-    system_name: 'Foodies',
-    tagline: 'GOOD FOOD. GREAT MOMENTS.',
-    logo_text: 'Foodies',
-    footer_text: '© 2026 Foodies. All rights reserved.',
+    system_name: 'Drinks & Grocery Delivery',
+    tagline: 'QUICK DELIVERY TO YOUR DOORSTEP',
+    logo_text: 'DD',
+    footer_text: '© 2026 Drinks & Grocery Delivery. All rights reserved.',
   });
 
   useEffect(() => {

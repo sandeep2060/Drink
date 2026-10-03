@@ -40,6 +40,27 @@ export function Topbar({ title, subtitle }: { title: string; subtitle?: string }
   const path = usePathname();
   const [loggingOut, setLoggingOut] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [siteSettings, setSiteSettings] = useState<{ system_name?: string; logo_text?: string }>({
+    system_name: 'Drinks Delivery',
+    logo_text: 'DD',
+  });
+
+  useEffect(() => {
+    async function fetchSettings() {
+      try {
+        const res = await fetch('/api/settings');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.settings) {
+            setSiteSettings(json.settings);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching settings for Topbar:', err);
+      }
+    }
+    fetchSettings();
+  }, []);
 
   async function handleLogout() {
     setLoggingOut(true);
@@ -114,9 +135,9 @@ export function Topbar({ title, subtitle }: { title: string; subtitle?: string }
             <div className="flex items-center justify-between pb-4 border-b border-slate-900">
               <div className="flex items-center gap-2.5 font-bold">
                 <div className="grid h-8 w-8 place-items-center rounded-lg bg-blue-600 text-xs font-black">
-                  DD
+                  {siteSettings.logo_text || 'DD'}
                 </div>
-                <span>DrinkDrop Admin</span>
+                <span className="truncate max-w-[140px]">{siteSettings.system_name || 'Admin Panel'}</span>
               </div>
               <button
                 type="button"
