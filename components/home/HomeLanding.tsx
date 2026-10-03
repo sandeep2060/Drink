@@ -618,17 +618,21 @@ export default function HomeLanding() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {(dbProducts.length > 0 ? dbProducts.slice(0, 8) : [
-              { id: '1', name: 'Margherita Pizza', price: 450, imageUrl: IMAGES.prodMargherita, brand: 'Classic Italian', size: '12 inch' },
-              { id: '2', name: 'Chicken Burger', price: 320, imageUrl: IMAGES.prodBurger, brand: 'Gourmet', size: 'Double Patty' },
-              { id: '3', name: 'Spicy Chicken Wings', price: 280, imageUrl: IMAGES.prodWings, brand: 'Crispy', size: '6 pcs' },
-              { id: '4', name: 'Chilled Cold Coffee', price: 180, imageUrl: IMAGES.prodCoffee, brand: 'Brewed', size: '350 ml' },
-            ]).map((prod: any) => (
+              { id: '1', name: 'Gourmet Double Burger', price: 420, imageUrl: IMAGES.prodBurger, brand: 'Chef Signature', size: 'Double Patty + Cheese', isTopSeller: true },
+              { id: '2', name: 'Classic Margherita Pizza', price: 480, imageUrl: IMAGES.prodMargherita, brand: 'Italian Woodfire', size: '12 inch Extra Cheese', isTopSeller: true },
+              { id: '3', name: 'Spicy Crispy Chicken Wings', price: 320, imageUrl: IMAGES.prodWings, brand: 'Hot & Crispy', size: '8 pcs Bucket', isTopSeller: true },
+              { id: '4', name: 'Chilled Espresso Cold Brew', price: 220, imageUrl: IMAGES.prodCoffee, brand: 'Craft Roast', size: '400 ml Chilled Bottle', isTopSeller: true },
+              { id: '5', name: 'Authentic Ramen Bowl', price: 450, imageUrl: IMAGES.catAsian, brand: 'Asian House', size: 'Rich Pork Broth', isTopSeller: false },
+              { id: '6', name: 'Sparkling Citrus Mocktail', price: 260, imageUrl: IMAGES.catDrinks, brand: 'Jade Bar', size: '350 ml Fresh Brew', isTopSeller: false },
+              { id: '7', name: 'Belgian Chocolate Lava Cake', price: 310, imageUrl: IMAGES.catDesserts, brand: 'Sweet Bakery', size: 'Molten Center', isTopSeller: false },
+              { id: '8', name: 'Signature Iced Caramel Latte', price: 250, imageUrl: IMAGES.catCoffee, brand: 'Coffee Lab', size: 'Large 450 ml', isTopSeller: false },
+            ]).map((prod: any, idx: number) => (
               <div
-                key={prod.id}
-                className="group rounded-3xl bg-white p-5 shadow-lg border border-slate-200/80 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-[#ff5b00]/40 relative"
+                key={prod.id || idx}
+                className="group rounded-3xl bg-white p-4 sm:p-5 shadow-xl border border-slate-200/80 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-[#ff5b00]/50 relative overflow-hidden"
               >
                 <div>
-                  <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-4 bg-slate-100">
+                  <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-4 bg-slate-100 shadow-inner">
                     <Image
                       src={prod.imageUrl || IMAGES.prodBurger}
                       alt={prod.name}
@@ -636,20 +640,32 @@ export default function HomeLanding() {
                       className="object-cover group-hover:scale-108 transition-transform duration-500"
                       unoptimized
                     />
+
+                    {/* Top Seller & Available Status Badges */}
+                    <div className="absolute top-3 left-3 flex flex-col gap-1 z-10">
+                      {(prod.isTopSeller || idx < 4) && (
+                        <span className="inline-flex items-center gap-1 bg-gradient-to-r from-[#ff5b00] to-[#ff3b00] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow-md">
+                          <Flame size={12} className="fill-white" />
+                          Top Seller
+                        </span>
+                      )}
+                      <span className="inline-flex items-center gap-1 bg-emerald-700/90 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md shadow-sm w-fit">
+                        Available
+                      </span>
+                    </div>
+
+                    {/* Favorite Button */}
                     <button
                       onClick={() => toggleFavorite(prod.id)}
-                      className="absolute top-3 right-3 h-9 w-9 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-700 hover:text-red-500 transition shadow-md z-10"
+                      className="absolute top-3 right-3 h-9 w-9 rounded-full bg-white/95 backdrop-blur-md flex items-center justify-center text-slate-700 hover:text-red-500 transition shadow-md z-10 hover:scale-110 active:scale-95"
                       aria-label="Add to Favorites"
                     >
                       <Heart size={18} className={favorites[prod.id] ? 'fill-red-500 text-red-500' : ''} />
                     </button>
-                    <span className="absolute top-3 left-3 bg-[#ff5b00] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm">
-                      Express
-                    </span>
                   </div>
 
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-                    {prod.brand || 'Foodies Special'}
+                  <span className="text-[11px] font-bold text-[#ff5b00] uppercase tracking-wider block">
+                    {prod.brand || 'Foodies Top Selection'}
                   </span>
                   <h3 className="text-lg font-black text-slate-900 group-hover:text-[#ff5b00] transition line-clamp-1 mt-0.5">
                     {prod.name}
@@ -657,10 +673,11 @@ export default function HomeLanding() {
                   <p className="text-xs text-slate-500 mt-1 line-clamp-1 font-medium">
                     {prod.size || 'Standard Portion'}
                   </p>
-                  <div className="flex items-center gap-1 mt-2 text-amber-500 font-extrabold text-xs">
+
+                  <div className="flex items-center gap-1 mt-2.5 text-amber-500 font-extrabold text-xs">
                     <Star size={15} className="fill-amber-400 text-amber-400" />
-                    <span>4.8</span>
-                    <span className="text-slate-400 font-semibold text-[11px] ml-1">(120+ reviews)</span>
+                    <span>4.9</span>
+                    <span className="text-slate-400 font-semibold text-[11px] ml-1">(150+ ordered)</span>
                   </div>
                 </div>
 
@@ -668,12 +685,12 @@ export default function HomeLanding() {
                   <div>
                     <span className="block text-[10px] font-bold text-slate-400 uppercase">Price</span>
                     <span className="text-xl font-black text-slate-900">
-                      Rs. {Number(prod.price).toLocaleString('en-NP')}
+                      Rs. {Number(prod.price || 350).toLocaleString('en-NP')}
                     </span>
                   </div>
                   <button
                     onClick={() => handleAddToCart(prod.id)}
-                    className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-xs font-black transition-all duration-200 ${
+                    className={`inline-flex items-center gap-1.5 rounded-full px-4 sm:px-5 py-2.5 text-xs font-black transition-all duration-200 ${
                       addedItems[prod.id]
                         ? 'bg-emerald-600 text-white shadow-md'
                         : 'bg-[#ff5b00] text-white hover:bg-[#e05000] shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95'
@@ -681,11 +698,13 @@ export default function HomeLanding() {
                   >
                     {addedItems[prod.id] ? (
                       <>
-                        <Check size={15} /> Added
+                        <Check size={15} />
+                        <span>Added</span>
                       </>
                     ) : (
                       <>
-                        <Plus size={15} /> Add
+                        <Plus size={15} />
+                        <span>Add</span>
                       </>
                     )}
                   </button>
