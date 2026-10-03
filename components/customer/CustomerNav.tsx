@@ -43,20 +43,20 @@ export function CustomerNav({
   activeOrdersCount,
 }: CustomerNavProps) {
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md">
+    <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0d0f12]/95 backdrop-blur-md text-white">
       {/* Top micro banner */}
-      <div className="bg-[#18352c] px-4 py-1.5 text-xs text-[#eee9d9]">
+      <div className="bg-gradient-to-r from-[#ff3b00] via-[#ff4d00] to-[#ff5b00] px-4 py-1.5 text-xs text-white shadow-xs">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
-            <span className="font-medium">DrinkDrop Express Butwal</span>
-            <span className="hidden text-slate-400 sm:inline">· Cold drinks delivered in 30-45 mins</span>
+          <div className="flex items-center gap-2 font-bold">
+            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-white" />
+            <span>Foodies Express Delivery Butwal</span>
+            <span className="hidden text-orange-100 sm:inline">· Instant 30-45 min delivery</span>
           </div>
-          <div className="flex items-center gap-4 text-[11px]">
-            <span className="flex items-center gap-1 text-[#dda94e]">
-              <Flame size={13} /> Free delivery over Rs. 1,000
+          <div className="flex items-center gap-4 text-[11px] font-bold">
+            <span className="flex items-center gap-1 text-white">
+              <Flame size={13} className="fill-white" /> Free delivery over Rs. 1,000
             </span>
-            <Link href="/admin" className="hidden font-medium text-slate-300 hover:text-white sm:inline-block">
+            <Link href="/admin" className="hidden font-extrabold text-orange-100 hover:text-white sm:inline-block">
               Admin Portal
             </Link>
           </div>
@@ -68,12 +68,12 @@ export function CustomerNav({
         <div className="flex items-center justify-between gap-3">
           {/* Logo & Brand */}
           <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-2 text-xl font-black text-[#18352c]">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#18352c] text-[#f6e8c3] shadow-sm">
-                <Beer size={20} strokeWidth={2.4} />
-              </span>
-              <span className="tracking-tight">
-                drinkdrop<span className="text-[#c65b36]">.</span>
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="h-9 w-9 rounded-full bg-[#ff5b00] text-white flex items-center justify-center font-black shadow-lg shadow-orange-600/30 group-hover:scale-105 transition duration-200">
+                <Flame size={20} className="fill-white" />
+              </div>
+              <span className="text-xl font-black tracking-tight text-white drop-shadow-sm">
+                Foodies
               </span>
             </Link>
 
@@ -81,15 +81,15 @@ export function CustomerNav({
             <button
               onClick={onOpenAddressSelector}
               type="button"
-              className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-left text-xs transition hover:border-slate-300 hover:bg-slate-100 md:flex"
+              className="hidden items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-left text-xs transition hover:border-white/20 hover:bg-white/10 md:flex"
               title="Change delivery location"
             >
-              <div className="grid h-6 w-6 place-items-center rounded-lg bg-blue-100 text-blue-600">
+              <div className="grid h-6 w-6 place-items-center rounded-lg bg-[#ff5b00]/20 text-[#ff5b00]">
                 <MapPin size={14} />
               </div>
               <div className="max-w-[170px] truncate">
-                <div className="font-semibold text-slate-800">{selectedAddress.label}</div>
-                <div className="truncate text-[11px] text-slate-500">{selectedAddress.zone}</div>
+                <div className="font-bold text-white">{selectedAddress.label}</div>
+                <div className="truncate text-[11px] text-slate-400">{selectedAddress.zone}</div>
               </div>
             </button>
           </div>
@@ -99,16 +99,16 @@ export function CustomerNav({
             <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
-              placeholder="Search beer, rum, whiskey, cola, juices, soda..."
+              placeholder="Search beer, wings, pizza, burger, cold coffee, sodas..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-slate-50/70 py-2 pl-9 pr-8 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-2 pl-9 pr-8 text-sm text-white outline-none transition placeholder:text-slate-400 focus:border-[#ff5b00] focus:bg-white/10"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
               >
                 <X size={14} />
               </button>
@@ -121,16 +121,16 @@ export function CustomerNav({
             <button
               onClick={() => setActiveTab('orders')}
               type="button"
-              className={`relative flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-semibold transition ${
+              className={`relative flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-bold transition ${
                 activeTab === 'orders'
-                  ? 'border-blue-600 bg-blue-50 text-blue-700'
-                  : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                  ? 'border-[#ff5b00] bg-[#ff5b00]/15 text-[#ff5b00]'
+                  : 'border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white'
               }`}
             >
               <Package size={16} />
               <span className="hidden sm:inline">My Orders</span>
               {activeOrdersCount > 0 && (
-                <span className="grid h-4 w-4 place-items-center rounded-full bg-emerald-600 text-[10px] font-bold text-white">
+                <span className="grid h-4 w-4 place-items-center rounded-full bg-emerald-500 text-[10px] font-extrabold text-white">
                   {activeOrdersCount}
                 </span>
               )}
@@ -140,10 +140,10 @@ export function CustomerNav({
             <button
               onClick={() => setActiveTab('profile')}
               type="button"
-              className={`flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-semibold transition ${
+              className={`flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-bold transition ${
                 activeTab === 'profile'
-                  ? 'border-blue-600 bg-blue-50 text-blue-700'
-                  : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                  ? 'border-[#ff5b00] bg-[#ff5b00]/15 text-[#ff5b00]'
+                  : 'border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white'
               }`}
             >
               <User size={16} />
@@ -154,7 +154,7 @@ export function CustomerNav({
             <button
               onClick={onOpenCart}
               type="button"
-              className="flex items-center gap-2 rounded-xl bg-blue-600 px-3.5 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-blue-700 hover:shadow active:scale-95"
+              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#ff5b00] to-[#ff3b00] px-3.5 py-2 text-xs font-black text-white shadow-lg shadow-orange-600/30 transition hover:bg-[#e05000] active:scale-95"
             >
               <div className="relative">
                 <ShoppingBag size={17} />

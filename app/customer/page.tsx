@@ -231,154 +231,206 @@ export default function CustomerDashboard() {
 
       {/* Main Body — bottom padding ensures content clears the mobile bottom nav */}
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 pb-24 sm:px-6 md:pb-8">
-        {/* SHOP TAB */}
+        {/* SHOP TAB (MATCHING REFERENCE IMAGE SIDEBAR & PRODUCT GRID LAYOUT) */}
         {activeTab === 'shop' && (
-          <div className="space-y-6">
-            {/* Hero Promo Banner */}
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#18352c] to-[#1d4b3e] p-6 text-white shadow-md sm:p-8">
-              <div className="relative z-10 max-w-2xl">
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-bold text-[#f6e8c3] backdrop-blur-md mb-3">
-                  <Flame size={13} className="text-[#dda94e]" />
-                  <span>Butwal&apos;s Fast Drinks Delivery</span>
+          <div className="flex flex-col lg:flex-row items-start gap-8">
+            
+            {/* LEFT SIDEBAR: FILTERS / FOOD CATEGORIES (MATCHING REFERENCE SCREENSHOT) */}
+            <aside className="w-full lg:w-72 shrink-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <h2 className="text-base font-black tracking-wider text-slate-900 uppercase border-b border-slate-100 pb-3 mb-4">
+                FILTERS
+              </h2>
+
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-3">
+                    FOODS CATEGORIES
+                  </h3>
+
+                  <div className="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
+                    {['All', 'Beer & Craft', 'Whiskey & Spirits', 'Wine', 'Soft Drinks & Soda', 'Energy & Juice', 'Water & Mixers', 'PIZZA', 'BURGER', 'MOMO', 'CHOWMEIN', 'MANDOO WINGS', 'DESSERT'].map(cat => {
+                      const isSelected = selectedCategory === cat || (cat === 'All' && selectedCategory === 'All');
+                      return (
+                        <label
+                          key={cat}
+                          onClick={() => setSelectedCategory(cat as any)}
+                          className="flex items-center gap-3 text-xs font-bold text-slate-700 hover:text-[#ff5b00] cursor-pointer transition select-none group"
+                        >
+                          <div
+                            className={`h-4 w-4 rounded border flex items-center justify-center transition ${
+                              isSelected
+                                ? 'bg-[#ff5b00] border-[#ff5b00] text-white'
+                                : 'border-slate-300 bg-white group-hover:border-[#ff5b00]'
+                            }`}
+                          >
+                            {isSelected && <CheckCircle2 size={12} strokeWidth={3} />}
+                          </div>
+                          <span className={`uppercase font-extrabold ${isSelected ? 'text-[#ff5b00]' : 'text-slate-700'}`}>
+                            {cat}
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
                 </div>
-                <h1 className="text-2xl font-black tracking-tight sm:text-4xl text-[#eee9d9]">
-                  Chilled Drinks, <span className="text-[#dda94e]">Fast to Your Door.</span>
-                </h1>
-                <p className="mt-2 text-xs sm:text-sm text-slate-200 leading-relaxed max-w-xl">
-                  Order craft beers, Nepali spirits, imported whiskies, sodas, and juices directly from verified Butwal dealers. Ice-cold delivery in 30-45 minutes.
-                </p>
 
-                <div className="mt-5 flex flex-wrap items-center gap-4 text-xs font-semibold">
-                  <div className="flex items-center gap-1.5 text-slate-200">
-                    <Truck size={16} className="text-[#dda94e]" /> Free delivery above Rs. 1,000
-                  </div>
-                  <div className="flex items-center gap-1.5 text-slate-200">
-                    <ShieldCheck size={16} className="text-[#dda94e]" /> 18+ Responsible Retail
-                  </div>
-                  <div className="flex items-center gap-1.5 text-slate-200">
-                    <Droplets size={16} className="text-cyan-400" /> Guaranteed Cold Pours
-                  </div>
-                </div>
-              </div>
-
-              <div className="absolute -right-10 -bottom-10 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
-              <div className="absolute right-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center justify-center rounded-2xl bg-white/10 p-5 backdrop-blur-md border border-white/10 text-center">
-                <span className="text-xs uppercase font-extrabold text-[#dda94e] tracking-widest">Base Delivery</span>
-                <span className="text-3xl font-black text-white mt-1">Rs. 50</span>
-                <span className="text-[11px] text-slate-300 mt-0.5">Free over Rs. 1,000</span>
-              </div>
-            </div>
-
-            {/* Category Selector Chips */}
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-              {CATEGORIES.map(({ label, icon: Icon }) => {
-                const isSelected = selectedCategory === label;
-                const count = label === 'All'
-                  ? products.filter(p => p.active).length
-                  : products.filter(p => p.active && p.category === label).length;
-
-                return (
+                {/* Additional Quick Filter Controls */}
+                <div className="pt-4 border-t border-slate-100 space-y-2.5">
                   <button
-                    key={label}
                     type="button"
-                    onClick={() => setSelectedCategory(label)}
-                    className={`flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-xs font-bold transition shadow-2xs ${
-                      isSelected
-                        ? 'bg-blue-600 text-white shadow-sm ring-2 ring-blue-600/20'
-                        : 'border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'
+                    onClick={() => setChilledOnly(!chilledOnly)}
+                    className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-xs font-bold transition border ${
+                      chilledOnly
+                        ? 'bg-cyan-50 border-cyan-300 text-cyan-800'
+                        : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
                     }`}
                   >
-                    <Icon size={15} />
-                    <span>{label}</span>
-                    <span
-                      className={`rounded-full px-1.5 text-[10px] ${
-                        isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
-                      }`}
-                    >
-                      {count}
+                    <span className="flex items-center gap-1.5">
+                      <Droplets size={14} className="text-cyan-600" /> Chilled Drinks
                     </span>
+                    <span className="text-[10px] font-black">{chilledOnly ? 'ON' : 'OFF'}</span>
                   </button>
-                );
-              })}
-            </div>
 
-            {/* Secondary Filter & Sort Toolbar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3 text-xs shadow-2xs">
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setChilledOnly(!chilledOnly)}
-                  className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-bold transition ${
-                    chilledOnly ? 'bg-cyan-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                >
-                  <Droplets size={13} /> Chilled Drinks
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setNonAlcoholicOnly(!nonAlcoholicOnly)}
-                  className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-bold transition ${
-                    nonAlcoholicOnly ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                >
-                  <CupSoda size={13} /> Non-Alcoholic Only
-                </button>
-              </div>
-
-              <div className="flex items-center gap-2 ml-auto">
-                <span className="text-slate-400 font-medium hidden sm:inline">Sort:</span>
-                <select
-                  value={sortBy}
-                  onChange={e => setSortBy(e.target.value as 'featured' | 'price-asc' | 'price-desc')}
-                  className="rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-semibold text-slate-700 outline-none"
-                >
-                  <option value="featured">Featured / Popular</option>
-                  <option value="price-asc">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Products Grid */}
-            {sortedProducts.length === 0 ? (
-              <div className="flex flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white p-12 text-center shadow-xs">
-                <div className="grid h-16 w-16 place-items-center rounded-2xl bg-slate-100 text-slate-400 mb-3">
-                  <Search size={28} />
+                  <button
+                    type="button"
+                    onClick={() => setNonAlcoholicOnly(!nonAlcoholicOnly)}
+                    className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-xs font-bold transition border ${
+                      nonAlcoholicOnly
+                        ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
+                        : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
+                    }`}
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <CupSoda size={14} className="text-emerald-600" /> Non-Alcoholic Only
+                    </span>
+                    <span className="text-[10px] font-black">{nonAlcoholicOnly ? 'ON' : 'OFF'}</span>
+                  </button>
                 </div>
-                <h3 className="text-base font-bold text-slate-800">No drinks found</h3>
-                <p className="mt-1 text-xs text-slate-500 max-w-sm">
-                  We couldn&apos;t find any drinks matching &ldquo;{searchQuery || selectedCategory}&rdquo;. Try clearing your filters or search terms.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSearchQuery('');
-                    setSelectedCategory('All');
-                    setChilledOnly(false);
-                    setNonAlcoholicOnly(false);
-                  }}
-                  className="mt-4 rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold text-white hover:bg-slate-800"
-                >
-                  Reset All Filters
-                </button>
               </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
-                {sortedProducts.map(product => {
-                  const inCart = cart.find(c => c.product.id === product.id)?.quantity || 0;
-                  return (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      quantityInCart={inCart}
-                      onAddToCart={handleAddToCart}
-                      onUpdateQuantity={handleUpdateQuantity}
-                      onOpenDetails={setDetailProduct}
-                    />
-                  );
-                })}
+            </aside>
+
+
+            {/* RIGHT CONTENT AREA: PRODUCT CATALOG SHOWCASE */}
+            <div className="flex-1 w-full space-y-6">
+              
+              {/* Header Strip with Title, Item Count & Sort Selector */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+                <div>
+                  <h1 className="text-2xl font-black uppercase tracking-tight text-slate-900">
+                    {selectedCategory === 'All' ? 'ALL PRODUCTS' : selectedCategory}
+                  </h1>
+                  <p className="text-xs font-semibold text-slate-500 mt-0.5">
+                    {sortedProducts.length} items found for &ldquo;{selectedCategory}&rdquo;
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-extrabold text-slate-400 uppercase">Sort By</span>
+                  <select
+                    value={sortBy}
+                    onChange={e => setSortBy(e.target.value as 'featured' | 'price-asc' | 'price-desc')}
+                    className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-800 outline-none shadow-2xs focus:border-[#ff5b00]"
+                  >
+                    <option value="featured">Default</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                  </select>
+                </div>
               </div>
-            )}
+
+              {/* Products Grid (Matching Reference Screenshot Layout) */}
+              {sortedProducts.length === 0 ? (
+                <div className="flex flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white p-12 text-center shadow-xs">
+                  <div className="grid h-16 w-16 place-items-center rounded-2xl bg-slate-100 text-slate-400 mb-3">
+                    <Search size={28} />
+                  </div>
+                  <h3 className="text-base font-bold text-slate-800">No products found</h3>
+                  <p className="mt-1 text-xs text-slate-500 max-w-sm">
+                    We couldn&apos;t find any items matching &ldquo;{searchQuery || selectedCategory}&rdquo;.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setSelectedCategory('All');
+                      setChilledOnly(false);
+                      setNonAlcoholicOnly(false);
+                    }}
+                    className="mt-4 rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold text-white hover:bg-slate-800"
+                  >
+                    Reset All Filters
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {sortedProducts.map((prod, idx) => {
+                    const inCart = cart.find(c => c.product.id === prod.id)?.quantity || 0;
+                    return (
+                      <div
+                        key={prod.id || idx}
+                        className="group bg-white rounded-2xl border border-slate-200/80 p-4 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                      >
+                        <div>
+                          {/* Image Box */}
+                          <div
+                            onClick={() => setDetailProduct(prod)}
+                            className="relative aspect-square rounded-xl overflow-hidden bg-slate-100 mb-4 cursor-pointer"
+                          >
+                            <Image
+                              src={prod.imageUrl || 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop'}
+                              alt={prod.name}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-500"
+                              unoptimized
+                            />
+                          </div>
+
+                          {/* Ratings */}
+                          <div className="flex items-center gap-1 text-amber-500 text-xs mb-1.5">
+                            {[...Array(4)].map((_, i) => (
+                              <span key={i}>★</span>
+                            ))}
+                            <span className="text-slate-300">★</span>
+                          </div>
+
+                          {/* Product Title */}
+                          <h3
+                            onClick={() => setDetailProduct(prod)}
+                            className="text-base font-extrabold text-slate-900 line-clamp-1 cursor-pointer hover:text-[#ff5b00] transition"
+                          >
+                            {prod.name}
+                          </h3>
+
+                          {/* Best Seller Badge */}
+                          <div className="mt-2 mb-2">
+                            <span className="inline-block bg-[#ff5b00] text-white text-[10px] font-black uppercase px-2 py-0.5 rounded shadow-2xs">
+                              BEST SELLER
+                            </span>
+                          </div>
+
+                          {/* Price */}
+                          <div className="text-sm font-black text-slate-900 mt-1">
+                            Rs. {Number(prod.price).toFixed(2)}
+                          </div>
+                        </div>
+
+                        {/* Add to Cart Button (Matching Reference Screenshot Black Pill/Full Button) */}
+                        <div className="mt-4 pt-3 border-t border-slate-100">
+                          <button
+                            type="button"
+                            onClick={() => handleAddToCart(prod)}
+                            className="w-full rounded-xl bg-black hover:bg-slate-900 text-white text-xs font-black uppercase tracking-wider py-3.5 transition shadow-md hover:scale-[1.02] active:scale-[0.98]"
+                          >
+                            {inCart > 0 ? `ADD TO CART (${inCart})` : 'ADD TO CART'}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+            </div>
           </div>
         )}
 
