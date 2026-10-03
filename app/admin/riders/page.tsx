@@ -42,60 +42,6 @@ type RiderAccount = {
   created_at: string;
 };
 
-const INITIAL_RIDERS: RiderAccount[] = [
-  {
-    id: 'rider-1',
-    profile_id: 'prof-bikash',
-    name: 'Bikash Thapa',
-    email: 'bikash.rider@drinkdrop.com',
-    phone: '+977 9812345678',
-    citizen_number: '39-01-78-12345',
-    dob: '2001-04-12',
-    gender: 'Male',
-    area: 'Traffic Chowk & Central Butwal',
-    vehicle_type: 'Motorcycle',
-    vehicle_number: 'Lu 2 Pa 4567',
-    emergency_contact: '+977 9847012345',
-    status: 'ACTIVE',
-    work_status: 'AVAILABLE',
-    created_at: '2026-09-20T10:00:00Z',
-  },
-  {
-    id: 'rider-2',
-    profile_id: 'prof-suman',
-    name: 'Suman Shrestha',
-    email: 'suman.rider@drinkdrop.com',
-    phone: '+977 9809876543',
-    citizen_number: '39-02-79-67890',
-    dob: '1999-08-25',
-    gender: 'Male',
-    area: 'Milanchowk & Kalikanagar',
-    vehicle_type: 'Scooter',
-    vehicle_number: 'Lu 4 Pa 1122',
-    emergency_contact: '+977 9867123456',
-    status: 'ACTIVE',
-    work_status: 'ASSIGNED',
-    created_at: '2026-09-22T14:30:00Z',
-  },
-  {
-    id: 'rider-3',
-    profile_id: 'prof-anita',
-    name: 'Anita Gurung',
-    email: 'anita.rider@drinkdrop.com',
-    phone: '+977 9811223344',
-    citizen_number: '39-01-80-99887',
-    dob: '2002-11-05',
-    gender: 'Female',
-    area: 'Devinagar & Deepnagar',
-    vehicle_type: 'Motorcycle',
-    vehicle_number: 'Lu 1 Pa 9090',
-    emergency_contact: '+977 9801122334',
-    status: 'INACTIVE',
-    work_status: 'OFF_SHIFT',
-    created_at: '2026-09-25T09:15:00Z',
-  },
-];
-
 const BUTWAL_AREAS = [
   'Traffic Chowk & Central Butwal',
   'Milanchowk & Kalikanagar',
@@ -106,7 +52,7 @@ const BUTWAL_AREAS = [
 ];
 
 export default function AdminRidersPage() {
-  const [riders, setRiders] = useState<RiderAccount[]>(INITIAL_RIDERS);
+  const [riders, setRiders] = useState<RiderAccount[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -143,29 +89,30 @@ export default function AdminRidersPage() {
       const res = await fetch('/api/riders');
       if (res.ok) {
         const data = await res.json();
-        if (data.riders && data.riders.length > 0) {
-          const mapped: RiderAccount[] = data.riders.map((r: any) => ({
-            id: r.id,
-            profile_id: r.profile_id || r.profile?.id || r.id,
-            name: r.profile?.full_name || 'Rider',
-            email: r.profile?.email || 'N/A',
-            phone: r.phone || r.profile?.phone || 'N/A',
-            citizen_number: r.citizen_number || '39-01-78-XXXXX',
-            dob: r.dob || '2000-01-01',
-            gender: r.gender || 'Male',
-            area: r.area || 'Traffic Chowk & Central Butwal',
-            vehicle_type: r.vehicle_type || 'Motorcycle',
-            vehicle_number: r.vehicle_number || 'Lu Pa XXXX',
-            emergency_contact: r.emergency_contact || '',
-            status: r.profile?.status === 'INACTIVE' ? 'INACTIVE' : 'ACTIVE',
-            work_status: r.work_status || 'AVAILABLE',
-            created_at: r.created_at || new Date().toISOString(),
-          }));
-          setRiders(mapped);
-        }
+        const mapped: RiderAccount[] = (data.riders || []).map((r: any) => ({
+          id: r.id,
+          profile_id: r.profile_id || r.profile?.id || r.id,
+          name: r.profile?.full_name || 'Rider',
+          email: r.profile?.email || 'N/A',
+          phone: r.phone || r.profile?.phone || 'N/A',
+          citizen_number: r.citizen_number || 'N/A',
+          dob: r.dob || '',
+          gender: r.gender || 'Male',
+          area: r.area || 'Traffic Chowk & Central Butwal',
+          vehicle_type: r.vehicle_type || 'Motorcycle',
+          vehicle_number: r.vehicle_number || 'N/A',
+          emergency_contact: r.emergency_contact || '',
+          status: r.profile?.status === 'INACTIVE' ? 'INACTIVE' : 'ACTIVE',
+          work_status: r.work_status || 'AVAILABLE',
+          created_at: r.created_at || new Date().toISOString(),
+        }));
+        setRiders(mapped);
+      } else {
+        setRiders([]);
       }
     } catch (e) {
       console.error('Error fetching riders:', e);
+      setRiders([]);
     } finally {
       setLoading(false);
     }

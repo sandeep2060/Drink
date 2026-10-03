@@ -346,16 +346,6 @@ export function LandingExperience() {
 
 
 
-
-
-
-
-
-
-
-
-      
-
       <footer className="landing-footer">
         <a className="landing-brand" href="#top"><span className="brand-mark"><Beer size={18} /></span><span>drinkdrop<span className="brand-period">.</span></span></a>
         <p>Good drinks, on your time.</p>
