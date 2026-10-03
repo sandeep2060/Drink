@@ -90,9 +90,10 @@ export type Order = {
   notes?: string;
 };
 
-export const INITIAL_PRODUCTS: Product[] = [
-  {
-    id: 'prod-barahsinghe-pilsner',
+export const INITIAL_PRODUCTS: Product[] = [];
+
+/* Removed static mock products */
+const MOCK_REMOVED = [
     name: 'Barahsinghe Craft Pilsner',
     brand: 'Barahsinghe',
     category: 'Beer & Craft',
@@ -480,8 +481,6 @@ export const INITIAL_PRODUCTS: Product[] = [
     alcoholic: false,
     popular: true,
     chilled: false,
-    dealerName: 'Highway Cold Store (Milanchowk)',
-  },
 ];
 
 export const BUTWAL_ZONES = [

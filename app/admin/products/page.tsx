@@ -71,7 +71,19 @@ export default function AdminProductsPage() {
     return () => window.removeEventListener('drinkdrop_storage_update', loadProducts);
   }, []);
 
-  function loadProducts() {
+  async function loadProducts() {
+    try {
+      const res = await fetch('/api/products');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.products && data.products.length > 0) {
+          setProducts(data.products);
+          return;
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching Supabase products:', err);
+    }
     setProducts(getCatalogProducts());
   }
 
